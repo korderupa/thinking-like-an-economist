@@ -4,84 +4,1158 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Thinking Like an Economist</title>
-<meta name="description" content="Classroom games and resources for teaching economics, by Rupa Korde.">
-<link rel="stylesheet" href="assets/css/style.css">
+<meta name="description" content="Classroom games for teaching economics by discovery, by Rupa Korde.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500;1,9..144,600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   THINKING LIKE AN ECONOMIST — design tokens
+   Ledger/exchange-board world: ruled paper, posted prices, a
+   transit map of how topics connect. Blue as the house colour,
+   chalk-amber as the one quirky accent, used sparingly.
+   ============================================================ */
+:root{
+  --paper:      #F2F5FC;
+  --paper-2:    #E6EBF8;
+  --panel:      #FFFFFF;
+  --ink:        #101A30;
+  --ink-soft:   #4B5A7A;
+  --ink-faint:  #7C8AAC;
+  --rule:       #C7D2EC;
+  --rule-strong:#9DAEDA;
+
+  --blue:       #2951D8;
+  --blue-deep:  #142A61;
+  --blue-soft:  #DDE6FC;
+  --blue-line:  #2951D8;
+
+  --chalk:      #92650F;
+  --chalk-bg:   #F3E3C4;
+  --chalk-line: #C6890F;
+
+  --rise:       #1E7A5A;
+  --rise-bg:    #DCEFE6;
+  --rise-line:  #1E9A6E;
+
+  --stamp:      #A8322A;
+  --stamp-bg:   #F5E1DE;
+  --stamp-line: #B23A31;
+
+  --violet:     #5B3FA0;
+  --violet-bg:  #E7E0F5;
+  --violet-line:#6B48BF;
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --max: 1040px;
+}
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:      #0A0F1E;
+    --paper-2:    #101830;
+    --panel:      #121A33;
+    --ink:        #E9EDF9;
+    --ink-soft:   #A9B6D6;
+    --ink-faint:  #7686AC;
+    --rule:       #26315A;
+    --rule-strong:#37448A;
+
+    --blue:       #7E9CFF;
+    --blue-deep:  #C4D2FF;
+    --blue-soft:  #1B2650;
+
+    --chalk:      #E3B15C;
+    --chalk-bg:   #362A12;
+    --chalk-line: #C88E2F;
+
+    --rise:       #4FCB9C;
+    --rise-bg:    #10291F;
+    --rise-line:  #3FBE93;
+
+    --stamp:      #E58177;
+    --stamp-bg:   #331714;
+    --stamp-line: #C24A40;
+
+    --violet:     #B29CE8;
+    --violet-bg:  #241A3E;
+    --violet-line:#8A6BD1;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:      #0A0F1E;
+  --paper-2:    #101830;
+  --panel:      #121A33;
+  --ink:        #E9EDF9;
+  --ink-soft:   #A9B6D6;
+  --ink-faint:  #7686AC;
+  --rule:       #26315A;
+  --rule-strong:#37448A;
+
+  --blue:       #7E9CFF;
+  --blue-deep:  #C4D2FF;
+  --blue-soft:  #1B2650;
+
+  --chalk:      #E3B15C;
+  --chalk-bg:   #362A12;
+  --chalk-line: #C88E2F;
+
+  --rise:       #4FCB9C;
+  --rise-bg:    #10291F;
+  --rise-line:  #3FBE93;
+
+  --stamp:      #E58177;
+  --stamp-bg:   #331714;
+  --stamp-line: #C24A40;
+
+  --violet:     #B29CE8;
+  --violet-bg:  #241A3E;
+  --violet-line:#8A6BD1;
+}
+
+*{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+body{
+  margin:0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+}
+img{ max-width:100%; display:block; }
+a{ color: var(--blue); text-decoration: none; }
+a:hover{ text-decoration: underline; }
+:focus-visible{ outline: 2px solid var(--blue); outline-offset: 2px; }
+
+h1,h2,h3,h4{
+  font-family: var(--font-display);
+  color: var(--ink);
+  line-height: 1.15;
+  margin: 0 0 .5em;
+  text-wrap: balance;
+  font-weight: 600;
+}
+h1{ font-size: clamp(2.1rem, 4.4vw, 3.2rem); }
+h2{ font-size: clamp(1.5rem, 2.6vw, 1.9rem); }
+h3{ font-size: 1.25rem; }
+p{ margin: 0 0 1em; max-width: 65ch; }
+.prose p, .prose li{ max-width: 68ch; }
+
+.container{ max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+.eyebrow{
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  font-size: .74rem;
+  color: var(--blue);
+}
+.mono{ font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+/* ---------------- header + ticker ---------------- */
+.site-header{
+  position: sticky; top:0; z-index: 30;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+}
+.ticker-wrap{
+  background: var(--blue-deep);
+  color: #fff;
+  overflow: hidden;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--rule-strong);
+}
+.ticker{
+  display:inline-flex;
+  gap: 48px;
+  padding: 6px 0;
+  animation: ticker-scroll 42s linear infinite;
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  letter-spacing: .03em;
+}
+.ticker span{ opacity:.92; }
+.ticker span b{ color: #FFD98A; font-weight:600; }
+@keyframes ticker-scroll{
+  from{ transform: translateX(0); }
+  to{ transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce){
+  .ticker{ animation: none; }
+}
+
+.nav-row{
+  display:flex; align-items:center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  padding: 16px 0;
+}
+.brand{
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: var(--ink);
+  display:flex; flex-direction:column; line-height:1.1;
+}
+.brand small{
+  font-family: var(--font-mono);
+  font-size: .62rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  font-weight: 500;
+}
+.site-nav{ display:flex; gap: 22px; flex-wrap: wrap; }
+.site-nav a{
+  color: var(--ink); font-weight: 600; font-size: .93rem;
+  padding: 4px 0; border-bottom: 2px solid transparent;
+}
+.site-nav a:hover{ text-decoration:none; border-bottom-color: var(--rule-strong); }
+.site-nav a.active{ border-bottom-color: var(--blue); color: var(--blue); }
+
+/* ---------------- buttons / tags / stamp ---------------- */
+.btn{
+  display:inline-flex; align-items:center; gap:.4em;
+  font-family: var(--font-body); font-weight: 700; font-size: .95rem;
+  padding: 12px 20px; border-radius: 3px;
+  border: 1px solid var(--blue); background: var(--blue); color: #fff !important;
+  cursor:pointer; text-decoration:none !important;
+}
+.btn:hover{ background: var(--blue-deep); border-color: var(--blue-deep); }
+.btn.ghost{ background: transparent; color: var(--blue) !important; }
+.btn.ghost:hover{ background: var(--blue-soft); }
+.btn.disabled{ opacity:.55; cursor:not-allowed; pointer-events:none; background: var(--ink-faint); border-color: var(--ink-faint); }
+
+.tag{
+  font-family: var(--font-mono); font-size: .72rem; text-transform: uppercase;
+  letter-spacing: .05em; padding: 3px 9px; border-radius: 2px;
+  background: var(--blue-soft); color: var(--blue);
+  display:inline-block;
+}
+.tag.live{ background: var(--rise-bg); color: var(--rise); }
+.tag.chalk{ background: var(--chalk-bg); color: var(--chalk); }
+.tag.stamp{ background: var(--stamp-bg); color: var(--stamp); }
+.tag.violet{ background: var(--violet-bg); color: var(--violet); }
+
+.stamp-badge{
+  display:inline-block;
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--stamp);
+  border: 1.5px solid var(--stamp);
+  padding: 5px 10px;
+  border-radius: 2px;
+  transform: rotate(-3deg);
+  background: var(--stamp-bg);
+}
+
+/* ---------------- hero / ledger spread ---------------- */
+.hero{ padding: 56px 0 40px; border-bottom: 1px solid var(--rule); }
+.ledger-spread{
+  display:grid; grid-template-columns: 1.3fr .9fr; gap: 40px; align-items: start;
+}
+@media (max-width: 760px){ .ledger-spread{ grid-template-columns: 1fr; } }
+.hero p.lead{ font-size: 1.13rem; color: var(--ink-soft); max-width: 46ch; }
+.hero-actions{ display:flex; gap: 14px; margin-top: 22px; flex-wrap: wrap; }
+
+.index-card{
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--blue);
+  border-radius: 3px;
+  padding: 22px 24px;
+}
+.index-card h4{
+  font-family: var(--font-mono); font-size: .72rem; letter-spacing:.1em;
+  text-transform: uppercase; color: var(--ink-faint); margin: 0 0 14px;
+}
+.stat-row{
+  display:flex; justify-content: space-between; align-items: baseline;
+  padding: 8px 0; border-bottom: 1px dashed var(--rule);
+  font-size: .92rem;
+}
+.stat-row:last-child{ border-bottom:none; }
+.stat-row .n{ font-family: var(--font-mono); font-weight:600; color: var(--blue); font-size: 1rem; }
+
+/* ---------------- sections ---------------- */
+section{ padding: 56px 0; }
+section.alt{ background: var(--paper-2); border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); }
+.section-head{ max-width: 620px; margin-bottom: 30px; }
+.section-head p{ color: var(--ink-soft); }
+
+.grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 22px; }
+.card{
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 4px;
+  padding: 24px; display:flex; flex-direction:column;
+}
+.card h3{ margin-bottom: .3em; }
+.card .muted{ color: var(--ink-soft); font-size: .93rem; }
+.card .tags{ margin: 10px 0 14px; display:flex; gap:8px; flex-wrap:wrap; }
+.card .spacer{ flex:1; }
+
+/* ---------------- subway map ---------------- */
+.map-legend{ display:flex; gap: 18px; flex-wrap: wrap; margin-top: 18px; font-size: .85rem; color: var(--ink-soft); }
+.map-legend .dot{ display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; vertical-align: -1px; }
+.subway-fig{ margin: 0; }
+.subway-fig svg{ width:100%; height:auto; display:block; }
+.subway-fig figcaption{ margin-top: 14px; color: var(--ink-soft); font-size: .88rem; }
+.subway-fig a text{ fill: var(--ink); font-family: var(--font-body); }
+.subway-fig a:hover text{ fill: var(--blue); }
+.subway-fig a:hover circle.station{ stroke-width: 4; }
+
+/* ---------------- game overview / notes ---------------- */
+.game-head{ display:flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; align-items:flex-start; margin-bottom: 8px; }
+.subnav{
+  display:flex; gap: 6px; flex-wrap: wrap; margin: 22px 0 34px;
+  border-bottom: 1px solid var(--rule); padding-bottom: 2px;
+}
+.subnav a{
+  font-family: var(--font-mono); font-size: .8rem; text-transform: uppercase; letter-spacing: .04em;
+  color: var(--ink-soft); padding: 8px 12px; border-bottom: 2px solid transparent;
+}
+.subnav a:hover{ text-decoration:none; color: var(--ink); }
+.subnav a.active{ color: var(--blue); border-bottom-color: var(--blue); font-weight: 600; }
+
+.ledger-note{
+  border-left: 3px solid var(--rule-strong);
+  padding-left: 22px;
+  position: relative;
+}
+.ledger-note::before{
+  content:"";
+  position:absolute; left:-1px; top:0; bottom:0; width:1px;
+  background: repeating-linear-gradient(to bottom, var(--rule-strong) 0 6px, transparent 6px 12px);
+  display:none;
+}
+.at-a-glance{
+  display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap: 16px; margin: 20px 0 30px;
+}
+.at-a-glance .item{
+  background: var(--paper-2); border: 1px solid var(--rule); border-radius: 3px;
+  padding: 12px 14px;
+}
+.at-a-glance .item .k{ font-family: var(--font-mono); font-size: .68rem; text-transform:uppercase; letter-spacing:.08em; color: var(--ink-faint); }
+.at-a-glance .item .v{ font-size: .95rem; margin-top: 3px; }
+
+.category-block{
+  border: 1px solid var(--rule); border-radius: 4px; padding: 20px 22px; margin-bottom: 18px;
+  background: var(--panel);
+}
+.category-block h4{ font-family: var(--font-display); font-size: 1.08rem; margin: 0 0 6px; }
+.category-block .count{ font-family: var(--font-mono); font-size: .78rem; color: var(--ink-faint); }
+.condition-example{
+  border-top: 1px dashed var(--rule); margin-top: 12px; padding-top: 12px;
+}
+.condition-example .title{ font-weight: 600; font-size: .95rem; }
+.condition-example .debrief{ color: var(--blue); font-size: .85rem; font-family: var(--font-mono); }
+.discussion-q{
+  margin-top: 12px; padding: 10px 14px; background: var(--chalk-bg); border-radius: 3px;
+  font-size: .9rem; color: var(--chalk);
+}
+
+.glossary dt{ font-weight: 700; font-family: var(--font-display); font-size: 1.02rem; margin-top: 16px; }
+.glossary dd{ margin: 4px 0 0; color: var(--ink-soft); }
+
+/* ---------------- quiz ---------------- */
+.quiz-progress{
+  font-family: var(--font-mono); font-size: .85rem; color: var(--ink-soft); margin-bottom: 18px;
+}
+.quiz-q{
+  border: 1px solid var(--rule); border-radius: 4px; padding: 18px 20px; margin-bottom: 16px; background: var(--panel);
+}
+.quiz-q .qn{ font-family: var(--font-mono); font-size: .74rem; color: var(--ink-faint); }
+.quiz-q .qtext{ font-weight: 600; margin: 6px 0 12px; }
+.quiz-opt{ display:flex; align-items:flex-start; gap: 10px; padding: 8px 0; cursor:pointer; font-size: .95rem; }
+.quiz-opt input{ margin-top: 4px; accent-color: var(--blue); }
+.quiz-q.graded.correct{ border-color: var(--rise-line); }
+.quiz-q.graded.wrong{ border-color: var(--stamp-line); }
+.quiz-explain{ display:none; margin-top: 10px; padding: 10px 12px; border-radius: 3px; font-size: .88rem; }
+.quiz-q.graded .quiz-explain{ display:block; }
+.quiz-q.graded.correct .quiz-explain{ background: var(--rise-bg); color: var(--rise); }
+.quiz-q.graded.wrong .quiz-explain{ background: var(--stamp-bg); color: var(--stamp); }
+.quiz-opt.opt-correct{ font-weight:700; }
+.quiz-score{
+  border: 2px solid var(--blue); border-radius: 4px; padding: 20px 24px; margin-bottom: 24px;
+  background: var(--blue-soft);
+  display:none;
+}
+.quiz-score.show{ display:block; }
+.quiz-score .big{ font-family: var(--font-mono); font-size: 2rem; color: var(--blue); font-weight:600; }
+
+/* ---------------- about ---------------- */
+.about-layout{ display:grid; grid-template-columns: 220px 1fr; gap: 40px; align-items: start; }
+@media (max-width: 640px){ .about-layout{ grid-template-columns: 1fr; } }
+.portrait{
+  width: 100%; aspect-ratio: 1; border-radius: 4px; border: 1px solid var(--rule);
+  background: var(--paper-2); display:flex; align-items:center; justify-content:center;
+  color: var(--ink-faint); font-family: var(--font-mono); font-size: .78rem; text-align:center; padding: 16px;
+  overflow:hidden;
+}
+.portrait img{ width:100%; height:100%; object-fit:cover; }
+
+.editor-note{
+  border-left: 3px solid var(--chalk-line); background: var(--chalk-bg); padding: 10px 14px;
+  font-size: .87rem; color: var(--chalk); margin: 0 0 1.4em; border-radius: 0 3px 3px 0;
+}
+.editor-note strong{ color: var(--ink); }
+
+/* ---------------- terms ---------------- */
+.clause{ margin-bottom: 34px; }
+.clause h2{ display:flex; align-items:baseline; gap: 10px; }
+.clause .concept{ font-family: var(--font-mono); font-size: .68rem; text-transform:uppercase; letter-spacing:.08em; color: var(--blue); background: var(--blue-soft); padding: 3px 8px; border-radius: 2px; }
+
+.empty-state{ border: 1px dashed var(--rule); border-radius: 4px; padding: 32px; text-align: center; color: var(--ink-soft); }
+
+/* ---------------- footer ---------------- */
+.site-footer{ border-top: 1px solid var(--rule); padding: 30px 0; color: var(--ink-soft); font-size: .87rem; }
+.site-footer .container{ display:flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.site-footer a{ color: var(--ink-soft); }
+
+</style>
 </head>
 <body>
 
 <header class="site-header">
-  <div class="container">
-    <a class="brand" href="index.html">
-      Thinking Like an Economist
-    </a>
-    <nav class="site-nav">
-      <a href="index.html" aria-current="page">Home</a>
-      <a href="topics.html">Topics</a>
-      <a href="games.html">Games</a>
-      <a href="about.html">About</a>
-      <a href="terms.html">Terms of Use</a>
+  <div class="ticker-wrap">
+    <div class="container">
+      <div class="ticker" id="ticker"></div>
+    </div>
+  </div>
+  <div class="container nav-row">
+    <a class="brand" href="#/">Thinking Like an Economist<small>Games for teaching economics</small></a>
+    <nav class="site-nav" id="site-nav">
+      <a href="#/" data-route="">Home</a>
+      <a href="#/topics" data-route="topics">Topics</a>
+      <a href="#/games" data-route="games">Games</a>
+      <a href="#/about" data-route="about">About</a>
+      <a href="#/terms" data-route="terms">Terms of Use</a>
     </nav>
   </div>
 </header>
 
-<section class="hero">
-  <div class="container">
-    <span class="kicker">Economics, taught by doing</span>
-    <h1>Games and simulations for<br>teaching economics.</h1>
-    <p class="lead">
-      Thinking Like an Economist is a growing collection of classroom games,
-      simulations, and teaching resources built to make economic reasoning
-      something students discover for themselves — not just read about.
-    </p>
-    <div class="hero-actions">
-      <a class="btn" href="games.html">Browse the games</a>
-      <a class="btn ghost" href="topics.html">Browse by topic</a>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="container">
-    <div class="section-head">
-      <h2>Latest game</h2>
-      <p>The newest addition to the collection.</p>
-    </div>
-    <div class="grid" id="games-grid" style="grid-template-columns: 1fr;"></div>
-  </div>
-</section>
-
-<section class="alt">
-  <div class="container">
-    <div class="section-head">
-      <h2>How this site works</h2>
-      <p>This site grows as new games and topics are built — check back for more.</p>
-    </div>
-    <div class="grid">
-      <div class="card">
-        <h3>Topics</h3>
-        <p class="muted">Browse economics concepts — trade, markets, incentives — and the games that teach each one.</p>
-      </div>
-      <div class="card">
-        <h3>Games</h3>
-        <p class="muted">Full write-ups of each game: what it teaches, how it runs, and how to launch it.</p>
-      </div>
-      <div class="card">
-        <h3>About</h3>
-        <p class="muted">Who's behind this project and why it exists.</p>
-      </div>
-    </div>
-  </div>
-</section>
+<main id="app"></main>
 
 <footer class="site-footer">
   <div class="container">
     <span>&copy; <span id="year"></span> Rupa Korde — Thinking Like an Economist</span>
-    <a href="terms.html">Terms of Use</a>
+    <a href="#/terms">Terms of Use</a>
   </div>
 </footer>
 
-<script src="assets/js/data.js"></script>
-<script src="assets/js/render.js"></script>
-<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+
+/* ============================================================
+   DATA
+   Add a new game: add an entry to GAMES, then a matching entry
+   in TEACHING_NOTES / DEBRIEF_NOTES / STUDENT_NOTES / QUIZZES
+   keyed by the same id. Add a new topic: add to TOPICS.
+   ============================================================ */
+
+var GAMES = {
+  "trade-game": {
+    id: "trade-game",
+    title: "The International Trade Game",
+    tagline: "A live classroom simulation of comparative advantage, tariffs, and trade policy.",
+    description: "Students are split into six “countries” with unequal tools and starting cash, and must manufacture and trade paper shapes for profit while the instructor fires real-time conditions — tariffs, subsidies, embargoes, quotas, cartels — into the live market. Based on John Sloman’s International Trade Game (Economics Network, 2002).",
+    course: "ECON102 · Thinking Like an Economist · FLAME University",
+    format: "Live classroom · 45 minutes · phones + projector",
+    status: "live",
+    statusLabel: "Field-tested",
+    tags: ["Comparative advantage", "Trade policy", "Classroom simulation"],
+    link: null,
+    linkLabel: "Launch — link coming soon",
+    stats: { conditions: 51, categories: 6, quiz: 20, classSize: "40 students · 6 countries" }
+  }
+};
+
+var TOPICS = [
+  {
+    title: "International Trade",
+    description: "Comparative advantage, tariffs, subsidies, quotas, and why countries trade at all — explored hands-on through The International Trade Game.",
+    games: ["trade-game"]
+  }
+];
+
+var TICKER_ITEMS = [
+  "OPPORTUNITY COST — the best alternative foregone, never zero",
+  "COMPARATIVE ADVANTAGE — gains from trade even if you’re worse at everything",
+  "SCARCITY — the one constraint that never takes a break",
+  "TERMS OF TRADE — index steady, expectations volatile",
+  "SUNK COSTS — already spent; stop letting them vote",
+  "DERIVED DEMAND — the input is only worth what it helps make",
+  "MARGINAL UTILITY — diminishing, same as ever",
+  "MORAL HAZARD — see Terms of Use, Clause 4",
+  "PRICE SIGNAL — useless without capacity to act on it",
+  "GAINS FROM TRADE — rarely split evenly, always real"
+];
+
+var CONDITION_CATEGORIES = [
+  {
+    key: "Demand & supply", count: 9, color: "blue",
+    blurb: "Shocks to what the market wants and what it can make — surges, gluts, and who actually has the capacity to respond to a moving price.",
+    examples: [
+      { title: "Demand surge: triangles", debrief: "Price elasticity of supply; capital as a constraint on response (Session 8, 15)" },
+      { title: "Glut: rectangle price collapses", debrief: "Supply outrunning demand; sunk effort; terms of trade (Session 15)" }
+    ],
+    question: "When the price of triangles spiked, who actually produced more — and who just watched the price rise?"
+  },
+  {
+    key: "Trade policy", count: 11, color: "stamp",
+    blurb: "Tariffs, quotas, embargoes, subsidies, and retaliation — the policy toolkit, and who ends up paying for each one.",
+    examples: [
+      { title: "Import tariff imposed", debrief: "Who bears a tariff; protection as a transfer (Session 3–4, Tariffs deck)" },
+      { title: "Retaliatory tariff", debrief: "Symmetry of trade barriers; retaliation and trade wars (Session 3–4)" }
+    ],
+    question: "A tariff is levied on the seller’s invoice — so why did the debrief keep insisting the buyer might be the one who actually paid it?"
+  },
+  {
+    key: "Institutions & market failure", count: 10, color: "violet",
+    blurb: "Cartels, externalities, public goods, asymmetric information — the ways a market can fail even with nobody breaking a rule.",
+    examples: [
+      { title: "Cartel forms among scissors-holders", debrief: "Cartels, collusion, the incentive to defect (Session 11, 30)" },
+      { title: "Pollution levy imposed", debrief: "External cost, making the polluter pay, incidence of a flat charge (Session 19)" }
+    ],
+    question: "Every cartel member does better if it holds — so why did most of the cartels in the room collapse within minutes?"
+  },
+  {
+    key: "Technology & capital", count: 8, color: "rise",
+    blurb: "Who owns the compass, the set square, the patent — and what happens to trade patterns when a tool is unevenly distributed.",
+    examples: [
+      { title: "Foreign direct investment offered", debrief: "FDI, technology transfer, who captures the gain (Session 26)" },
+      { title: "Patent granted on a shape", debrief: "Intellectual property as a transfer; monopoly rent (Session 13)" }
+    ],
+    question: "Circles needed a compass and right triangles needed a set square. How much of the final scoreboard was decided before a single trade happened?"
+  },
+  {
+    key: "Macro & finance", count: 11, color: "chalk",
+    blurb: "Exchange rates, debt, bubbles, inflation — the economy-wide forces that move every country’s balance at once, not just one market’s price.",
+    examples: [
+      { title: "Currency devalued", debrief: "Exchange rates and competitiveness (Session 29)" },
+      { title: "Speculative bubble in one shape", debrief: "Bubbles, herding, opportunity cost of chasing a price (Session 14)" }
+    ],
+    question: "A speculative bubble made one shape look like the best trade in the room — right up until it wasn’t. Who got out in time, and why?"
+  },
+  {
+    key: "Labour & society", count: 2, color: "blue",
+    blurb: "The smallest category on purpose — a reminder that the game’s other 49 conditions are all downstream of who does the work.",
+    examples: [
+      { title: "Migrant labour arrives", debrief: "Migration, remittances, and brain drain from the sending country’s side of the story (Session 26)" }
+    ],
+    question: "The receiving country got a temporary output boost from migrant labour. What, if anything, is owed back to where that labour came from?"
+  }
+];
+
+var QUIZZES = {
+  "trade-game": [
+    { id:"Q1", q:"Two countries that started with the exact same tools and cash could still end up with very different final balances. What best explains this?",
+      options:["Differences in strategy and decisions during trading can matter as much as the starting endowment","It never actually happens — countries starting equal always finish equal","The trader secretly favours some countries","Final balances are decided entirely at random"],
+      correct:0, explain:"Endowment sets the ceiling on what a country could do, but what it actually chose to do with it — how it produced, negotiated and adapted — explains why two equally-endowed countries could still finish very differently." },
+    { id:"Q2", q:"Within one country’s own team, dividing tasks so some students cut shapes, others queued at the trader, and others scouted rival countries typically...",
+      options:["Wasted time compared to everyone doing everything themselves","Raised total output, since each person could focus on one task rather than switching between them","Was against the rules of the game","Made no difference to how much a country could produce"],
+      correct:1, explain:"This is division of labour: assigning distinct roles let each person get faster and more consistent at one task, rather than everyone doing a little of everything — the same logic behind why real firms and economies specialise." },
+    { id:"Q3", q:"A student who spent ten minutes negotiating a deal that then fell through paid a real cost even though no money changed hands. What is this cost called?",
+      options:["A sunk cost","A tariff","An opportunity cost — the shapes they could have cut in that time instead","Depreciation"],
+      correct:2, explain:"Opportunity cost is the value of the next-best alternative given up — here, the cutting and selling that ten minutes of negotiating could otherwise have gone toward." },
+    { id:"Q4", q:"When almost every country could produce simple squares and rectangles easily, what typically happened to their price relative to shapes few could make?",
+      options:["Simple shapes commanded a higher price, since they were made faster","Price had nothing to do with how many countries could supply a shape","All shapes were always priced identically regardless of supply","Simple shapes tended to be worth less, since supply was abundant relative to demand"],
+      correct:3, explain:"With many countries able to supply the same simple shape, supply runs ahead of demand at the going price and the price tends to fall — the same reason abundant commodities are usually cheaper than scarce ones." },
+    { id:"Q5", q:"When the price of a shape rose sharply, which countries were actually able to respond by producing more of it quickly?",
+      options:["Only countries that already had the right tool for that shape could respond quickly","Every country responded equally, regardless of what tools they had","No country could ever respond to a price change","Only countries that were losing money responded"],
+      correct:0, explain:"A price rise is only a usable signal if you have the capacity to act on it. Without the right tool, a country could see the higher price but not actually supply more — supply response depends on real capacity, not just incentive." },
+    { id:"Q6", q:"Why were scissors worth competing over or paying to borrow, while pencils were not?",
+      options:["Scissors were prettier","Scissors were scarce relative to how essential they were to production, which pencils were not","Pencils were in short supply and scissors were plentiful","The trader refused to accept anything cut without scissors"],
+      correct:1, explain:"This is derived demand: the value of an input comes from the value of what it helps produce, combined with how scarce it is. Scissors were a genuine bottleneck; pencils, being plentiful and needed for far less, were not worth competing over in the same way." },
+    { id:"Q7", q:"A cartel among scissors-holding countries agreeing a single hire price is fragile mainly because...",
+      options:["The trader bans cartels automatically","Cartels are illegal within the game’s rules","Each individual member can usually gain more by secretly undercutting the agreed price than by sticking to it","Prices cannot be agreed between countries in principle"],
+      correct:2, explain:"Every member does better if the cartel holds, but any one member typically does even better by quietly breaking it while everyone else keeps to the deal — which is exactly why cartels are hard to sustain without a way to enforce them." },
+    { id:"Q8", q:"An agreement between two countries with no way to enforce it is most likely to hold when...",
+      options:["It is the very last transaction of the game","One country openly cannot be punished for breaking it","Trust never matters once money is involved","There are many rounds of trading left, so breaking trust now costs future deals too"],
+      correct:3, explain:"Repeated interaction gives an incentive to keep promises, since breaking one damages the chance of future deals — this is exactly why agreements often unravel right at the end of a game, when there is no “future” left to protect." },
+    { id:"Q9", q:"Even a country that was slower at making every single shape than another country could still gain by specialising in the shape it was relatively best at making. This idea is called...",
+      options:["Comparative advantage","Absolute advantage","Terms of trade","Market power"],
+      correct:0, explain:"Comparative advantage says gains from specialising and trading come from relative efficiency, not from needing to be the absolute best at anything — a country can still gain by focusing on what it does relatively better and trading for the rest." },
+    { id:"Q10", q:"The “terms of trade” between two shapes refers to...",
+      options:["The rules printed on the envelope","How many units of one shape it takes to buy a given quantity of another, at current prices","The instructor’s mood when setting prices","The number of countries allowed to trade at once"],
+      correct:1, explain:"Terms of trade compare the relative price of what you sell against what you buy — a country whose export shape gets cheaper relative to what it needs to buy is said to face worsening terms of trade, even without its own price literally falling." },
+    { id:"Q11", q:"The single biggest driver of the difference in outcomes between the three groups of countries was...",
+      options:["How likeable each country’s students were to the trader","Pure chance in dice rolls","The very unequal distribution of tools and starting cash handed out before trading even began","The order in which countries were allowed to speak"],
+      correct:2, explain:"The game is built around unequal starting endowments precisely to mirror how unevenly capital, infrastructure and resources are actually distributed across real countries before any trading or policy choice happens at all." },
+    { id:"Q12", q:"A country, or small group of countries, that controlled most of the scarce tools in the room had power over the market similar, in a small way, to...",
+      options:["A small local shop with no competitors nearby","A country with no resources at all","A government tax office","A multinational firm that controls a resource or technology many others depend on"],
+      correct:3, explain:"Concentrated control over a scarce, widely-needed resource is exactly the kind of market power a multinational can hold over a commodity supply chain — the ability to set terms that others, lacking alternatives, must accept." },
+    { id:"Q13", q:"The fact that circles required a compass and right triangles required a set square, and these tools were unevenly handed out, mainly explains...",
+      options:["Why certain countries specialised in certain shapes almost from the start","Why prices were the same for every shape regardless of who made it","Why the trader refused certain shapes","Nothing — tool ownership had no effect on what got produced"],
+      correct:0, explain:"Trade patterns often follow directly from which resources and technology a country happens to hold — the game makes this visible immediately, since the tool you were handed all but decided which shapes you could realistically produce." },
+    { id:"Q14", q:"A country that held onto shapes, betting that the price would rise later rather than selling immediately, was acting on...",
+      options:["Guaranteed information about future prices","An expectation about the future that could turn out right or wrong","A rule that required waiting before selling","Something with no bearing on real economic decisions"],
+      correct:1, explain:"Nobody in the game — or in a real market — has certain knowledge of future prices. Waiting to sell is a bet based on an expectation, and it can just as easily backfire as pay off." },
+    { id:"Q15", q:"Which of these was a genuine source of uncertainty built into the game, separate from ordinary price movements?",
+      options:["The exact wording printed on the envelope","There was no uncertainty in the game beyond prices","Whether an auction would go your way, whether a condition would target your country, and how other countries would actually behave in a negotiation","The size of the classroom"],
+      correct:2, explain:"Auctions, being targeted by a condition, and depending on the unpredictable choices of other countries in a negotiation are all sources of real uncertainty well beyond simply not knowing the next price." },
+    { id:"Q16", q:"In an auction for a scarce item, like an extra pair of scissors, the winning bid mostly reflects...",
+      options:["Whoever needs it most, regardless of what they can pay","A price fixed in advance by the rules","The average of everyone’s opening cash","Whoever is willing and able to pay the most, which is not always the country that would gain the most from having it"],
+      correct:3, explain:"An auction rewards ability and willingness to pay, not need — a poorer country that would actually gain more, in relative terms, from owning the item can still lose to a richer country simply because it cannot bid as high." },
+    { id:"Q17", q:"An alliance between two countries in the game was most likely to hold together when...",
+      options:["Both sides kept gaining more from staying in it than either would gain by walking away","It was written down somewhere, regardless of whether either side still benefited","A third country was excluded from it","Alliances always broke down immediately no matter what"],
+      correct:0, explain:"With no outside enforcement, an alliance survives only as long as it keeps paying off for everyone in it — the moment one side would clearly do better alone, the incentive to walk away from an unenforceable agreement grows." },
+    { id:"Q18", q:"Successful high-income countries and successful middle- or low-income countries in the game typically got there by different routes. Which pairing best describes this?",
+      options:["High-income success mainly came from negotiation; low-income success mainly came from their starting tools","High-income success often came from exploiting a clear starting advantage; middle- and low-income success more often came from negotiation, cooperation, or combining resources with others","Both groups succeeded in exactly the same way","Neither group’s strategy had anything to do with their result"],
+      correct:1, explain:"A country that started with the tools and cash to produce straight away could succeed simply by using that advantage well. A country without that head start had to find success elsewhere — through deals, alliances, or creative use of what little it had." },
+    { id:"Q19", q:"A low-income country that could not act on a favourable price change, win an auction, or attract a trade deal was experiencing something close to what development economists call...",
+      options:["Comparative advantage","A liquidity trap","Powerlessness driven by a lack of capital and market power, not a lack of effort or ability","Perfect competition"],
+      correct:2, explain:"Being unable to respond even to a genuinely favourable opportunity — not from lack of trying, but from lacking the capital or leverage to act on it — mirrors a real structural feature of poverty and underdevelopment, not a personal or effort failing." },
+    { id:"Q20", q:"Which of these is the strongest reason economists consider this game’s starting inequality a realistic feature, rather than an artificial add-on?",
+      options:["Because every student agreed to it in advance","Because the game cannot be played any other way","Because it makes the game more fun to watch","Because real countries genuinely differ hugely in the capital, infrastructure and resources they start with, before any policy or trading decision is made"],
+      correct:3, explain:"The unequal envelopes stand in for a real and well-documented fact: countries do not enter the world economy on equal footing." }
+  ]
+};
+
+var GLOSSARY = [
+  { term: "Comparative advantage", def: "Being relatively better at producing one thing than another — gains from trade come from this, not from being the best at everything." },
+  { term: "Opportunity cost", def: "The value of the next-best thing you gave up to do what you chose instead." },
+  { term: "Tariff", def: "A charge deducted from a sale when a good crosses a border — someone pays it, but not always who you’d expect." },
+  { term: "Subsidy", def: "A payment added to a sale, usually to make a country’s own producers more competitive." },
+  { term: "Quota", def: "A cap on how much of something can be sold at the normal price before a worse rate kicks in." },
+  { term: "Embargo", def: "A ban on selling directly — production can often continue; only the direct sale is blocked." },
+  { term: "Cartel", def: "A group that agrees to hold a price together — and that every member has an incentive to quietly break." },
+  { term: "Terms of trade", def: "How much of what you buy you can get for what you sell, at current prices." },
+  { term: "Derived demand", def: "An input is valuable because of what it helps produce — not for its own sake." }
+];
+
+/* ============================================================
+   TEMPLATES
+   ============================================================ */
+
+function esc(s){ var d=document.createElement("div"); d.textContent = s; return d.innerHTML; }
+
+function stationDot(color){ return '<span class="dot" style="background:var(--'+color+')"></span>'; }
+
+function subwayMap(){
+  // One line (blue) through the topic -> the game -> its four resources.
+  // A second, dotted "next line" gestures at what’s still to come.
+  return ''
+  + '<figure class="subway-fig">'
+  + '<svg viewBox="0 0 960 420" role="img" aria-label="Map of the International Trade topic connecting to The International Trade Game, which branches into its Teaching Note, Debrief Note, Quiz, and Student Note.">'
+  + '<line x1="70" y1="140" x2="430" y2="140" stroke="var(--blue-line)" stroke-width="6" stroke-linecap="round"/>'
+  + '<line x1="430" y1="140" x2="560" y2="60" stroke="var(--chalk-line)" stroke-width="5" stroke-linecap="round"/>'
+  + '<line x1="430" y1="140" x2="560" y2="140" stroke="var(--rise-line)" stroke-width="5" stroke-linecap="round"/>'
+  + '<line x1="430" y1="140" x2="560" y2="220" stroke="var(--violet-line)" stroke-width="5" stroke-linecap="round"/>'
+  + '<line x1="430" y1="140" x2="560" y2="300" stroke="var(--stamp-line)" stroke-width="5" stroke-linecap="round"/>'
+  + '<line x1="70" y1="330" x2="360" y2="330" stroke="var(--rule-strong)" stroke-width="4" stroke-dasharray="2 10" stroke-linecap="round"/>'
+
+  + '<a href="#/topics"><circle class="station" cx="70" cy="140" r="12" fill="var(--panel)" stroke="var(--blue-line)" stroke-width="5"/>'
+  + '<text x="70" y="108" font-size="15" font-weight="600" text-anchor="middle">International Trade</text>'
+  + '<text x="70" y="126" font-size="11" text-anchor="middle" fill="var(--ink-faint)" font-family="var(--font-mono)">TOPIC</text></a>'
+
+  + '<a href="#/games/trade-game"><circle class="station" cx="430" cy="140" r="18" fill="var(--blue-line)" stroke="var(--panel)" stroke-width="4"/>'
+  + '<text x="430" y="182" font-size="15" font-weight="600" text-anchor="middle">The International</text>'
+  + '<text x="430" y="200" font-size="15" font-weight="600" text-anchor="middle">Trade Game</text></a>'
+
+  + '<a href="#/games/trade-game/teaching-note"><circle class="station" cx="560" cy="60" r="9" fill="var(--panel)" stroke="var(--chalk-line)" stroke-width="4"/>'
+  + '<text x="580" y="55" font-size="13" text-anchor="start">Teaching Note</text></a>'
+
+  + '<a href="#/games/trade-game/debrief-note"><circle class="station" cx="560" cy="140" r="9" fill="var(--panel)" stroke="var(--rise-line)" stroke-width="4"/>'
+  + '<text x="580" y="145" font-size="13" text-anchor="start">Debrief Note</text></a>'
+
+  + '<a href="#/games/trade-game/quiz"><circle class="station" cx="560" cy="220" r="9" fill="var(--panel)" stroke="var(--violet-line)" stroke-width="4"/>'
+  + '<text x="580" y="225" font-size="13" text-anchor="start">Quiz · 20 questions</text></a>'
+
+  + '<a href="#/games/trade-game/student-note"><circle class="station" cx="560" cy="300" r="9" fill="var(--panel)" stroke="var(--stamp-line)" stroke-width="4"/>'
+  + '<text x="580" y="305" font-size="13" text-anchor="start">Student Note</text></a>'
+
+  + '<circle cx="360" cy="330" r="7" fill="none" stroke="var(--rule-strong)" stroke-width="3" stroke-dasharray="2 4"/>'
+  + '<text x="376" y="335" font-size="13" fill="var(--ink-faint)">Next topic — line under construction</text>'
+  + '<circle cx="70" cy="330" r="7" fill="none" stroke="var(--rule-strong)" stroke-width="3" stroke-dasharray="2 4"/>'
+
+  + '</svg>'
+  + '<figcaption>The Trade line: one topic, one game, and the four notes that come with it. A second line is already being laid.</figcaption>'
+  + '</figure>';
+}
+
+function gameCard(g){
+  var statusClass = g.status === "live" ? "live" : "chalk";
+  var action = g.link
+    ? '<a class="btn" href="'+esc(g.link)+'" target="_blank" rel="noopener">Launch the game →</a>'
+    : '<span class="btn disabled">'+esc(g.linkLabel||"Coming soon")+'</span>';
+  return ''
+  + '<article class="card">'
+  + '<span class="tag '+statusClass+'">'+esc(g.statusLabel)+'</span>'
+  + '<h3 style="margin-top:.5em"><a href="#/games/'+g.id+'" style="color:inherit">'+esc(g.title)+'</a></h3>'
+  + '<p class="muted">'+esc(g.tagline)+'</p>'
+  + '<div class="tags">'+g.tags.map(function(t){return '<span class="tag">'+esc(t)+'</span>';}).join("")+'</div>'
+  + '<p class="muted mono" style="font-size:.85rem">'+esc(g.course)+'<br>'+esc(g.format)+'</p>'
+  + '<div class="spacer"></div>'
+  + '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">'
+  +   action
+  +   '<a class="btn ghost" href="#/games/'+g.id+'">Read more</a>'
+  + '</div>'
+  + '</article>';
+}
+
+function pageChrome(inner){ return '<div class="container">'+inner+'</div>'; }
+
+/* ---- Home ---- */
+function renderHome(){
+  var g = GAMES["trade-game"];
+  return ''
+  + '<section class="hero">' + pageChrome(''
+    + '<div class="ledger-spread">'
+    +   '<div>'
+    +     '<span class="eyebrow">Economics, taught by doing</span>'
+    +     '<h1>Games and simulations<br>for teaching economics.</h1>'
+    +     '<p class="lead">Thinking Like an Economist is a growing collection of classroom games, teaching notes, debriefs and quizzes — built so students discover economic reasoning by living inside the incentives, not by copying it off a slide.</p>'
+    +     '<div class="hero-actions">'
+    +       '<a class="btn" href="#/games">Browse the games</a>'
+    +       '<a class="btn ghost" href="#/topics">Browse by topic</a>'
+    +     '</div>'
+    +   '</div>'
+    +   '<div class="index-card">'
+    +     '<h4>Ledger, as of today</h4>'
+    +     '<div class="stat-row"><span>Games live</span><span class="n">1</span></div>'
+    +     '<div class="stat-row"><span>Classroom conditions</span><span class="n">'+g.stats.conditions+'</span></div>'
+    +     '<div class="stat-row"><span>Economics categories covered</span><span class="n">'+g.stats.categories+'</span></div>'
+    +     '<div class="stat-row"><span>Quiz questions</span><span class="n">'+g.stats.quiz+'</span></div>'
+    +     '<div class="stat-row"><span>Class size tested</span><span class="n" style="font-size:.85rem">'+g.stats.classSize+'</span></div>'
+    +   '</div>'
+    + '</div>'
+  ) + '</section>'
+  + '<section>' + pageChrome(''
+    + '<div class="section-head">'
+    +   '<span class="eyebrow">The dashboard</span>'
+    +   '<h2>How it all connects</h2>'
+    +   '<p>One line per topic. Each game is an interchange station — its teaching note, debrief note, quiz and student note branch off it like stops on a spur.</p>'
+    + '</div>'
+    + subwayMap()
+  ) + '</section>'
+  + '<section class="alt">' + pageChrome(''
+    + '<div class="section-head">'
+    +   '<span class="eyebrow">Start here</span>'
+    +   '<h2>Latest addition</h2>'
+    + '</div>'
+    + '<div class="grid" style="grid-template-columns:1fr">' + gameCard(g) + '</div>'
+  ) + '</section>';
+}
+
+/* ---- Games list ---- */
+function renderGames(){
+  var cards = Object.keys(GAMES).map(function(id){ return gameCard(GAMES[id]); }).join("");
+  return '<section class="hero" style="padding-bottom:20px">' + pageChrome(''
+    + '<span class="eyebrow">The collection</span>'
+    + '<h1>Games</h1>'
+    + '<p class="lead">Every game is field-tested in a real classroom first, then documented here — overview, teaching note, debrief note, quiz and student note, together.</p>'
+  ) + '</section>'
+  + '<section>' + pageChrome('<div class="grid">' + cards + '</div>') + '</section>';
+}
+
+/* ---- Topics ---- */
+function renderTopics(){
+  var cards = TOPICS.map(function(t){
+    var links = t.games.map(function(id){ return '<li><a href="#/games/'+id+'">'+esc(GAMES[id].title)+'</a></li>'; }).join("");
+    return '<article class="card"><h3>'+esc(t.title)+'</h3><p>'+esc(t.description)+'</p>'
+      + '<p class="muted" style="margin-bottom:.3em">Explored through:</p><ul class="muted">'+links+'</ul></article>';
+  }).join("");
+  return '<section class="hero" style="padding-bottom:20px">' + pageChrome(''
+    + '<span class="eyebrow">Browse by concept</span>'
+    + '<h1>Topics</h1>'
+    + '<p class="lead">Economic ideas, grouped by concept rather than by game. See the <a href="#/">home dashboard</a> for how they connect, subway-map style.</p>'
+  ) + '</section>'
+  + '<section>' + pageChrome('<div class="grid">' + cards + '</div>') + '</section>';
+}
+
+/* ---- Game sub-nav ---- */
+function subNav(gameId, active){
+  var tabs = [
+    ["overview","Overview","games/"+gameId],
+    ["teaching-note","Teaching Note","games/"+gameId+"/teaching-note"],
+    ["debrief-note","Debrief Note","games/"+gameId+"/debrief-note"],
+    ["quiz","Quiz","games/"+gameId+"/quiz"],
+    ["student-note","Student Note","games/"+gameId+"/student-note"]
+  ];
+  return '<nav class="subnav">' + tabs.map(function(t){
+    var cls = t[0]===active ? ' class="active"' : '';
+    return '<a href="#/'+t[2]+'"'+cls+'>'+t[1]+'</a>';
+  }).join("") + '</nav>';
+}
+
+/* ---- Game overview ---- */
+function renderGameOverview(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  var action = g.link
+    ? '<a class="btn" href="'+esc(g.link)+'" target="_blank" rel="noopener">Launch the game →</a>'
+    : '<span class="btn disabled">'+esc(g.linkLabel||"Coming soon")+'</span>';
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<div class="game-head">'
+    +   '<div>'
+    +     '<span class="eyebrow">Game</span>'
+    +     '<h1>'+esc(g.title)+'</h1>'
+    +     '<p class="lead">'+esc(g.tagline)+'</p>'
+    +   '</div>'
+    +   '<span class="stamp-badge">Field-tested in a real classroom</span>'
+    + '</div>'
+    + subNav(id, "overview")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + '<div class="at-a-glance">'
+    +   '<div class="item"><div class="k">Course</div><div class="v">'+esc(g.course)+'</div></div>'
+    +   '<div class="item"><div class="k">Format</div><div class="v">'+esc(g.format)+'</div></div>'
+    +   '<div class="item"><div class="k">Class size</div><div class="v">'+esc(g.stats.classSize)+'</div></div>'
+    +   '<div class="item"><div class="k">Conditions in the library</div><div class="v">'+g.stats.conditions+' across '+g.stats.categories+' categories</div></div>'
+    + '</div>'
+    + '<p style="max-width:70ch">'+esc(g.description)+'</p>'
+    + '<div class="tags" style="margin-bottom:26px">'+g.tags.map(function(t){return '<span class="tag">'+esc(t)+'</span>';}).join("")+'</div>'
+    + '<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px">'
+    +   action
+    +   '<a class="btn ghost" href="#/games/'+id+'/teaching-note">Read the teaching note</a>'
+    + '</div>'
+  ) + '</section>';
+}
+
+/* ---- Teaching note ---- */
+function renderTeachingNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Teaching note</span>'
+    + '<h1>Running '+esc(g.title)+'</h1>'
+    + '<p class="lead">What this session is for, what to set up beforehand, and the design decisions worth protecting while you run it.</p>'
+    + subNav(id, "teaching-note")
+  ) + '</section>'
+  + '<section class="prose ledger-note" style="padding-top:0">' + pageChrome(''
+    + '<div class="at-a-glance">'
+    +   '<div class="item"><div class="k">Session length</div><div class="v">45 minutes, adjustable live</div></div>'
+    +   '<div class="item"><div class="k">Groups</div><div class="v">Six fixed countries, 6–7 students each</div></div>'
+    +   '<div class="item"><div class="k">Students need</div><div class="v">A phone and the link — no account, no install</div></div>'
+    +   '<div class="item"><div class="k">Instructor needs</div><div class="v">One laptop or tablet, the deployed link, a projector</div></div>'
+    + '</div>'
+
+    + '<h2>Learning objectives</h2>'
+    + '<ul>'
+    + '<li>Discover comparative advantage by living inside unequal endowments, rather than being told the conclusion first.</li>'
+    + '<li>Feel opportunity cost directly — time spent negotiating is time not spent cutting shapes.</li>'
+    + '<li>See a price act as both a signal and a constraint: a price rise is only useful to a country with the capacity to respond to it.</li>'
+    + '<li>Watch a tariff, subsidy, quota or cartel play out on real transactions, then trace who actually bore the cost.</li>'
+    + '<li>Confront, at the very end, how much of the outcome was set before a single trade took place.</li>'
+    + '</ul>'
+
+    + '<h2>Before class</h2>'
+    + '<ul>'
+    + '<li>Prepare six envelopes matching the fixed country groups — handing them out <em>is</em> the allocation.</li>'
+    + '<li>Print or display the shape posters so every group can check its own output against spec.</li>'
+    + '<li>Paste the deployed web app link into the instructor console before students arrive — the link is issued per deployment and does not auto-detect reliably.</li>'
+    + '<li>Decide the day’s cash mode (digital balances or physical banknotes) and sale route (student claim queue, or you enter every sale yourself) based on the room’s wifi.</li>'
+    + '</ul>'
+
+    + '<h2>Running order</h2>'
+    + '<div class="at-a-glance">'
+    +   '<div class="item"><div class="k">0–5 min</div><div class="v">Join, name your country, declare opening resources</div></div>'
+    +   '<div class="item"><div class="k">5–35 min</div><div class="v">Trading opens; fire conditions from the suggestion panel as signals appear</div></div>'
+    +   '<div class="item"><div class="k">35–40 min</div><div class="v">Closing declaration; last trades settle</div></div>'
+    +   '<div class="item"><div class="k">40–45 min</div><div class="v">The reveal — into the debrief</div></div>'
+    + '</div>'
+
+    + '<h2>Three design decisions worth protecting</h2>'
+    + '<ul>'
+    + '<li><strong>Nobody is told there are three kinds of country.</strong> The join codes, banners and leaderboard are all built to hold this until the results phase — don’t narrate the tiers yourself while circulating.</li>'
+    + '<li><strong>Nothing fires automatically.</strong> Every price move, tariff and payment happens because you tapped it. That’s deliberate — it keeps the causal story legible for the debrief.</li>'
+    + '<li><strong>The suggestion panel holds back on purpose.</strong> It won’t propose a condition until countries have actually sold something — an early shock with no evidence behind it would just tip off the lesson before it happens.</li>'
+    + '</ul>'
+
+    + '<h2>What to watch for while it runs</h2>'
+    + '<p>A few of the condition library’s own field notes, verbatim — the kind of thing worth noticing live rather than only in the debrief:</p>'
+    + '<ul>'
+    + '<li>“Who can actually respond? A price signal is useless to a country with no set square.”</li>'
+    + '<li>“A cartel is fragile mainly because each individual member can usually gain more by secretly undercutting the agreed price than by sticking to it.”</li>'
+    + '<li>“A country that held onto shapes, betting the price would rise later, was acting on an expectation — not a guarantee.”</li>'
+    + '</ul>'
+
+    + '<p>When trading closes, move straight into the <a href="#/games/'+id+'/debrief-note">debrief note</a>, then assign the <a href="#/games/'+id+'/quiz">quiz</a> as an individual check afterward.</p>'
+  ) + '</section>';
+}
+
+/* ---- Debrief note ---- */
+function renderDebriefNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  var blocks = CONDITION_CATEGORIES.map(function(c){
+    var ex = c.examples.map(function(e){
+      return '<div class="condition-example"><div class="title">'+esc(e.title)+'</div><div class="debrief">'+esc(e.debrief)+'</div></div>';
+    }).join("");
+    return '<div class="category-block">'
+      + '<h4>'+esc(c.key)+' <span class="count">· '+c.count+' conditions</span></h4>'
+      + '<p class="muted" style="margin-bottom:0">'+esc(c.blurb)+'</p>'
+      + ex
+      + '<div class="discussion-q">Ask the room: '+esc(c.question)+'</div>'
+      + '</div>';
+  }).join("");
+
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Debrief note</span>'
+    + '<h1>Debriefing '+esc(g.title)+'</h1>'
+    + '<p class="lead">Structured around the same six categories the condition library uses, so the debrief can follow whatever actually fired in your session.</p>'
+    + subNav(id, "debrief-note")
+  ) + '</section>'
+  + '<section class="prose ledger-note" style="padding-top:0">' + pageChrome(''
+    + '<h2>Open with the reveal</h2>'
+    + '<p>Results reveal the tier structure for the first time — that reveal is the dramatic hinge the whole session is built around. Before showing it, ask the room to guess which countries were high-, middle- and low-income. The gap between their guess and the truth is the first debrief point, before you’ve said a word of theory.</p>'
+
+    + '<h2>Then work through what actually fired</h2>'
+    + '<p>Below are the six categories in the condition library, each with two real examples and a question to put to the room. Skip any category that never fired in your session — debrief what happened, not the whole catalogue.</p>'
+    + blocks
+
+    + '<h2>Close on inequality, not on prices</h2>'
+    + '<p>Whatever conditions fired, the biggest driver of the final scoreboard was almost always the unequal envelope every country opened before trading began — not any single policy shock. That’s the point worth landing last: prices, tariffs and cartels all happened on top of an unevenness the game never pretended to remove.</p>'
+  ) + '</section>';
+}
+
+/* ---- Quiz ---- */
+function renderQuiz(id){
+  var g = GAMES[id];
+  var qs = QUIZZES[id];
+  if(!g || !qs) return renderNotFound();
+  var qHtml = qs.map(function(q, i){
+    var opts = q.options.map(function(opt, oi){
+      return '<label class="quiz-opt"><input type="radio" name="'+q.id+'" value="'+oi+'"><span>'+esc(opt)+'</span></label>';
+    }).join("");
+    return '<div class="quiz-q" data-qid="'+q.id+'" data-correct="'+q.correct+'">'
+      + '<div class="qn">Question '+(i+1)+' of '+qs.length+'</div>'
+      + '<div class="qtext">'+esc(q.q)+'</div>'
+      + '<div class="quiz-opts">'+opts+'</div>'
+      + '<div class="quiz-explain">'+esc(q.explain)+'</div>'
+      + '</div>';
+  }).join("");
+
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Quiz · '+qs.length+' questions</span>'
+    + '<h1>Individual quiz — '+esc(g.title)+'</h1>'
+    + '<p class="lead">Every question is drawn from the actual debrief themes — specialisation, price signals, cartels, comparative advantage, terms of trade, world inequality — phrased around what everyone in the room actually did, not generic trivia. Answer from memory of playing, then check yourself.</p>'
+    + subNav(id, "quiz")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + '<div class="quiz-score" id="quiz-score"></div>'
+    + '<form id="quiz-form">'
+    +   qHtml
+    +   '<div style="display:flex;gap:12px;margin-top:8px">'
+    +     '<button type="submit" class="btn">Grade my answers</button>'
+    +     '<button type="button" class="btn ghost" id="quiz-reset">Try again</button>'
+    +   '</div>'
+    + '</form>'
+  ) + '</section>';
+}
+
+function wireQuiz(){
+  var form = document.getElementById("quiz-form");
+  if(!form) return;
+  var scoreBox = document.getElementById("quiz-score");
+  form.addEventListener("submit", function(ev){
+    ev.preventDefault();
+    var qDivs = form.querySelectorAll(".quiz-q");
+    var score = 0;
+    qDivs.forEach(function(div){
+      var correct = parseInt(div.getAttribute("data-correct"), 10);
+      var checked = div.querySelector("input:checked");
+      var chosen = checked ? parseInt(checked.value, 10) : -1;
+      var right = chosen === correct;
+      if(right) score++;
+      div.classList.remove("graded","correct","wrong");
+      div.classList.add("graded", right ? "correct" : "wrong");
+      div.querySelectorAll(".quiz-opt").forEach(function(lab, i){
+        lab.classList.toggle("opt-correct", i === correct);
+      });
+    });
+    scoreBox.innerHTML = '<span class="big">'+score+' / '+qDivs.length+'</span><p style="margin:8px 0 0">'+(
+      score === qDivs.length ? "Perfect — you were paying attention while trading, not just while cutting shapes." :
+      score >= qDivs.length*0.7 ? "Solid. Re-read the explanations on the ones you missed — they’re the debrief in miniature." :
+      "Worth revisiting the debrief note before retaking this — the explanations below are the fastest way back in."
+    )+'</p>';
+    scoreBox.classList.add("show");
+    scoreBox.scrollIntoView({behavior:"smooth", block:"start"});
+  });
+  document.getElementById("quiz-reset").addEventListener("click", function(){
+    form.reset();
+    form.querySelectorAll(".quiz-q").forEach(function(div){ div.classList.remove("graded","correct","wrong"); });
+    scoreBox.classList.remove("show");
+    window.scrollTo({top:0, behavior:"smooth"});
+  });
+}
+
+/* ---- Student note ---- */
+function renderStudentNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  var glossary = GLOSSARY.map(function(t){
+    return '<dt>'+esc(t.term)+'</dt><dd>'+esc(t.def)+'</dd>';
+  }).join("");
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Student note</span>'
+    + '<h1>Before you play</h1>'
+    + '<p class="lead">A plain-language recap for students, before or after a session of '+esc(g.title)+'.</p>'
+    + subNav(id, "student-note")
+  ) + '</section>'
+  + '<section class="prose ledger-note" style="padding-top:0">' + pageChrome(''
+    + '<h2>What you’re actually doing</h2>'
+    + '<p>You’ve been assigned to a country, along with a small team. Your envelope has some tools and some starting cash — not the same as every other country’s. Your job is to manufacture paper shapes to an exact specification and sell them to the trader at the posted price, which can move at any time.</p>'
+    + '<ul>'
+    + '<li>Declare what you’re holding at the start, and again at the end — both numbers matter.</li>'
+    + '<li>Prices are posted and can change without warning. You’ll see the change; you won’t always see why.</li>'
+    + '<li>You can negotiate directly with other countries as well as sell to the trader.</li>'
+    + '<li>Nothing in the game happens on a fixed clock or in rounds — conditions arrive whenever the instructor fires them.</li>'
+    + '</ul>'
+
+    + '<h2>A few honest tips</h2>'
+    + '<ul>'
+    + '<li>Figure out early what your team can make well, and let people specialise rather than everyone doing a bit of everything.</li>'
+    + '<li>Watch what other countries are struggling to produce — that gap is usually where a trade is worth making.</li>'
+    + '<li>A deal with no way to enforce it only holds if both sides keep gaining from it. Plan accordingly.</li>'
+    + '<li>Don’t assume the price you see now is the price you’ll get later — in either direction.</li>'
+    + '</ul>'
+
+    + '<h2>Terms you’ll want to know</h2>'
+    + '<dl class="glossary">' + glossary + '</dl>'
+
+    + '<div class="editor-note" style="margin-top:26px"><strong>One thing this note won’t tell you:</strong> not everything about how countries were set up is explained here. That’s deliberate — part of the point of the session is finding it out yourself.</div>'
+  ) + '</section>';
+}
+
+function renderNotFound(){
+  return '<section class="hero">' + pageChrome('<h1>Not found yet</h1><p class="lead">That page doesn’t exist — <a href="#/">back to the dashboard</a>.</p>') + '</section>';
+}
+
+/* ---- About ---- */
+function renderAbout(){
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Who’s behind this</span>'
+    + '<h1>About</h1>'
+  ) + '</section>'
+  + '<section>' + pageChrome(''
+    + '<div class="editor-note"><strong>Placeholder content.</strong> The bio and photo below are drafted so the page isn’t empty — replace them with your own text and photo whenever you’re ready. Nothing here is published until you say so.</div>'
+    + '<div class="about-layout">'
+    +   '<div><div class="portrait">Photo placeholder<br>(add assets/img/rupa-korde.jpg)</div></div>'
+    +   '<div class="prose">'
+    +     '<h2>Rupa Korde</h2>'
+    +     '<p>Rupa Korde teaches economics with a focus on making abstract ideas — comparative advantage, incentives, market failure — tangible through simulation and play rather than lecture alone. <em>Thinking Like an Economist</em> grew out of a course of the same name, and collects the games and classroom tools built for it.</p>'
+    +     '<p><em>[Replace this paragraph with your own bio: institution, courses taught, research interests, and what draws you to teaching economics this way.]</em></p>'
+    +     '<h2>About this project</h2>'
+    +     '<p>Each game here is built to be run in a real classroom first — tested, debugged, refined against an actual session — before it’s documented on this site. Every game ships with a teaching note, a debrief note, a quiz and a student note, not just a description.</p>'
+    +     '<p>The first of these is <a href="#/games/trade-game">The International Trade Game</a>, built for ECON102 at FLAME University. More topics and games are added as they’re built — see the <a href="#/">dashboard</a> for how they connect.</p>'
+    +   '</div>'
+    + '</div>'
+  ) + '</section>';
+}
+
+/* ---- Terms ---- */
+function renderTerms(){
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Please read — it’s short</span>'
+    + '<h1>Terms of Use</h1>'
+    + '<p class="lead">Written the way an economist writes anything: as a set of incentives, not a wall of legalese. Last updated <span id="today"></span>.</p>'
+  ) + '</section>'
+  + '<section class="prose" style="padding-top:10px">' + pageChrome(''
+
+    + '<div class="clause">'
+    + '<h2><span class="concept">Gains from trade</span></h2>'
+    + '<p>This exchange is meant to have a surplus on both sides. You get games, teaching notes, debrief notes, quizzes and student notes, free to use and adapt in your own teaching — including in the classroom. We get, at most, a credit line. If you publish an adapted version, please keep the attribution to the original source and to this site. What you may not do is resell or repackage this material as a commercial product without asking first — that would move the surplus entirely to one side, which is exactly the kind of trade this note is designed to prevent.</p>'
+    + '</div>'
+
+    + '<div class="clause">'
+    + '<h2><span class="concept">Property rights</span></h2>'
+    + '<p>Original content on this site — game designs, text, and code written for this project — is © Rupa Korde unless stated otherwise. The International Trade Game is based on a design by John Sloman (Economics Network, 2002), used and adapted with attribution. Clear property rights are what make the first clause enforceable at all; a market for reuse only works if everyone agrees on who owns what going in.</p>'
+    + '</div>'
+
+    + '<div class="clause">'
+    + '<h2><span class="concept">Asymmetric information</span></h2>'
+    + '<p>We try to run a smaller information gap than most sites. Some games run as live web apps during a class session, hosted on third-party infrastructure such as Google Apps Script. During a session, students typically enter a display name or country name and a roll number set by their own instructor — no account and no personal contact details are required to play. Session data (names, group choices, in-game transactions) is used only to run that session and for the instructor’s own record-keeping, and isn’t shared with third parties beyond the hosting platform needed to run the game. Instructors running a session are responsible for their own institution’s policies on student data.</p>'
+    + '</div>'
+
+    + '<div class="clause">'
+    + '<h2><span class="concept">Moral hazard</span></h2>'
+    + '<p>No warranty is offered, on the theory that promising you a perfect outcome regardless of what happens would just invite everyone — including us — to take less care. This site and its games are provided “as is,” for educational use, maintained on a best-effort basis by one person building it between classes. If something breaks mid-session, the fallback in the teaching note (run the desk manually) exists for exactly this reason.</p>'
+    + '</div>'
+
+    + '<div class="clause">'
+    + '<h2><span class="concept">Transaction costs</span></h2>'
+    + '<p>We’ve tried to keep the cost of resolving any dispute close to zero: if something here is wrong, unclear, or you want to use it in a way these terms don’t cover, contact Rupa Korde directly. No forms, no ticketing system — that overhead isn’t worth building for a site this size, and it would only slow down the one thing that actually matters, which is getting back to you.</p>'
+    + '</div>'
+
+    + '<div class="clause">'
+    + '<h2><span class="concept">Sunset clause</span></h2>'
+    + '<p>These terms may be updated as the site grows — much like the terms of any long-running trade agreement. Continued use of the site after a change means you accept the update. Nothing here is expected to change often; this is a small, slow-growing project, not a platform with a legal team revising things quarterly.</p>'
+    + '</div>'
+
+  ) + '</section>';
+}
+
+/* ============================================================
+   ROUTER
+   ============================================================ */
+function renderTicker(){
+  var el = document.getElementById("ticker");
+  var items = TICKER_ITEMS.concat(TICKER_ITEMS); // doubled for seamless loop
+  el.innerHTML = items.map(function(t){
+    var parts = t.split(/—/);
+    if(parts.length > 1){
+      return '<span><b>'+esc(parts[0].trim())+'</b> — '+esc(parts.slice(1).join("—").trim())+'</span>';
+    }
+    return '<span>'+esc(t)+'</span>';
+  }).join("");
+}
+
+function setActiveNav(topRoute){
+  document.querySelectorAll('#site-nav a').forEach(function(a){
+    a.classList.toggle('active', a.getAttribute('data-route') === topRoute);
+  });
+}
+
+function route(){
+  var hash = location.hash.replace(/^#\/?/, "").replace(/\/$/, "");
+  var parts = hash ? hash.split("/") : [];
+  var app = document.getElementById("app");
+  var html = "";
+  var top = parts[0] || "";
+
+  if(parts.length === 0){
+    html = renderHome();
+  } else if(parts[0] === "games" && parts.length === 1){
+    html = renderGames();
+  } else if(parts[0] === "topics"){
+    html = renderTopics();
+  } else if(parts[0] === "about"){
+    html = renderAbout();
+  } else if(parts[0] === "terms"){
+    html = renderTerms();
+  } else if(parts[0] === "games" && parts.length === 2){
+    html = renderGameOverview(parts[1]);
+  } else if(parts[0] === "games" && parts.length === 3){
+    var sub = parts[2];
+    if(sub === "teaching-note") html = renderTeachingNote(parts[1]);
+    else if(sub === "debrief-note") html = renderDebriefNote(parts[1]);
+    else if(sub === "quiz") html = renderQuiz(parts[1]);
+    else if(sub === "student-note") html = renderStudentNote(parts[1]);
+    else html = renderNotFound();
+  } else {
+    html = renderNotFound();
+  }
+
+  app.innerHTML = html;
+  setActiveNav(top);
+  var todayEl = document.getElementById("today");
+  if(todayEl) todayEl.textContent = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+  wireQuiz();
+  window.scrollTo({top:0, behavior:"instant"});
+}
+
+renderTicker();
+window.addEventListener("hashchange", route);
+window.addEventListener("DOMContentLoaded", route);
+route();
+</script>
 </body>
 </html>
