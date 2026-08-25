@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topics — Thinking Like an Economist</title>
+<meta name="description" content="Economics topics, and the games that teach each one.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="index.html">Thinking Like an Economist</a>
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="topics.html" aria-current="page">Topics</a>
+      <a href="games.html">Games</a>
+      <a href="about.html">About</a>
+      <a href="terms.html">Terms of Use</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" style="padding-bottom:32px">
+  <div class="container">
+    <span class="kicker">Browse by concept</span>
+    <h1>Topics</h1>
+    <p class="lead">
+      Economic ideas, grouped by concept rather than by game — useful if you know
+      what you want to teach and are looking for how to teach it.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="grid" id="topics-grid"></div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>&copy; <span id="year"></span> Rupa Korde — Thinking Like an Economist</span>
+    <a href="terms.html">Terms of Use</a>
+  </div>
+</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/render.js"></script>
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

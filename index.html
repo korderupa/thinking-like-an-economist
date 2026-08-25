@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thinking Like an Economist</title>
+<meta name="description" content="Classroom games and resources for teaching economics, by Rupa Korde.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="index.html">
+      Thinking Like an Economist
+    </a>
+    <nav class="site-nav">
+      <a href="index.html" aria-current="page">Home</a>
+      <a href="topics.html">Topics</a>
+      <a href="games.html">Games</a>
+      <a href="about.html">About</a>
+      <a href="terms.html">Terms of Use</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <span class="kicker">Economics, taught by doing</span>
+    <h1>Games and simulations for<br>teaching economics.</h1>
+    <p class="lead">
+      Thinking Like an Economist is a growing collection of classroom games,
+      simulations, and teaching resources built to make economic reasoning
+      something students discover for themselves — not just read about.
+    </p>
+    <div class="hero-actions">
+      <a class="btn" href="games.html">Browse the games</a>
+      <a class="btn ghost" href="topics.html">Browse by topic</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <h2>Latest game</h2>
+      <p>The newest addition to the collection.</p>
+    </div>
+    <div class="grid" id="games-grid" style="grid-template-columns: 1fr;"></div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="container">
+    <div class="section-head">
+      <h2>How this site works</h2>
+      <p>This site grows as new games and topics are built — check back for more.</p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <h3>Topics</h3>
+        <p class="muted">Browse economics concepts — trade, markets, incentives — and the games that teach each one.</p>
+      </div>
+      <div class="card">
+        <h3>Games</h3>
+        <p class="muted">Full write-ups of each game: what it teaches, how it runs, and how to launch it.</p>
+      </div>
+      <div class="card">
+        <h3>About</h3>
+        <p class="muted">Who's behind this project and why it exists.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>&copy; <span id="year"></span> Rupa Korde — Thinking Like an Economist</span>
+    <a href="terms.html">Terms of Use</a>
+  </div>
+</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/render.js"></script>
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>
