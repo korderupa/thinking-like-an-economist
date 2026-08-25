@@ -413,6 +413,60 @@ section.alt{ background: var(--paper-2); border-top:1px solid var(--rule); borde
 
 .empty-state{ border: 1px dashed var(--rule); border-radius: 4px; padding: 32px; text-align: center; color: var(--ink-soft); }
 
+/* ---------------- accordions ---------------- */
+.accordion{ border-top: 1px solid var(--rule); margin: 18px 0; }
+.accordion-item{ border-bottom: 1px solid var(--rule); }
+.accordion-header{
+  width:100%; text-align:left; background:none; border:none; padding:16px 4px;
+  font-family: var(--font-display); font-size: 1.08rem; font-weight:600; color: var(--ink);
+  cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:14px;
+}
+.accordion-header:hover{ color: var(--blue); }
+.accordion-item .chev{ transition: transform .15s ease; color: var(--ink-faint); font-size: 1.2rem; flex:none; }
+.accordion-item.open .chev{ transform: rotate(180deg); }
+.accordion-panel{ padding: 0 4px 22px; }
+.accordion-panel h4{ font-family: var(--font-display); font-size: 1rem; margin: 16px 0 8px; }
+.accordion-panel .accordion{ margin: 8px 0 0; }
+
+/* ---------------- tabs (round selector / category selector) ---------------- */
+.tabs{ margin: 18px 0 30px; }
+.tab-buttons{ display:flex; flex-wrap:wrap; gap: 8px; margin-bottom: 20px; }
+.tab-btn{
+  font-family: var(--font-mono); font-size: .76rem; text-transform: uppercase; letter-spacing: .03em;
+  padding: 9px 15px; border: 1px solid var(--rule); background: var(--panel); border-radius: 20px;
+  cursor:pointer; color: var(--ink-soft);
+}
+.tab-btn:hover{ border-color: var(--rule-strong); color: var(--ink); }
+.tab-btn.active{ background: var(--blue); color: #fff; border-color: var(--blue); }
+
+.epigraph{
+  font-family: var(--font-display); font-style: italic; font-size: 1.05rem; color: var(--ink-soft);
+  border-left: 3px solid var(--rule-strong); padding-left: 16px; margin: 0 0 14px;
+}
+.price-badge{ font-family: var(--font-mono); font-size: .82rem; color: var(--blue); font-weight:600; margin: 0 0 12px; }
+.worked-box{
+  background: var(--paper-2); border: 1px solid var(--rule); border-radius: 4px;
+  padding: 14px 18px; font-family: var(--font-mono); font-size: .84rem; line-height: 1.8; margin: 14px 0;
+}
+.prompt-box{ border: 1px dashed var(--rule-strong); border-radius: 4px; padding: 12px 16px; margin-top: 14px; background: var(--panel); }
+.prompt-box .p-item{ font-size: .87rem; color: var(--ink-soft); margin-bottom: 6px; }
+.prompt-box .p-item::before{ content: "✎  "; }
+
+.qa-block{ margin-top: 14px; padding: 12px 16px; border-left: 3px solid var(--blue); background: var(--blue-soft); border-radius: 0 3px 3px 0; }
+.qa-block .who{ font-family: var(--font-mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--blue); margin-bottom: 4px; }
+.qa-block ul{ margin: 4px 0; }
+.qa-block .opens{ font-size: .82rem; color: var(--ink-soft); margin-top: 8px; }
+
+/* ---------------- print: this site is not meant to be printed whole ---------------- */
+@media print{
+  body *{ visibility: hidden !important; }
+  body::after{
+    content: "Thinking Like an Economist is built to be read online, one section at a time — not printed as a single document. Visit the site to continue.";
+    visibility: visible !important; position: fixed; top: 38%; left: 8%; right: 8%;
+    font-family: system-ui, sans-serif; font-size: 20px; text-align: center; color: #000;
+  }
+}
+
 /* ---------------- footer ---------------- */
 .site-footer{ border-top: 1px solid var(--rule); padding: 30px 0; color: var(--ink-soft); font-size: .87rem; }
 .site-footer .container{ display:flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
@@ -472,7 +526,33 @@ var GAMES = {
     tags: ["Comparative advantage", "Trade policy", "Classroom simulation"],
     link: null,
     linkLabel: "Launch — link coming soon",
-    stats: { conditions: 51, categories: 6, quiz: 20, classSize: "40 students · 6 countries" }
+    minutes: 45,
+    glance: [
+      { k: "Course", v: "ECON102 · Thinking Like an Economist · FLAME University" },
+      { k: "Format", v: "Live classroom · 45 minutes · phones + projector" },
+      { k: "Class size", v: "40 students · 6 countries" },
+      { k: "Conditions in the library", v: "51 across 6 categories" }
+    ]
+  },
+  "the-lake": {
+    id: "the-lake",
+    title: "The Lake",
+    tagline: "Eight fishers, one shared lake, four rounds of pressure — then a fifth where it is finally yours alone.",
+    description: "Eight students share a lake of 144 fish for four rounds, deciding privately each time how many to take while the price of a fish climbs from ₹10 toward ₹40. Between rounds the rules change — first nothing, then talk without enforcement, then a quota with a coin-toss inspector, then a certain price on overuse. In the fifth round the lake is divided into private ponds. The class discovers the tragedy of the commons by living it, then discovers why it is not inevitable.",
+    course: "ECON102 · Thinking Like an Economist · FLAME University",
+    format: "Live classroom · ~85 minutes · phones + projector, one instructor dashboard",
+    status: "live",
+    statusLabel: "Field-tested",
+    tags: ["Common-pool resources", "Externalities", "Property rights", "Market failure"],
+    link: "https://script.google.com/a/macros/flame.edu.in/s/AKfycbwNhZoE5MCDQSEQppUfdi6P2Kxmz0ogEwCL2K2KHxw6MaqS3ER4NxTPxMr4XpXF-Np0/exec",
+    linkLabel: null,
+    minutes: 85,
+    glance: [
+      { k: "Course", v: "ECON102 · Thinking Like an Economist · FLAME University" },
+      { k: "Format", v: "Live classroom · ~85 minutes" },
+      { k: "Lake size", v: "8 fishers per lake · any number of lakes at once" },
+      { k: "Ceiling", v: "₹10,560 lake account, at six fish a round, every round" }
+    ]
   }
 };
 
@@ -481,6 +561,11 @@ var TOPICS = [
     title: "International Trade",
     description: "Comparative advantage, tariffs, subsidies, quotas, and why countries trade at all — explored hands-on through The International Trade Game.",
     games: ["trade-game"]
+  },
+  {
+    title: "Common-Pool Resources",
+    description: "Shared, rival resources nobody can be excluded from — the tragedy that follows, and the three repairs that can fix it: enforcement, prices, and property rights. Explored hands-on through The Lake.",
+    games: ["the-lake"]
   }
 ];
 
@@ -494,7 +579,10 @@ var TICKER_ITEMS = [
   "MARGINAL UTILITY — diminishing, same as ever",
   "MORAL HAZARD — see Terms of Use, Clause 4",
   "PRICE SIGNAL — useless without capacity to act on it",
-  "GAINS FROM TRADE — rarely split evenly, always real"
+  "GAINS FROM TRADE — rarely split evenly, always real",
+  "COMMON-POOL RESOURCE — rival, but nobody can be kept off it",
+  "PIGOUVIAN TAX — a price on the cost you weren’t paying",
+  "EXTERNAL COST — cheap for you because it lands on someone else"
 ];
 
 var CONDITION_CATEGORIES = [
@@ -630,6 +718,206 @@ var GLOSSARY = [
   { term: "Derived demand", def: "An input is valuable because of what it helps produce — not for its own sake." }
 ];
 
+/* The Lake — one entry per round, shared by Round Cards, Session Guide and
+   Debrief Guide so all three stay in step (see activeRound below). */
+var LAKE_ROUNDS = [
+  { n: 1, title: "Open water", quote: "Nobody owns the lake, so nobody wastes it.", price: "₹10 a fish",
+    card: {
+      setup: "144 fish, shared by all eight of you. Take 0–15. No talking.",
+      rules: [
+        "The lake holds 144 fish, shared by all eight of you.",
+        "Take anything from 0 to 15.",
+        "Every fish you land earns ₹10.",
+        "Whatever is left grows by half, up to a full 144."
+      ],
+      worked: "Take 48 between you → the lake refills to 144.\nTake 80 between you → the lake opens next round at 96.\n48 shared by 8 people is 6 each.",
+      prompts: ["The number I am taking, and why", "What I think the other seven will take"]
+    },
+    guide: {
+      script: "The lake holds 144 fish, shared by all eight of you. Decide privately — anything from 0 to 15. Every fish earns ₹10. Whatever is left grows by half, up to 144. No talking this round. Begin.",
+      watch: [
+        "Enforce the silence — this round is worthless if they negotiate.",
+        "Walk the room; answer questions about the rules, not about strategy.",
+        "Watch for a group stalled on one person, and close it if it stalls."
+      ],
+      after: "Read each group’s numbers flatly, with no commentary. Then, only: “The lake replaces 48 fish a round.” Do not explain why. Do not say “tragedy” or “commons” — if a student does, tell them to hold the thought until the end.",
+      dashboard: [
+        "The spread between groups — usually one careful group, one that strips the water.",
+        "Anyone who took 15 — they will likely lead the money table.",
+        "Any group that exceeded the stock and got rationed — a gift for the debrief."
+      ]
+    },
+    debriefTheme: "Common-pool resources · Sessions 5, 19, 30",
+    debrief: {
+      typical: "Almost every group takes more than 48 — a typical total is 55 to 80 out of 144. One restrained group, one that takes 90+ and never recovers. One or two students take 15 and lead the money table.",
+      meaning: "A fish is rival — the one in your net is not in mine — but nobody could be kept off the water. That pairing is a common-pool resource, not a public good. The whole benefit of an extra fish is private and immediate; the cost — a thinner lake next round — is split eight ways and arrives later. Every member reasoning sensibly for themselves can still produce a lake nobody wanted. That is a prisoners’ dilemma, not a failure of character.",
+      questions: [
+        { who: "The student who took the most", qs: ["What were you expecting the other seven to do?", "If you had known they would all take five, would you still have taken fifteen?"], opens: "Best response vs. the group outcome" },
+        { who: "The student who took the least", qs: ["You held back. What did it get you?"], opens: "Why unilateral restraint fails" },
+        { who: "A group whose lake fell below 80", qs: ["At what point did any of you realise what was happening collectively?"], opens: "Coordination failure" }
+      ]
+    }
+  },
+  { n: 2, title: "Around the table", quote: "Meetings of merchants end in conspiracies against the public.", price: "₹20 a fish",
+    card: {
+      setup: "Price doubles. Three minutes to talk with your group, then choose privately — the promise is not binding.",
+      rules: [
+        "A fish now earns ₹20, twice last round.",
+        "Three minutes of talking, out loud, with your group.",
+        "Write down what you promised to take.",
+        "Then choose privately. Nothing else about the lake changes."
+      ],
+      worked: "All eight keep to six → group takes 48, lake refills to 144.\nSeven keep to six, one takes fifteen → group takes 57, lake falls to 130.",
+      prompts: ["What I promised at the table", "What I actually took, and what changed my mind"]
+    },
+    guide: {
+      script: "Fish have doubled in price — ₹20 each. This round, and only this round, you may talk to your group. You have three minutes. Agree whatever you like. Then write down what you promised, and choose privately. Nobody is fined for breaking it.",
+      watch: [
+        "Time the three minutes properly and let the room be loud — the noise is the point.",
+        "Groups that write a number down do better than groups that say “let’s all go easy.”",
+        "Release the round only once the talking has stopped and phones are back out."
+      ],
+      after: "Read the new totals against the old. Ask “hands up who kept the promise you wrote down” — count the hands, then note that the screen already recorded both numbers. If the catch fell: “talking worked — hold on to that.” If it did not: “you agreed out loud, in front of each other, and it made no difference. That is worth sitting with.”",
+      dashboard: [
+        "The pledge column beside the actual catch — the gaps are the debrief.",
+        "Anyone who took three or more fish above what they promised.",
+        "Whether the group that talked most is the group that restrained most — often it is not."
+      ]
+    },
+    debriefTheme: "Cartels, collusion and cheap talk · Session 11",
+    debrief: {
+      typical: "The catch usually falls, often sharply — talking works. It rarely falls to 48; groups agree on six each and land 52 to 64. One or two students promise six and take nine or more.",
+      meaning: "An agreement that restrains output is exactly what a cartel is, and the class has just discovered how unstable one is when nobody can enforce it. Cheap talk works better than economists once expected — but it decays, because the member who quietly breaks the agreement while everyone else keeps it does best of all.",
+      questions: [
+        { who: "The whole room, before revealing anything", qs: ["Hands up who kept the promise you wrote down.", "The screen already recorded both numbers — does anyone want to revise their hand?"], opens: "What people say, what they do, and what they will admit" },
+        { who: "A student whose catch exceeded their pledge", qs: ["What made you change your mind after the conversation ended?", "Would you have taken that much if the promise were binding?"], opens: "Enforcement as the missing ingredient" },
+        { who: "A group that kept its agreement", qs: ["What did you say to each other that worked — a number, or “let’s go easy”?"], opens: "Specific commitments vs. vague ones" }
+      ]
+    }
+  },
+  { n: 3, title: "The quota", quote: "A rule you can break is not a rule.", price: "₹30 a fish",
+    card: {
+      setup: "A quota of six. An inspector calls with 50% odds; caught over-quota costs ₹120 a fish.",
+      rules: [
+        "A fish earns ₹30.",
+        "The quota is six fish — you can still take up to fifteen, the screen will not stop you.",
+        "An inspector calls on you with probability one half.",
+        "If called and you are over quota: ₹120 for every fish above six."
+      ],
+      worked: "The 7th fish earns ₹30, and costs ₹120 half the time — an expected cost of ₹60.\n₹30 earned minus ₹60 expected cost = −₹30. The same math applies to every fish after it.",
+      prompts: ["Do I expect to be inspected? Does it matter what I expect?", "What I am taking, and whether I would tell a friend to do the same"]
+    },
+    guide: {
+      script: "Fish now earn ₹30. There is a quota: six fish. You can still take up to fifteen — the screen will not stop you — but an inspector calls on you with 50% odds, and going over quota costs ₹120 a fish if you are caught.",
+      watch: [
+        "Ask for a show of hands who expects inspection — let them see it is about half the room.",
+        "Let them do the arithmetic themselves; the screen shows the expected fine, but do not point at it.",
+        "Answer “will I be inspected?” with only: “half of you will.”"
+      ],
+      after: "This is the most theatrical moment in the session — give it room. “Two of you went over and were not caught — you are ahead. Three went over and were caught — you are a long way behind. Everyone who stayed at six earned exactly what they expected. A seventh fish earned ₹30 and cost ₹120 half the time — on average, ₹60. Every one of you who went over made a bet you were expected to lose. Which of those two facts should we be teaching?”",
+      dashboard: [
+        "The insp column — who the inspector actually called on.",
+        "This round’s total against Round 2 — the quota usually cuts the catch even half-enforced.",
+        "Anyone still taking 12 or more; ask afterward what they were thinking."
+      ]
+    },
+    debriefTheme: "Enforcement, risk and expected value · Sessions 22, 27",
+    debrief: {
+      typical: "The catch falls again, but not to six each — a half-enforced quota is half-obeyed. The inspection reveal is the loudest moment of the session; two or three escape, two or three are caught. Students who stayed at six are visibly annoyed at the ones who got away.",
+      meaning: "A seventh fish earns ₹30 and costs ₹120 half the time — its expected cost, ₹60, exceeds its gain. Anyone going over took a bet they were expected to lose, even though some won it. The class must separate a good decision from a good outcome. A rule does not need to catch everybody; it needs an expected penalty larger than the prize — the whole economics of enforcement, and why fines are large and inspections rare rather than the reverse. It also costs something to run, and the class never sees that bill — which sets up Round 4.",
+      questions: [
+        { who: "Went over, was not caught", qs: ["You are ahead — was it a good decision?", "If we ran this round a hundred times, how would you do?"], opens: "Expected value vs. a lucky outcome" },
+        { who: "Went over, was caught", qs: ["Was your decision worse than theirs, or just less lucky?"], opens: "Outcome bias" },
+        { who: "Stayed at six", qs: ["Did you do the arithmetic, or just follow the rule?"], opens: "Rules as a substitute for calculation" }
+      ]
+    }
+  },
+  { n: 4, title: "The levy", quote: "Make the polluter pay.", price: "₹40 a fish",
+    card: {
+      setup: "Quota gone. No inspection. Every fish above six costs a certain ₹80.",
+      rules: [
+        "A fish earns ₹40.",
+        "There is no quota and no inspection.",
+        "Every fish above six costs you ₹80 — for certain, every time."
+      ],
+      worked: "6 fish → ₹240 earned, no levy, keep ₹240.\n7 fish → ₹280 earned, ₹80 levy, keep ₹200.\n8 fish → ₹320 earned, ₹160 levy, keep ₹160.\n10 fish → ₹400 earned, ₹320 levy, keep ₹80.\n15 fish → ₹600 earned, ₹720 levy, keep −₹120.",
+      prompts: ["What I am taking", "Round 3 threatened me; this round does not. Which changed what I did?"]
+    },
+    guide: {
+      script: "Fish earn ₹40 now. The quota is gone — take as many as you like, up to fifteen, and no inspector will call. Instead, every fish above six costs you ₹80, for certain, every time.",
+      watch: [
+        "Say nothing else — this round teaches itself.",
+        "Watch how quickly the room settles; most decide in under a minute.",
+        "Note anyone still taking ten — ask later if it was a test of the rule or a miss."
+      ],
+      after: "“Nobody forbade you anything this round, and the catch fell anyway.” Put the Round 3 and Round 4 totals side by side. “Round 3 threatened you and half of you got away with it. Round 4 threatened nobody — it just made the seventh fish cost more than it earns. Which changed your behaviour more?”",
+      dashboard: [
+        "Totals sit at or just below the sustainable level.",
+        "The penalty column should be nearly empty — if not, that student made a losing choice knowingly.",
+        "The lake often recovers here, setting up the Round 5 contrast."
+      ]
+    },
+    debriefTheme: "External cost and Pigouvian pricing · Sessions 19, 9",
+    debrief: {
+      typical: "The quietest, fastest round — most decide in under a minute. Totals sit at or just below 48; the penalty column is nearly empty. The lake usually recovers, which surprises students who had written it off.",
+      meaning: "Nobody has been forbidden anything. The levy simply makes the seventh fish cost ₹80 to earn ₹40 — private interest and the lake’s interest now give the same answer. That is what a Pigouvian tax is for: not to punish fishing, but to make the fisher count a cost the lake was already paying. Worth naming honestly: it needs no inspectors, but it does need a regulator who knows the right number. Too low, nothing changes; too high, useful fishing stops.",
+      questions: [
+        { who: "The whole room, immediately", qs: ["Nobody banned anything this round — why did the catch fall?", "Which changed your behaviour more, Round 3 or Round 4?"], opens: "Prices vs. prohibitions" },
+        { who: "Rounds 3 and 4, side by side", qs: ["Both cut the catch — which was cheaper to run? Who paid for each?"], opens: "Enforcement cost and the incidence of a tax" },
+        { who: "A student who still went over", qs: ["You paid ₹80 to earn ₹40 — talk me through it."], opens: "Usually a deliberate test of the rule, worth surfacing not mocking" }
+      ]
+    }
+  },
+  { n: 5, title: "Your own pond", quote: "Property should be private.", price: "₹50 a fish",
+    card: {
+      setup: "The lake is divided. Your own pond of 18, fished this year and once more next year.",
+      rules: [
+        "A fish earns ₹50 — the season’s highest.",
+        "Your pond holds 18 fish, yours alone.",
+        "You fish it this year, then once more next year.",
+        "What you leave grows by half over the winter, up to 18."
+      ],
+      worked: "Take 18 now → 0 left, nothing grows → 18 fish total → ₹900.\nTake 10 now → 8 left, grows to 12 → 22 fish total → ₹1,100.\nTake 6 now → 12 left, grows to 18 → 24 fish total → ₹1,200.",
+      prompts: ["What I took from my own pond this year", "What I took from the shared lake in Round 1 — if the two differ, why?"]
+    },
+    guide: {
+      script: "Fish are ₹50, the season’s highest price. The lake has been divided — each of you now owns a pond of eighteen fish, and nobody else may fish it. You will fish it twice: this year, then next year. What you leave grows by half over the winter, up to a full eighteen. Nobody is waiting for you.",
+      watch: [
+        "Groups finish at different times, since nobody waits for anybody — let the quick ones sit.",
+        "Good moment to get the closing board ready while they fish.",
+        "Watch for whoever empties the pond immediately — worth talking to afterward."
+      ],
+      after: "“Hands up if you took less from your own pond than you took from the lake in Round 1.” Most hands go up. “Nothing about you changed in the last hour. The only thing that changed is who pays for what you take. That is the whole session — and you worked it out yourselves.”",
+      dashboard: [
+        "The pond column shows both harvests — 6 then 18 is the best play, ₹1,200.",
+        "Anyone who emptied the pond at once earned ₹900 and left ₹300 on the table.",
+        "Compare each student’s Round 1 catch with their pond harvest — that comparison is the finding."
+      ]
+    },
+    debriefTheme: "Property rights · Sessions 2, 18",
+    debrief: {
+      typical: "Most students take about six and let the pond grow; a visible minority empty it at once. Almost everybody takes less from their own pond than they took from the shared lake in Round 1.",
+      meaning: "Nothing about anybody’s character changed — the assignment of rights did. Once the pond is yours, the fish you do not take are still yours next spring, so restraint stops being charity and becomes arithmetic. It also brings back the rising price across the season: a fish left in the water was always worth more later, but on shared water nobody could act on that, because a fish you leave is simply taken by somebody else. Patience only pays the patient when the asset is theirs. Do not let the round become an argument for privatising everything — ask what it would take to divide a real fishery, an aquifer, or the atmosphere.",
+      questions: [
+        { who: "The room, hands up", qs: ["Who took less from their own pond than from the lake in Round 1? Why, precisely?"], opens: "The central finding of the whole activity" },
+        { who: "A student who emptied the pond", qs: ["Eighteen now is ₹900. Six now and eighteen next year is ₹1,200. What made the first one attractive?"], opens: "Time preference and discounting" },
+        { who: "The room", qs: ["Could we have just divided the lake in Round 1? What would it take to divide a real fishery, or the air over a city?"], opens: "The limits of the property-rights fix" }
+      ]
+    }
+  }
+];
+
+/* Per-game resource tabs, in order. "overview" is implicit and always first. */
+var RESOURCE_NAV = {
+  "trade-game": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-note","Debrief Note"],["quiz","Quiz"],["student-note","Student Note"]],
+  "the-lake": [["overview","Overview"],["round-cards","Round Cards"],["session-guide","Session Guide"],["debrief-guide","Debrief Guide"],["lessons-learned","Lessons Learned"]]
+};
+
+/* The round currently selected in any round-tabs group with data-sync="round" —
+   shared across Round Cards / Session Guide / Debrief Guide so switching pages
+   keeps you on the same round. */
+var activeRound = 1;
+
 /* ============================================================
    TEMPLATES
    ============================================================ */
@@ -639,45 +927,69 @@ function esc(s){ var d=document.createElement("div"); d.textContent = s; return 
 function stationDot(color){ return '<span class="dot" style="background:var(--'+color+')"></span>'; }
 
 function subwayMap(){
-  // One line (blue) through the topic -> the game -> its four resources.
-  // A second, dotted "next line" gestures at what’s still to come.
+  // One line per topic, one station per game — nothing else. Resource pages
+  // (notes, guides, quizzes) live one click further in, off the game station.
   return ''
   + '<figure class="subway-fig">'
-  + '<svg viewBox="0 0 960 420" role="img" aria-label="Map of the International Trade topic connecting to The International Trade Game, which branches into its Teaching Note, Debrief Note, Quiz, and Student Note.">'
-  + '<line x1="70" y1="140" x2="430" y2="140" stroke="var(--blue-line)" stroke-width="6" stroke-linecap="round"/>'
-  + '<line x1="430" y1="140" x2="560" y2="60" stroke="var(--chalk-line)" stroke-width="5" stroke-linecap="round"/>'
-  + '<line x1="430" y1="140" x2="560" y2="140" stroke="var(--rise-line)" stroke-width="5" stroke-linecap="round"/>'
-  + '<line x1="430" y1="140" x2="560" y2="220" stroke="var(--violet-line)" stroke-width="5" stroke-linecap="round"/>'
-  + '<line x1="430" y1="140" x2="560" y2="300" stroke="var(--stamp-line)" stroke-width="5" stroke-linecap="round"/>'
-  + '<line x1="70" y1="330" x2="360" y2="330" stroke="var(--rule-strong)" stroke-width="4" stroke-dasharray="2 10" stroke-linecap="round"/>'
+  + '<svg viewBox="0 0 960 260" role="img" aria-label="Map showing two topic lines: International Trade connecting to The International Trade Game, and Common-Pool Resources connecting to The Lake. A third line is under construction.">'
+  + '<line x1="70" y1="70" x2="430" y2="70" stroke="var(--blue-line)" stroke-width="6" stroke-linecap="round"/>'
+  + '<line x1="70" y1="180" x2="430" y2="180" stroke="var(--rise-line)" stroke-width="6" stroke-linecap="round"/>'
+  + '<line x1="500" y1="70" x2="620" y2="70" stroke="var(--rule-strong)" stroke-width="4" stroke-dasharray="2 10" stroke-linecap="round"/>'
 
-  + '<a href="#/topics"><circle class="station" cx="70" cy="140" r="12" fill="var(--panel)" stroke="var(--blue-line)" stroke-width="5"/>'
-  + '<text x="70" y="108" font-size="15" font-weight="600" text-anchor="middle">International Trade</text>'
-  + '<text x="70" y="126" font-size="11" text-anchor="middle" fill="var(--ink-faint)" font-family="var(--font-mono)">TOPIC</text></a>'
+  + '<a href="#/topics"><circle class="station" cx="70" cy="70" r="12" fill="var(--panel)" stroke="var(--blue-line)" stroke-width="5"/>'
+  + '<text x="70" y="40" font-size="15" font-weight="600" text-anchor="middle">International Trade</text>'
+  + '<text x="70" y="58" font-size="11" text-anchor="middle" fill="var(--ink-faint)" font-family="var(--font-mono)">TOPIC</text></a>'
 
-  + '<a href="#/games/trade-game"><circle class="station" cx="430" cy="140" r="18" fill="var(--blue-line)" stroke="var(--panel)" stroke-width="4"/>'
-  + '<text x="430" y="182" font-size="15" font-weight="600" text-anchor="middle">The International</text>'
-  + '<text x="430" y="200" font-size="15" font-weight="600" text-anchor="middle">Trade Game</text></a>'
+  + '<a href="#/games/trade-game"><circle class="station" cx="430" cy="70" r="18" fill="var(--blue-line)" stroke="var(--panel)" stroke-width="4"/>'
+  + '<text x="430" y="40" font-size="12" text-anchor="middle" fill="var(--ink-faint)" font-family="var(--font-mono)">GAME</text>'
+  + '<text x="430" y="112" font-size="14" font-weight="600" text-anchor="middle">The International Trade Game</text></a>'
 
-  + '<a href="#/games/trade-game/teaching-note"><circle class="station" cx="560" cy="60" r="9" fill="var(--panel)" stroke="var(--chalk-line)" stroke-width="4"/>'
-  + '<text x="580" y="55" font-size="13" text-anchor="start">Teaching Note</text></a>'
+  + '<a href="#/topics"><circle class="station" cx="70" cy="180" r="12" fill="var(--panel)" stroke="var(--rise-line)" stroke-width="5"/>'
+  + '<text x="70" y="150" font-size="15" font-weight="600" text-anchor="middle">Common-Pool Resources</text>'
+  + '<text x="70" y="168" font-size="11" text-anchor="middle" fill="var(--ink-faint)" font-family="var(--font-mono)">TOPIC</text></a>'
 
-  + '<a href="#/games/trade-game/debrief-note"><circle class="station" cx="560" cy="140" r="9" fill="var(--panel)" stroke="var(--rise-line)" stroke-width="4"/>'
-  + '<text x="580" y="145" font-size="13" text-anchor="start">Debrief Note</text></a>'
+  + '<a href="#/games/the-lake"><circle class="station" cx="430" cy="180" r="18" fill="var(--rise-line)" stroke="var(--panel)" stroke-width="4"/>'
+  + '<text x="430" y="150" font-size="12" text-anchor="middle" fill="var(--ink-faint)" font-family="var(--font-mono)">GAME</text>'
+  + '<text x="430" y="222" font-size="14" font-weight="600" text-anchor="middle">The Lake</text></a>'
 
-  + '<a href="#/games/trade-game/quiz"><circle class="station" cx="560" cy="220" r="9" fill="var(--panel)" stroke="var(--violet-line)" stroke-width="4"/>'
-  + '<text x="580" y="225" font-size="13" text-anchor="start">Quiz · 20 questions</text></a>'
-
-  + '<a href="#/games/trade-game/student-note"><circle class="station" cx="560" cy="300" r="9" fill="var(--panel)" stroke="var(--stamp-line)" stroke-width="4"/>'
-  + '<text x="580" y="305" font-size="13" text-anchor="start">Student Note</text></a>'
-
-  + '<circle cx="360" cy="330" r="7" fill="none" stroke="var(--rule-strong)" stroke-width="3" stroke-dasharray="2 4"/>'
-  + '<text x="376" y="335" font-size="13" fill="var(--ink-faint)">Next topic — line under construction</text>'
-  + '<circle cx="70" cy="330" r="7" fill="none" stroke="var(--rule-strong)" stroke-width="3" stroke-dasharray="2 4"/>'
+  + '<circle cx="620" cy="70" r="7" fill="none" stroke="var(--rule-strong)" stroke-width="3" stroke-dasharray="2 4"/>'
+  + '<text x="636" y="75" font-size="13" fill="var(--ink-faint)">Next topic — line under construction</text>'
 
   + '</svg>'
-  + '<figcaption>The Trade line: one topic, one game, and the four notes that come with it. A second line is already being laid.</figcaption>'
+  + '<figcaption>Two lines so far — International Trade, and Common-Pool Resources. Each topic runs into one game; click either station to open it.</figcaption>'
   + '</figure>';
+}
+
+/* Renders a titled, click-to-expand list. items: [{title, html, open}].
+   Collapsed panels are a real `hidden` attribute, not just visually hidden —
+   so printing the page only prints what is actually open on screen. */
+function accordionHtml(items){
+  return '<div class="accordion">' + items.map(function(it){
+    var open = !!it.open;
+    return '<div class="accordion-item'+(open?' open':'')+'">'
+      + '<button type="button" class="accordion-header" aria-expanded="'+open+'">'+esc(it.title)+'<span class="chev">⌄</span></button>'
+      + '<div class="accordion-panel"'+(open?'':' hidden')+'>'+it.html+'</div>'
+      + '</div>';
+  }).join('') + '</div>';
+}
+
+/* Renders a row of buttons that swap the panel below — used for the round
+   selector (Round Cards / Session Guide / Debrief Guide) and the category
+   selector (Trade Game debrief). Pass syncAttr="round" to keep the same
+   round selected across all three Lake resource pages. */
+function tabsHtml(groupKey, items, keyFn, labelFn, panelFn, activeKey, syncAttr){
+  var buttons = items.map(function(it){
+    var k = String(keyFn(it));
+    return '<button type="button" class="tab-btn'+(k===String(activeKey)?' active':'')+'" data-tab="'+esc(k)+'">'+esc(labelFn(it))+'</button>';
+  }).join('');
+  var panels = items.map(function(it){
+    var k = String(keyFn(it));
+    return '<div class="tab-panel" data-tab="'+esc(k)+'"'+(k===String(activeKey)?'':' hidden')+'>'+panelFn(it)+'</div>';
+  }).join('');
+  return '<div class="tabs" data-group="'+groupKey+'"'+(syncAttr?' data-sync="'+syncAttr+'"':'')+'>'
+    + '<div class="tab-buttons">'+buttons+'</div>'
+    + '<div class="tab-panels">'+panels+'</div>'
+    + '</div>';
 }
 
 function gameCard(g){
@@ -704,7 +1016,11 @@ function pageChrome(inner){ return '<div class="container">'+inner+'</div>'; }
 
 /* ---- Home ---- */
 function renderHome(){
-  var g = GAMES["trade-game"];
+  var gameIds = Object.keys(GAMES);
+  var totalQuizQ = gameIds.reduce(function(sum,id){ return sum + (QUIZZES[id] ? QUIZZES[id].length : 0); }, 0);
+  var totalMinutes = gameIds.reduce(function(sum,id){ return sum + (GAMES[id].minutes||0); }, 0);
+  var cards = gameIds.map(function(id){ return gameCard(GAMES[id]); }).join("");
+
   return ''
   + '<section class="hero">' + pageChrome(''
     + '<div class="ledger-spread">'
@@ -719,11 +1035,10 @@ function renderHome(){
     +   '</div>'
     +   '<div class="index-card">'
     +     '<h4>Ledger, as of today</h4>'
-    +     '<div class="stat-row"><span>Games live</span><span class="n">1</span></div>'
-    +     '<div class="stat-row"><span>Classroom conditions</span><span class="n">'+g.stats.conditions+'</span></div>'
-    +     '<div class="stat-row"><span>Economics categories covered</span><span class="n">'+g.stats.categories+'</span></div>'
-    +     '<div class="stat-row"><span>Quiz questions</span><span class="n">'+g.stats.quiz+'</span></div>'
-    +     '<div class="stat-row"><span>Class size tested</span><span class="n" style="font-size:.85rem">'+g.stats.classSize+'</span></div>'
+    +     '<div class="stat-row"><span>Games live</span><span class="n">'+gameIds.length+'</span></div>'
+    +     '<div class="stat-row"><span>Topics live</span><span class="n">'+TOPICS.length+'</span></div>'
+    +     '<div class="stat-row"><span>Quiz questions live</span><span class="n">'+totalQuizQ+'</span></div>'
+    +     '<div class="stat-row"><span>Classroom minutes documented</span><span class="n">'+totalMinutes+'</span></div>'
     +   '</div>'
     + '</div>'
   ) + '</section>'
@@ -731,16 +1046,16 @@ function renderHome(){
     + '<div class="section-head">'
     +   '<span class="eyebrow">The dashboard</span>'
     +   '<h2>How it all connects</h2>'
-    +   '<p>One line per topic. Each game is an interchange station — its teaching note, debrief note, quiz and student note branch off it like stops on a spur.</p>'
+    +   '<p>One line per topic, one station per game. Click a station to open it — the notes, guides and quizzes for each game live one click further in.</p>'
     + '</div>'
     + subwayMap()
   ) + '</section>'
   + '<section class="alt">' + pageChrome(''
     + '<div class="section-head">'
-    +   '<span class="eyebrow">Start here</span>'
-    +   '<h2>Latest addition</h2>'
+    +   '<span class="eyebrow">The collection</span>'
+    +   '<h2>Games</h2>'
     + '</div>'
-    + '<div class="grid" style="grid-template-columns:1fr">' + gameCard(g) + '</div>'
+    + '<div class="grid">' + cards + '</div>'
   ) + '</section>';
 }
 
@@ -772,16 +1087,12 @@ function renderTopics(){
 
 /* ---- Game sub-nav ---- */
 function subNav(gameId, active){
-  var tabs = [
-    ["overview","Overview","games/"+gameId],
-    ["teaching-note","Teaching Note","games/"+gameId+"/teaching-note"],
-    ["debrief-note","Debrief Note","games/"+gameId+"/debrief-note"],
-    ["quiz","Quiz","games/"+gameId+"/quiz"],
-    ["student-note","Student Note","games/"+gameId+"/student-note"]
-  ];
+  var tabs = RESOURCE_NAV[gameId] || [["overview","Overview"]];
   return '<nav class="subnav">' + tabs.map(function(t){
-    var cls = t[0]===active ? ' class="active"' : '';
-    return '<a href="#/'+t[2]+'"'+cls+'>'+t[1]+'</a>';
+    var slug = t[0], label = t[1];
+    var href = slug === "overview" ? "games/"+gameId : "games/"+gameId+"/"+slug;
+    var cls = slug===active ? ' class="active"' : '';
+    return '<a href="#/'+href+'"'+cls+'>'+label+'</a>';
   }).join("") + '</nav>';
 }
 
@@ -792,6 +1103,11 @@ function renderGameOverview(id){
   var action = g.link
     ? '<a class="btn" href="'+esc(g.link)+'" target="_blank" rel="noopener">Launch the game →</a>'
     : '<span class="btn disabled">'+esc(g.linkLabel||"Coming soon")+'</span>';
+  var nav = RESOURCE_NAV[id] || [];
+  var firstRes = nav.length > 1 ? nav[1] : null;
+  var readMoreBtn = firstRes
+    ? '<a class="btn ghost" href="#/games/'+id+'/'+firstRes[0]+'">Read the '+firstRes[1].toLowerCase()+'</a>'
+    : '';
   return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
     + '<div class="game-head">'
     +   '<div>'
@@ -804,17 +1120,13 @@ function renderGameOverview(id){
     + subNav(id, "overview")
   ) + '</section>'
   + '<section style="padding-top:0">' + pageChrome(''
-    + '<div class="at-a-glance">'
-    +   '<div class="item"><div class="k">Course</div><div class="v">'+esc(g.course)+'</div></div>'
-    +   '<div class="item"><div class="k">Format</div><div class="v">'+esc(g.format)+'</div></div>'
-    +   '<div class="item"><div class="k">Class size</div><div class="v">'+esc(g.stats.classSize)+'</div></div>'
-    +   '<div class="item"><div class="k">Conditions in the library</div><div class="v">'+g.stats.conditions+' across '+g.stats.categories+' categories</div></div>'
-    + '</div>'
+    + '<div class="at-a-glance">' + g.glance.map(function(it){
+        return '<div class="item"><div class="k">'+esc(it.k)+'</div><div class="v">'+esc(it.v)+'</div></div>';
+      }).join("") + '</div>'
     + '<p style="max-width:70ch">'+esc(g.description)+'</p>'
     + '<div class="tags" style="margin-bottom:26px">'+g.tags.map(function(t){return '<span class="tag">'+esc(t)+'</span>';}).join("")+'</div>'
     + '<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px">'
-    +   action
-    +   '<a class="btn ghost" href="#/games/'+id+'/teaching-note">Read the teaching note</a>'
+    +   action + readMoreBtn
     + '</div>'
   ) + '</section>';
 }
@@ -826,93 +1138,84 @@ function renderTeachingNote(id){
   return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
     + '<span class="eyebrow">Teaching note</span>'
     + '<h1>Running '+esc(g.title)+'</h1>'
-    + '<p class="lead">What this session is for, what to set up beforehand, and the design decisions worth protecting while you run it.</p>'
+    + '<p class="lead">What this session is for, what to set up first, and the design decisions worth protecting.</p>'
     + subNav(id, "teaching-note")
   ) + '</section>'
-  + '<section class="prose ledger-note" style="padding-top:0">' + pageChrome(''
+  + '<section style="padding-top:0">' + pageChrome(''
     + '<div class="at-a-glance">'
     +   '<div class="item"><div class="k">Session length</div><div class="v">45 minutes, adjustable live</div></div>'
     +   '<div class="item"><div class="k">Groups</div><div class="v">Six fixed countries, 6–7 students each</div></div>'
     +   '<div class="item"><div class="k">Students need</div><div class="v">A phone and the link — no account, no install</div></div>'
-    +   '<div class="item"><div class="k">Instructor needs</div><div class="v">One laptop or tablet, the deployed link, a projector</div></div>'
+    +   '<div class="item"><div class="k">Instructor needs</div><div class="v">A laptop, the deployed link, a projector</div></div>'
     + '</div>'
-
-    + '<h2>Learning objectives</h2>'
-    + '<ul>'
-    + '<li>Discover comparative advantage by living inside unequal endowments, rather than being told the conclusion first.</li>'
-    + '<li>Feel opportunity cost directly — time spent negotiating is time not spent cutting shapes.</li>'
-    + '<li>See a price act as both a signal and a constraint: a price rise is only useful to a country with the capacity to respond to it.</li>'
-    + '<li>Watch a tariff, subsidy, quota or cartel play out on real transactions, then trace who actually bore the cost.</li>'
-    + '<li>Confront, at the very end, how much of the outcome was set before a single trade took place.</li>'
-    + '</ul>'
-
-    + '<h2>Before class</h2>'
-    + '<ul>'
-    + '<li>Prepare six envelopes matching the fixed country groups — handing them out <em>is</em> the allocation.</li>'
-    + '<li>Print or display the shape posters so every group can check its own output against spec.</li>'
-    + '<li>Paste the deployed web app link into the instructor console before students arrive — the link is issued per deployment and does not auto-detect reliably.</li>'
-    + '<li>Decide the day’s cash mode (digital balances or physical banknotes) and sale route (student claim queue, or you enter every sale yourself) based on the room’s wifi.</li>'
-    + '</ul>'
-
-    + '<h2>Running order</h2>'
-    + '<div class="at-a-glance">'
-    +   '<div class="item"><div class="k">0–5 min</div><div class="v">Join, name your country, declare opening resources</div></div>'
-    +   '<div class="item"><div class="k">5–35 min</div><div class="v">Trading opens; fire conditions from the suggestion panel as signals appear</div></div>'
-    +   '<div class="item"><div class="k">35–40 min</div><div class="v">Closing declaration; last trades settle</div></div>'
-    +   '<div class="item"><div class="k">40–45 min</div><div class="v">The reveal — into the debrief</div></div>'
-    + '</div>'
-
-    + '<h2>Three design decisions worth protecting</h2>'
-    + '<ul>'
-    + '<li><strong>Nobody is told there are three kinds of country.</strong> The join codes, banners and leaderboard are all built to hold this until the results phase — don’t narrate the tiers yourself while circulating.</li>'
-    + '<li><strong>Nothing fires automatically.</strong> Every price move, tariff and payment happens because you tapped it. That’s deliberate — it keeps the causal story legible for the debrief.</li>'
-    + '<li><strong>The suggestion panel holds back on purpose.</strong> It won’t propose a condition until countries have actually sold something — an early shock with no evidence behind it would just tip off the lesson before it happens.</li>'
-    + '</ul>'
-
-    + '<h2>What to watch for while it runs</h2>'
-    + '<p>A few of the condition library’s own field notes, verbatim — the kind of thing worth noticing live rather than only in the debrief:</p>'
-    + '<ul>'
-    + '<li>“Who can actually respond? A price signal is useless to a country with no set square.”</li>'
-    + '<li>“A cartel is fragile mainly because each individual member can usually gain more by secretly undercutting the agreed price than by sticking to it.”</li>'
-    + '<li>“A country that held onto shapes, betting the price would rise later, was acting on an expectation — not a guarantee.”</li>'
-    + '</ul>'
-
-    + '<p>When trading closes, move straight into the <a href="#/games/'+id+'/debrief-note">debrief note</a>, then assign the <a href="#/games/'+id+'/quiz">quiz</a> as an individual check afterward.</p>'
+    + accordionHtml([
+      { title: "Learning objectives", open: true, html:
+        "<ul><li>Discover comparative advantage by living inside unequal endowments, not by being told the conclusion.</li>"
+        + "<li>Feel opportunity cost directly — time spent negotiating is time not spent cutting shapes.</li>"
+        + "<li>See a price act as both signal and constraint — useless without the capacity to respond to it.</li>"
+        + "<li>Trace a tariff, subsidy, quota or cartel back to who actually bore the cost.</li>"
+        + "<li>Confront how much of the outcome was set before a single trade took place.</li></ul>"
+      },
+      { title: "Before class", html:
+        "<ul><li>Prepare six envelopes matching the fixed groups — handing them out <em>is</em> the allocation.</li>"
+        + "<li>Display the shape posters so every group can check its output against spec.</li>"
+        + "<li>Paste the deployed web app link into the instructor console before students arrive.</li>"
+        + "<li>Decide the day’s cash mode and sale route based on the room’s wifi.</li></ul>"
+      },
+      { title: "Running order", html:
+        '<div class="at-a-glance">'
+        + '<div class="item"><div class="k">0–5 min</div><div class="v">Join, declare opening resources</div></div>'
+        + '<div class="item"><div class="k">5–35 min</div><div class="v">Trading; fire conditions as signals appear</div></div>'
+        + '<div class="item"><div class="k">35–40 min</div><div class="v">Closing declaration</div></div>'
+        + '<div class="item"><div class="k">40–45 min</div><div class="v">The reveal — into the debrief</div></div></div>'
+      },
+      { title: "Three decisions worth protecting", html:
+        "<ul><li><strong>Nobody is told there are three kinds of country</strong> until the results phase — don’t narrate the tiers while circulating.</li>"
+        + "<li><strong>Nothing fires automatically</strong> — every price move happens because you tapped it, which keeps the causal story legible for the debrief.</li>"
+        + "<li><strong>The suggestion panel holds back</strong> until countries have actually sold something.</li></ul>"
+      },
+      { title: "What to watch for while it runs", html:
+        "<ul><li>“Who can actually respond? A price signal is useless to a country with no set square.”</li>"
+        + "<li>“A cartel is fragile because each member can usually gain more by secretly undercutting than by sticking to it.”</li>"
+        + "<li>“Holding onto shapes, betting the price rises, is an expectation — not a guarantee.”</li></ul>"
+      }
+    ])
+    + '<p style="margin-top:20px;max-width:70ch">When trading closes, move into the <a href="#/games/'+id+'/debrief-note">debrief note</a>, then assign the <a href="#/games/'+id+'/quiz">quiz</a> afterward.</p>'
   ) + '</section>';
 }
 
 /* ---- Debrief note ---- */
+function tradeCategoryPanel(c){
+  var ex = c.examples.map(function(e){
+    return '<div class="condition-example"><div class="title">'+esc(e.title)+'</div><div class="debrief">'+esc(e.debrief)+'</div></div>';
+  }).join("");
+  return '<p class="muted">'+esc(c.blurb)+'</p>' + ex + '<div class="discussion-q">Ask the room: '+esc(c.question)+'</div>';
+}
+
 function renderDebriefNote(id){
   var g = GAMES[id];
   if(!g) return renderNotFound();
-  var blocks = CONDITION_CATEGORIES.map(function(c){
-    var ex = c.examples.map(function(e){
-      return '<div class="condition-example"><div class="title">'+esc(e.title)+'</div><div class="debrief">'+esc(e.debrief)+'</div></div>';
-    }).join("");
-    return '<div class="category-block">'
-      + '<h4>'+esc(c.key)+' <span class="count">· '+c.count+' conditions</span></h4>'
-      + '<p class="muted" style="margin-bottom:0">'+esc(c.blurb)+'</p>'
-      + ex
-      + '<div class="discussion-q">Ask the room: '+esc(c.question)+'</div>'
-      + '</div>';
-  }).join("");
+  var totalConditions = CONDITION_CATEGORIES.reduce(function(a,c){ return a+c.count; }, 0);
 
   return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
     + '<span class="eyebrow">Debrief note</span>'
     + '<h1>Debriefing '+esc(g.title)+'</h1>'
-    + '<p class="lead">Structured around the same six categories the condition library uses, so the debrief can follow whatever actually fired in your session.</p>'
+    + '<p class="lead">Pick whichever category actually fired in your session — debrief what happened, not the whole catalogue.</p>'
     + subNav(id, "debrief-note")
   ) + '</section>'
-  + '<section class="prose ledger-note" style="padding-top:0">' + pageChrome(''
-    + '<h2>Open with the reveal</h2>'
-    + '<p>Results reveal the tier structure for the first time — that reveal is the dramatic hinge the whole session is built around. Before showing it, ask the room to guess which countries were high-, middle- and low-income. The gap between their guess and the truth is the first debrief point, before you’ve said a word of theory.</p>'
-
-    + '<h2>Then work through what actually fired</h2>'
-    + '<p>Below are the six categories in the condition library, each with two real examples and a question to put to the room. Skip any category that never fired in your session — debrief what happened, not the whole catalogue.</p>'
-    + blocks
-
-    + '<h2>Close on inequality, not on prices</h2>'
-    + '<p>Whatever conditions fired, the biggest driver of the final scoreboard was almost always the unequal envelope every country opened before trading began — not any single policy shock. That’s the point worth landing last: prices, tariffs and cartels all happened on top of an unevenness the game never pretended to remove.</p>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "Open with the reveal", open: true, html:
+        "<p>Results reveal the tier structure for the first time — the dramatic hinge the whole session is built around. Before showing it, ask the room to guess which countries were high-, middle- and low-income. The gap between their guess and the truth is the first debrief point, before you’ve said a word of theory.</p>"
+      }
+    ])
+    + '<div style="margin:26px 0 6px"><h2 style="margin-bottom:6px">By category</h2><p class="muted">'+totalConditions+' conditions across '+CONDITION_CATEGORIES.length+' categories — each with two examples and a question for the room.</p></div>'
+    + tabsHtml("debrief-categories", CONDITION_CATEGORIES, function(c){return c.key;}, function(c){return c.key;}, tradeCategoryPanel, CONDITION_CATEGORIES[0].key, null)
+    + accordionHtml([
+      { title: "Close on inequality, not on prices", html:
+        "<p>Whatever conditions fired, the biggest driver of the final scoreboard was almost always the unequal envelope every country opened before trading began — not any single policy shock.</p>"
+      }
+    ])
   ) + '</section>';
 }
 
@@ -997,33 +1300,277 @@ function renderStudentNote(id){
   return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
     + '<span class="eyebrow">Student note</span>'
     + '<h1>Before you play</h1>'
-    + '<p class="lead">A plain-language recap for students, before or after a session of '+esc(g.title)+'.</p>'
+    + '<p class="lead">A plain-language recap, before or after a session of '+esc(g.title)+'.</p>'
     + subNav(id, "student-note")
   ) + '</section>'
-  + '<section class="prose ledger-note" style="padding-top:0">' + pageChrome(''
-    + '<h2>What you’re actually doing</h2>'
-    + '<p>You’ve been assigned to a country, along with a small team. Your envelope has some tools and some starting cash — not the same as every other country’s. Your job is to manufacture paper shapes to an exact specification and sell them to the trader at the posted price, which can move at any time.</p>'
-    + '<ul>'
-    + '<li>Declare what you’re holding at the start, and again at the end — both numbers matter.</li>'
-    + '<li>Prices are posted and can change without warning. You’ll see the change; you won’t always see why.</li>'
-    + '<li>You can negotiate directly with other countries as well as sell to the trader.</li>'
-    + '<li>Nothing in the game happens on a fixed clock or in rounds — conditions arrive whenever the instructor fires them.</li>'
-    + '</ul>'
-
-    + '<h2>A few honest tips</h2>'
-    + '<ul>'
-    + '<li>Figure out early what your team can make well, and let people specialise rather than everyone doing a bit of everything.</li>'
-    + '<li>Watch what other countries are struggling to produce — that gap is usually where a trade is worth making.</li>'
-    + '<li>A deal with no way to enforce it only holds if both sides keep gaining from it. Plan accordingly.</li>'
-    + '<li>Don’t assume the price you see now is the price you’ll get later — in either direction.</li>'
-    + '</ul>'
-
-    + '<h2>Terms you’ll want to know</h2>'
-    + '<dl class="glossary">' + glossary + '</dl>'
-
-    + '<div class="editor-note" style="margin-top:26px"><strong>One thing this note won’t tell you:</strong> not everything about how countries were set up is explained here. That’s deliberate — part of the point of the session is finding it out yourself.</div>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "What you are actually doing", open: true, html:
+        "<p>You have been assigned to a country with a small team. Your envelope has tools and cash — not the same as everyone else’s. Manufacture shapes to spec and sell them to the trader at the posted price, which can move at any time.</p>"
+        + "<ul><li>Declare what you are holding at the start, and again at the end.</li>"
+        + "<li>Prices can change without warning — you will see the change, not always why.</li>"
+        + "<li>You can negotiate directly with other countries as well as sell to the trader.</li>"
+        + "<li>Nothing runs on a fixed clock — conditions arrive whenever the instructor fires them.</li></ul>"
+      },
+      { title: "A few honest tips", html:
+        "<ul><li>Work out early what your team makes well, and let people specialise.</li>"
+        + "<li>Watch what other countries struggle to produce — that gap is usually where a trade is worth making.</li>"
+        + "<li>An unenforceable deal only holds if both sides keep gaining from it.</li>"
+        + "<li>Do not assume the price you see now is the price you will get later, in either direction.</li></ul>"
+      },
+      { title: "Terms you will want to know", html: '<dl class="glossary">' + glossary + '</dl>' }
+    ])
+    + '<div class="editor-note" style="margin-top:20px"><strong>One thing this note will not tell you:</strong> not everything about how countries were set up is here. That is deliberate.</div>'
   ) + '</section>';
 }
+
+/* ---- The Lake: shared round-panel builders ---- */
+function lakeCardPanel(r){
+  return '<div class="epigraph">“'+esc(r.quote)+'”</div>'
+    + '<p class="price-badge">'+esc(r.price)+'</p>'
+    + '<p>'+esc(r.card.setup)+'</p>'
+    + '<ul>' + r.card.rules.map(function(x){return '<li>'+esc(x)+'</li>';}).join('') + '</ul>'
+    + '<div class="worked-box">' + r.card.worked.split('\n').map(esc).join('<br>') + '</div>'
+    + '<div class="prompt-box">' + r.card.prompts.map(function(p){return '<div class="p-item">'+esc(p)+'</div>';}).join('') + '</div>';
+}
+
+function lakeGuidePanel(r){
+  return '<div class="epigraph">Read aloud, then release the round:</div>'
+    + '<div class="worked-box" style="font-family:var(--font-body);font-style:italic;line-height:1.6">'+esc(r.guide.script)+'</div>'
+    + '<h4>While the clock runs</h4><ul>' + r.guide.watch.map(function(x){return '<li>'+esc(x)+'</li>';}).join('') + '</ul>'
+    + '<h4>When the round is scored</h4><p>'+esc(r.guide.after)+'</p>'
+    + '<h4>Watch on the dashboard</h4><ul>' + r.guide.dashboard.map(function(x){return '<li>'+esc(x)+'</li>';}).join('') + '</ul>';
+}
+
+function lakeDebriefPanel(r){
+  var qs = r.debrief.questions.map(function(q){
+    return '<div class="qa-block"><div class="who">'+esc(q.who)+'</div><ul>'
+      + q.qs.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')
+      + '</ul><div class="opens">Opens on to: '+esc(q.opens)+'</div></div>';
+  }).join('');
+  return '<span class="eyebrow">'+esc(r.debriefTheme)+'</span>'
+    + '<h4>What usually happens</h4><p>'+esc(r.debrief.typical)+'</p>'
+    + '<h4>What it means</h4><p>'+esc(r.debrief.meaning)+'</p>'
+    + '<h4>Questions to ask</h4>' + qs;
+}
+
+function lakeRoundTabs(panelFn){
+  return tabsHtml("round-lake", LAKE_ROUNDS, function(r){return r.n;}, function(r){return r.n+" · "+r.title;}, panelFn, activeRound, "round");
+}
+
+/* ---- The Lake: Round Cards (student-facing, during play) ---- */
+function renderLakeRoundCards(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Round cards</span>'
+    + '<h1>Playing '+esc(g.title)+'</h1>'
+    + '<p class="lead">What each round actually says on a student’s phone — condensed to what you need to decide.</p>'
+    + subNav(id, "round-cards")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "Before you start", open: true, html:
+        "<p>Eight of you share one lake for four rounds. In the fifth, the lake is divided and you fish alone. Nobody sees anyone else’s choice until everybody has cast, and every decision is recorded.</p>"
+        + "<ul><li>The lake holds 144 fish, shared by all eight fishers.</li>"
+        + "<li>Each round, take anything from none to fifteen.</li>"
+        + "<li>Once everybody has fished, whatever is left grows by half — never above 144.</li>"
+        + "<li>An empty lake stays empty. Nobody restocks it.</li>"
+        + "<li>Ask for more than is swimming, between you, and every net comes up short.</li></ul>"
+        + "<p>Fish get dearer as the season goes on — ₹10, ₹20, ₹30, ₹40, then ₹50 in your own pond. A fish left in the water is worth more later than now.</p>"
+        + "<p>Two prizes: most money over five rounds, and the largest <strong>lake account</strong> — what your group earned, plus what the water is still worth. The two rarely go to the same table.</p>"
+      }
+    ])
+    + '<div style="margin:28px 0 6px"><h2 style="margin-bottom:6px">Round by round</h2><p class="muted">Pick a round to see its rules.</p></div>'
+    + lakeRoundTabs(lakeCardPanel)
+  ) + '</section>';
+}
+
+/* ---- The Lake: Session Guide (instructor, running the class) ---- */
+function renderLakeSessionGuide(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Session guide</span>'
+    + '<h1>Running '+esc(g.title)+'</h1>'
+    + '<p class="lead">The order of play, and exactly what to say — the dashboard shows the same script, so you never need to hold the paper.</p>'
+    + subNav(id, "session-guide")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "The day before", html:
+        "<ul><li>Run <em>The Lake › Check everything</em> in the Sheet — every line should tick.</li>"
+        + "<li>Copy the student link into your LMS; bookmark the dashboard link (the same address, with <code>?admin=1</code>).</li>"
+        + "<li>Join as a test student on your own phone, then delete the game so the roster is clean.</li>"
+        + "<li>Print the round cards if you want a paper copy per table.</li>"
+        + "<li>Decide what to do with the post-game questions — most instructors set them as homework.</li></ul>"
+      },
+      { title: "One thing to hold back", html:
+        "<p>Do not explain the tragedy of the commons, or say the words, at any point before the game ends. The whole activity depends on the class discovering it. If a student names it in Round 1, call it an interesting guess and move on.</p>"
+      },
+      { title: "Order of play (≈85 minutes)", open: true, html:
+        '<div class="at-a-glance">'
+        + '<div class="item"><div class="k">0–10 min</div><div class="v">Students join, read the how-to screen; open water</div></div>'
+        + '<div class="item"><div class="k">10–35 min</div><div class="v">Rounds 1–2, scored and briefly discussed between</div></div>'
+        + '<div class="item"><div class="k">35–60 min</div><div class="v">Rounds 3–4, the inspection reveal and the levy contrast</div></div>'
+        + '<div class="item"><div class="k">60–70 min</div><div class="v">Round 5 — the divided lake</div></div>'
+        + '<div class="item"><div class="k">70–85 min</div><div class="v">Publish the board, read out both winners, begin the debrief</div></div>'
+        + '</div>'
+        + '<p class="muted">Fishing itself takes about 40 minutes across five rounds; the rest is scoring, scripts and the close.</p>'
+      }
+    ])
+    + '<div style="margin:28px 0 6px"><h2 style="margin-bottom:6px">Round by round</h2><p class="muted">What to read aloud, what to watch, what to say once it is scored.</p></div>'
+    + lakeRoundTabs(lakeGuidePanel)
+    + accordionHtml([
+      { title: "Closing the session", html:
+        "<ul><li>Publish the class board — every screen shows the table.</li>"
+        + "<li>Read out both winners, most money first, best-run lake second — let the room notice they are different people.</li>"
+        + "<li>Save the results under a label such as “Section A, 12 August” — this survives deleting the game.</li>"
+        + "<li>Point students to the post-game questions; marks land in your Sheet as they submit.</li></ul>"
+      },
+      { title: "If something goes wrong", html:
+        "<ul><li><strong>A group is stuck on one student</strong> — close that round for the group; the missing student is recorded as taking nothing.</li>"
+        + "<li><strong>A student arrives late</strong> — a Seat latecomers button lets them join and start at Round 1.</li>"
+        + "<li><strong>A phone died or refreshed</strong> — they rejoin with the same roll number, exactly where they were.</li>"
+        + "<li><strong>Nothing appears on a screen</strong> — check the round is actually released; nothing shows until you press it.</li></ul>"
+      }
+    ])
+  ) + '</section>';
+}
+
+/* ---- The Lake: Debrief Guide (instructor, after play) ---- */
+function renderLakeDebriefGuide(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Debrief guide</span>'
+    + '<h1>Debriefing '+esc(g.title)+'</h1>'
+    + '<p class="lead">The game is not the lesson — the debrief is. Ask before you tell: every idea below can be pulled from the room by a question, because the room has just produced the evidence.</p>'
+    + subNav(id, "debrief-guide")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "Read the numbers before you speak", open: true, html:
+        '<div class="at-a-glance">'
+        + '<div class="item"><div class="k">Round 1 total vs. 48</div><div class="v">How far past the replacement catch the room went before anyone had a reason not to</div></div>'
+        + '<div class="item"><div class="k">Pledge vs. Round 2 catch</div><div class="v">Every gap here is a debrief question with a name attached</div></div>'
+        + '<div class="item"><div class="k">Round 3 vs. Round 4 totals</div><div class="v">Whether a half-enforced ban or a certain price changed behaviour more</div></div>'
+        + '<div class="item"><div class="k">Round 1 vs. first pond harvest</div><div class="v">The single most important comparison in the activity</div></div>'
+        + '</div>'
+      },
+      { title: "The arithmetic to put on the board", html:
+        "<p>Eight members; the lake replaces 48 fish a round — six each is the sustainable share.</p>"
+        + '<div class="worked-box">If everybody takes 6 → 48 landed, lake stays full at 144, group earns ₹4,800, <strong>lake account ₹10,560</strong><br>'
+        + 'If everybody takes 10 → 80 then whatever is left, lake is empty by Round 3, lake account ₹3,120<br>'
+        + 'If everybody takes 15 → 120 then a rationed trickle, lake ends at 1, lake account ₹2,200</div>'
+        + '<p class="muted">₹10,560 is the ceiling. The only route there is 48 a round, every round.</p>'
+      }
+    ])
+    + '<div style="margin:28px 0 6px"><h2 style="margin-bottom:6px">Round by round</h2><p class="muted">What usually happens, what it means, and who to ask.</p></div>'
+    + lakeRoundTabs(lakeDebriefPanel)
+    + accordionHtml([
+      { title: "The two prizes", html:
+        "<p>Read them in this order — most money first, best-run lake second — and let the room notice they are different people before you explain.</p>"
+        + "<ul><li><strong>Most money</strong> rewards taking. Usually won by whoever took fifteen in Round 1.</li>"
+        + "<li><strong>Best-run lake</strong> rewards leaving something behind — what the group earned, plus what the water is still worth. Peaks at ₹10,560, only for a group that took exactly 48 every round.</li></ul>"
+        + "<p>Ask: if we only published the money table, what would this class do next time? Which of the two numbers does GDP resemble?</p>"
+      },
+      { title: "Where this shows up outside the room", html:
+        '<div class="at-a-glance">'
+        + '<div class="item"><div class="k">Groundwater, Punjab &amp; Maharashtra</div><div class="v">Free power worsens it; metering and crop-switching are the current attempts</div></div>'
+        + '<div class="item"><div class="k">Urban air</div><div class="v">Odd-even rules, congestion charges, emission norms</div></div>'
+        + '<div class="item"><div class="k">Marine fisheries off Kerala</div><div class="v">Trawling bans, mesh regulation, individual quotas</div></div>'
+        + '<div class="item"><div class="k">Antibiotics</div><div class="v">Prescription-only rules, stewardship programmes</div></div>'
+        + '<div class="item"><div class="k">The atmosphere</div><div class="v">Carbon taxes, cap-and-trade, treaties without enforcement</div></div>'
+        + '</div>'
+        + '<p class="muted">Each maps to one of the three repairs: a rule with an inspector, a price on the damage, or an owner.</p>'
+      },
+      { title: "Objections you should expect", html:
+        '<div class="qa-block"><div class="who">“It’s just a game — real people would cooperate.”</div><p style="margin:6px 0 0">Sometimes they do — Ostrom won a Nobel Prize documenting commons managed well. Ask what those communities had that this room did not: usually repeated dealings, visibility, and the ability to punish.</p></div>'
+        + '<div class="qa-block"><div class="who">“The greedy player won, so greed works.”</div><p style="margin:6px 0 0">They won a five-round game with no future. Ask what happens to them in round fifty, or in a village where everyone remembers.</p></div>'
+        + '<div class="qa-block"><div class="who">“So we should privatise everything.”</div><p style="margin:6px 0 0">Ask them to divide the atmosphere. Property rights need something divisible, defensible, and a fair way to allocate the first shares.</p></div>'
+      }
+    ])
+  ) + '</section>';
+}
+
+/* ---- The Lake: Lessons Learned (student-facing, after play) ---- */
+function renderLakeLessonsLearned(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Lessons learned</span>'
+    + '<h1>What the lake was about</h1>'
+    + '<p class="lead">Read this after you have played, not before — it names things Round 1 depends on you discovering yourself.</p>'
+    + subNav(id, "lessons-learned")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "What you actually did", open: true, html:
+        "<p>Eight of you shared a lake of 144 fish for four rounds, then fished alone for one. The lake replaced 48 fish a round, so six each was the share that could be taken forever.</p>"
+        + '<div class="at-a-glance">' + LAKE_ROUNDS.map(function(r){
+            return '<div class="item"><div class="k">Round '+r.n+' · '+esc(r.price)+'</div><div class="v">'+esc(r.title)+'</div></div>';
+          }).join('') + '</div>'
+      },
+      { title: "Why Round 1 went the way it did", html:
+        "<p>An extra fish earned you ₹10 in full, immediately. It also thinned the lake for the next round — a cost split eight ways, arriving later. You captured the whole benefit and about one-eighth of the cost.</p>"
+        + '<div class="worked-box">Every member faced that same arithmetic, and every one of them could reason it through correctly and still end with a lake nobody wanted. <strong>The trouble is in the structure, not the people.</strong></div>'
+        + "<p>That uncounted seven-eighths has a name: an <strong>external cost</strong> — the same idea as smoke from a factory chimney, cheap to the factory because most of its cost is somebody else’s problem.</p>"
+      },
+      { title: "What kind of thing the lake was", html:
+        "<p>Goods differ along two dimensions, and the lake sat in the awkward corner: rival (your fish is not mine) but impossible to exclude anyone from. That combination is a <strong>common-pool resource</strong> — not the same as a public good, where one person’s use costs nobody else anything.</p>"
+      },
+      { title: "The three repairs you tried", html:
+        accordionHtml([
+          { title: "Round 3 · a rule with an inspector", html: "<p>A seventh fish earned ₹30 and cost ₹120 if caught, half the time — an expected cost of ₹60 to earn ₹30. Anyone who went over made a bet they were expected to lose; some won it anyway. A good decision and a good outcome are not the same thing. The unseen cost: somebody has to pay the inspector.</p>" },
+          { title: "Round 4 · a price on the damage", html: "<p>Every fish above six cost ₹80 to earn ₹40 — no inspectors, no luck. Private calculation and the lake’s interest gave the same answer. This is a <strong>Pigouvian tax</strong>: it does not punish fishing, it makes the fisher count a cost the lake was already paying. It needs no inspector, but does need someone who knows the right number.</p>" },
+          { title: "Round 5 · an owner", html: "<p>The fish you left were still yours next spring, so restraint stopped being charity and became arithmetic — six now and eighteen next year (₹1,200) beat emptying it at once (₹900). Patience only pays the patient when the asset is theirs. The limit: try dividing the air over a city, or an aquifer under a village.</p>" }
+        ])
+      },
+      { title: "Why there were two winners", html:
+        "<p>One prize rewarded the individual who earned the most; the other, the group with the largest <strong>lake account</strong> — what it earned, plus what the water was still worth. They almost never go to the same table, and that is not a flaw in the scoring.</p>"
+        + '<p class="muted">Which of the two numbers does GDP resemble? Session 25 returns to exactly that.</p>'
+      },
+      { title: "Six things to take away", html:
+        "<ol><li>A cost that falls on somebody else is not counted — an external cost, and why the catch, the smoke and the traffic are all larger than anybody wants.</li>"
+        + "<li>Sensible people can produce a result none of them wanted. Look at the structure before you blame the people.</li>"
+        + "<li>Agreements without enforcement decay — the member who quietly defects while everyone else cooperates does best of all.</li>"
+        + "<li>A rule does not have to catch everybody; it has to make the expected penalty larger than the prize.</li>"
+        + "<li>A price can do what a ban could not, by making the private calculation and the collective interest agree.</li>"
+        + "<li>Self-interest produces good outcomes when the person deciding bears the full cost of deciding — a claim about an arrangement, not a law of nature.</li></ol>"
+      },
+      { title: "Where you will meet this again", html:
+        '<div class="at-a-glance">'
+        + '<div class="item"><div class="k">Groundwater, Punjab &amp; Maharashtra</div><div class="v">Free power made it worse; metering and crop-switching are current attempts</div></div>'
+        + '<div class="item"><div class="k">Air over Indian cities</div><div class="v">Odd-even rules (a quota), congestion charges (a price)</div></div>'
+        + '<div class="item"><div class="k">Fisheries off Kerala &amp; Gujarat</div><div class="v">Trawling bans, mesh rules, individual transferable quotas</div></div>'
+        + '<div class="item"><div class="k">The atmosphere</div><div class="v">Carbon taxes, cap-and-trade, treaties nobody can enforce</div></div>'
+        + '</div>'
+      },
+      { title: "Further reading", html:
+        "<ul><li>Samuelson and Nordhaus, <em>Economics</em>, on externalities and public goods.</li>"
+        + "<li>Garrett Hardin, <em>The Tragedy of the Commons</em> (1968) — the source of the phrase, worth reading critically.</li>"
+        + "<li>Elinor Ostrom, <em>Governing the Commons</em> — real villages that managed commons well, without the state or private ownership.</li></ul>"
+      }
+    ])
+  ) + '</section>';
+}
+
+/* Which function renders which game’s resource page. */
+var RESOURCE_PAGES = {
+  "trade-game": {
+    "teaching-note": renderTeachingNote,
+    "debrief-note": renderDebriefNote,
+    "quiz": renderQuiz,
+    "student-note": renderStudentNote
+  },
+  "the-lake": {
+    "round-cards": renderLakeRoundCards,
+    "session-guide": renderLakeSessionGuide,
+    "debrief-guide": renderLakeDebriefGuide,
+    "lessons-learned": renderLakeLessonsLearned
+  }
+};
 
 function renderNotFound(){
   return '<section class="hero">' + pageChrome('<h1>Not found yet</h1><p class="lead">That page doesn’t exist — <a href="#/">back to the dashboard</a>.</p>') + '</section>';
@@ -1134,12 +1681,8 @@ function route(){
   } else if(parts[0] === "games" && parts.length === 2){
     html = renderGameOverview(parts[1]);
   } else if(parts[0] === "games" && parts.length === 3){
-    var sub = parts[2];
-    if(sub === "teaching-note") html = renderTeachingNote(parts[1]);
-    else if(sub === "debrief-note") html = renderDebriefNote(parts[1]);
-    else if(sub === "quiz") html = renderQuiz(parts[1]);
-    else if(sub === "student-note") html = renderStudentNote(parts[1]);
-    else html = renderNotFound();
+    var pages = RESOURCE_PAGES[parts[1]];
+    html = (pages && pages[parts[2]]) ? pages[parts[2]](parts[1]) : renderNotFound();
   } else {
     html = renderNotFound();
   }
@@ -1151,6 +1694,30 @@ function route(){
   wireQuiz();
   window.scrollTo({top:0, behavior:"instant"});
 }
+
+/* One delegated listener for every accordion header and tab button on the
+   site — works across route changes since it’s bound to document, not to
+   elements that get replaced on every render. */
+document.addEventListener("click", function(e){
+  var tabBtn = e.target.closest(".tab-btn");
+  if(tabBtn){
+    var wrap = tabBtn.closest(".tabs");
+    var key = tabBtn.getAttribute("data-tab");
+    wrap.querySelectorAll(".tab-btn").forEach(function(b){ b.classList.toggle("active", b === tabBtn); });
+    wrap.querySelectorAll(".tab-panel").forEach(function(p){ p.hidden = (p.getAttribute("data-tab") !== key); });
+    if(wrap.getAttribute("data-sync") === "round"){ activeRound = parseInt(key, 10); }
+    return;
+  }
+  var accHead = e.target.closest(".accordion-header");
+  if(accHead){
+    var item = accHead.closest(".accordion-item");
+    var willOpen = !item.classList.contains("open");
+    item.classList.toggle("open", willOpen);
+    accHead.setAttribute("aria-expanded", String(willOpen));
+    item.querySelector(".accordion-panel").hidden = !willOpen;
+    return;
+  }
+});
 
 renderTicker();
 window.addEventListener("hashchange", route);
