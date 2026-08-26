@@ -127,10 +127,46 @@ casually printed or exported as one long document.
 `subwayMap()` hand-draws the dashboard as inline SVG — **one line per
 topic, one station per game, nothing else.** Resource pages (notes,
 guides, quizzes) are deliberately not shown on the map; they're one click
-further in, off the game's own overview page. To add a third line for a
-new topic, copy one of the two `<line>` + two `<a><circle>...</circle></a>`
-blocks and give it a new stroke color token (see `--violet-line` /
-`--stamp-line` etc. already defined, currently unused by the map).
+further in, off the game's own overview page.
+
+A line can carry more than one game station — same as a real subway
+line has more than one stop. The International Trade line runs through
+both The International Trade Game and The Heckscher-Ohlin Trade Game;
+to add a third station to an existing line, add another `<line>` segment
+plus `<a><circle>...</circle></a>` block continuing from the last
+station's `cx`. To start a whole new topic line instead, copy one of the
+two-row blocks and give it a new stroke color token (see `--violet-line`
+/ `--stamp-line` etc. already defined, currently unused by the map).
+Topic station labels are centered on their `cx` — a long topic name
+needs `cx` far enough right (130+) that the text doesn't clip the
+viewBox's left edge; check with a longer topic name before shipping.
+
+## Games designed but not yet run in a classroom
+
+Not every game here started from a real class. `status: "dev"` (see
+The Heckscher-Ohlin Trade Game) marks a game that was designed from
+theory rather than field-tested — `renderGameOverview`'s stamp badge and
+`gameCard`'s tag both read this field and switch their wording
+automatically ("Designed and ready to pilot" instead of "Field-tested in
+a real classroom"). Keep using this honestly: flip it to `"live"` /
+`"Field-tested"` only after an actual class has run it, and note in the
+teaching note that the numbers are a first draft until then.
+
+## The visitor counter
+
+The homepage ledger shows **Visitors logged** — a real cross-visitor
+count, not a per-browser one. It's powered by a small Google Apps Script
++ Sheet described in `../visit-counter-src/` (outside this folder, since
+it isn't part of the static site itself). The site side is just:
+
+```js
+var VISIT_LOG_URL = null; // paste the deployed Apps Script URL here
+```
+
+near the top of the `<script>` block, plus a `logVisit()` call once at
+page load (not on every in-app hash navigation — see `logVisit()` and
+where it's called near the bottom of the file). Until `VISIT_LOG_URL` is
+set, the ledger row just shows "…" and nothing breaks.
 
 ## Publishing
 

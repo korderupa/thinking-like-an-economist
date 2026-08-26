@@ -553,14 +553,34 @@ var GAMES = {
       { k: "Lake size", v: "8 fishers per lake · any number of lakes at once" },
       { k: "Ceiling", v: "₹10,560 lake account, at six fish a round, every round" }
     ]
+  },
+  "heckscher-ohlin": {
+    id: "heckscher-ohlin",
+    title: "The Heckscher-Ohlin Trade Game",
+    tagline: "Two blocs, two goods, two factors, one recipe book — same technology, different endowments, and trade emerges anyway.",
+    description: "Two blocs of teams — labour-abundant Labouria and capital-abundant Capitalia — hold the exact same recipes for Cloth and Machinery. Working alone from their own endowment, each bloc discovers its own home price for Cloth before a word of theory is said. When the border opens, both sides specialise in whatever their abundant factor makes cheaply and trade for the rest. A closing twist reassigns each student a factor of production and shows that not everyone inside a winning country actually wins.",
+    course: "ECON102 · Thinking Like an Economist · FLAME University",
+    format: "Live classroom · ~60 minutes · factor cards and a whiteboard price — no app required",
+    status: "dev",
+    statusLabel: "Ready to pilot",
+    tags: ["Factor endowments", "Heckscher-Ohlin", "Gains from trade", "Income distribution"],
+    link: null,
+    linkLabel: "Runs on paper — see the Teaching Note",
+    minutes: 60,
+    glance: [
+      { k: "Course", v: "ECON102 · Thinking Like an Economist · FLAME University" },
+      { k: "Format", v: "Live classroom · ~60 minutes · factor cards and a whiteboard" },
+      { k: "Groups", v: "Any even number of teams, split into two blocs" },
+      { k: "Status", v: "Designed and ready to pilot — not yet run in a classroom" }
+    ]
   }
 };
 
 var TOPICS = [
   {
     title: "International Trade",
-    description: "Comparative advantage, tariffs, subsidies, quotas, and why countries trade at all — explored hands-on through The International Trade Game.",
-    games: ["trade-game"]
+    description: "Comparative advantage, tariffs, subsidies, quotas, factor endowments, and why countries trade at all — explored hands-on through The International Trade Game and The Heckscher-Ohlin Trade Game.",
+    games: ["trade-game", "heckscher-ohlin"]
   },
   {
     title: "Common-Pool Resources",
@@ -703,6 +723,38 @@ var QUIZZES = {
     { id:"Q20", q:"Which of these is the strongest reason economists consider this game’s starting inequality a realistic feature, rather than an artificial add-on?",
       options:["Because every student agreed to it in advance","Because the game cannot be played any other way","Because it makes the game more fun to watch","Because real countries genuinely differ hugely in the capital, infrastructure and resources they start with, before any policy or trading decision is made"],
       correct:3, explain:"The unequal envelopes stand in for a real and well-documented fact: countries do not enter the world economy on equal footing." }
+  ],
+  "heckscher-ohlin": [
+    { id:"H1", q:"Labouria and Capitalia used the exact same recipes for Cloth and Machinery. Under Heckscher-Ohlin, what alone was left to explain why they ended up trading?",
+      options:["Differences in technology between the two blocs","Differences in how many students were on each team","Differences in their relative factor endowments — how much Labour versus Capital each bloc held","Differences in how likeable each bloc was to the instructor"],
+      correct:2, explain:"Heckscher-Ohlin deliberately holds technology fixed and identical everywhere, so that only the relative mix of factors a country holds is left to explain its trade pattern." },
+    { id:"H2", q:"In Round 1, Capital was always the binding constraint on Labouria’s production, however little Cloth it chose to make. Why?",
+      options:["Because Labouria was simply bad at making Cloth","Because Capital was Labouria’s scarce factor, and a scarce factor limits output regardless of the product mix chosen","Because the instructor set an arbitrary cap on Cloth","Because Labouria had no Labour at all"],
+      correct:1, explain:"With fixed recipes and no way to substitute one factor for the other within a good, whichever factor is relatively scarce ends up binding first — that is exactly what “scarce” means here." },
+    { id:"H3", q:"Labouria’s autarky opportunity cost of one unit of Cloth was 0.5 Machinery. Capitalia’s was 2 Machinery. What does that gap, on its own, guarantee?",
+      options:["Nothing — autarky prices are irrelevant to trade","That Labouria is a poorer country than Capitalia","That both blocs can gain by trading at any price between 0.5 and 2 Machinery per Cloth","That Capitalia must copy Labouria’s production technique"],
+      correct:2, explain:"Whenever two parties face different relative prices for the same two goods, a trade price between those two rates makes both of them better off than staying in autarky — the same logic as comparative advantage, here driven by endowments rather than technology." },
+    { id:"H4", q:"Why was the Round 2 world price set at 1 Machinery per Cloth rather than, say, 5?",
+      options:["It was chosen at random","It had to sit between both blocs’ own autarky prices (0.5 and 2) for trade to benefit both sides","It matched Labouria’s autarky price exactly","World prices are always set at 1:1 by convention"],
+      correct:1, explain:"A trade price outside the 0.5–2 range would leave one side no better off than producing everything at home — the price has to fall between the two autarky rates for both blocs to have a reason to trade." },
+    { id:"H5", q:"Once trade opened, most Labouria teams moved to producing all-Cloth rather than a mixed bundle, then traded for Machinery. What made that the better move?",
+      options:["Cloth had become impossible to sell","Specialising in the cheap-to-produce good and trading the surplus for the other good beat producing a mixed bundle at home, once trade was available","The rules forbade producing Machinery","Nothing changed — it made no difference"],
+      correct:1, explain:"Producing what you make cheaply and trading for the rest lets a country reach a consumption bundle its own production-possibility frontier could never reach alone." },
+    { id:"H6", q:"Which pairing correctly matches the Heckscher-Ohlin result this game was built to demonstrate?",
+      options:["Labour-abundant Labouria exports Machinery, the capital-intensive good","Labour-abundant Labouria exports Cloth, the labour-intensive good, and imports Machinery","Both blocs end up exporting the same good","Whichever bloc has more students exports more"],
+      correct:1, explain:"A country exports the good that is intensive in the factor it holds in relative abundance — Labouria (labour-abundant) exports Cloth (labour-intensive), Capitalia (capital-abundant) exports Machinery (capital-intensive)." },
+    { id:"H7", q:"In Round 3, a student holding a Capital token in labour-abundant Labouria received a deduction even though their team’s overall score rose. What is this an example of?",
+      options:["A scoring error","The Stolper-Samuelson result: trade raises the real return to a country’s abundant factor and lowers the real return to its scarce factor","Proof that trade makes everyone worse off","A random penalty with no economic meaning"],
+      correct:1, explain:"Stolper-Samuelson follows directly from Heckscher-Ohlin: a country can gain from trade in aggregate while the owners of its scarce factor genuinely lose in real terms." },
+    { id:"H8", q:"A Capital owner in Labouria who lobbies against free trade, despite Labouria as a whole gaining from it, is behaving...",
+      options:["Irrationally, since the country gains","Consistently with Stolper-Samuelson — a real distributional conflict, not a misunderstanding","In violation of the rules of the game","In a way that has no real-world parallel"],
+      correct:1, explain:"Stolper-Samuelson predicts exactly this conflict: the scarce-factor owner is a genuine loser from trade in real terms, which is why trade policy is contested within countries, not just between them." },
+    { id:"H9", q:"Why did this game deliberately give both blocs identical recipes and only vary their factor endowments?",
+      options:["To make the game shorter","To isolate factor endowments as the sole cause of the trade pattern, rather than mixing that story with a Ricardian technology-difference story","Because varying technology would have been unfair","It was an oversight, not a deliberate choice"],
+      correct:1, explain:"Heckscher-Ohlin and Ricardian trade theory both explain trade, but from different causes — this design isolates the endowment-driven story cleanly by holding technology fixed." },
+    { id:"H10", q:"Which real-world pairing best fits the Heckscher-Ohlin story this game modelled?",
+      options:["A labour-abundant country exporting garments while importing capital-intensive machinery","Two countries with identical factor endowments trading heavily with each other","A country exporting a good it cannot produce at all","A country taxing its own exports to reduce trade"],
+      correct:0, explain:"Garment manufacture is relatively labour-intensive; a labour-abundant country exporting it while importing capital-intensive machinery is a textbook Heckscher-Ohlin pattern in practice." }
   ]
 };
 
@@ -716,6 +768,16 @@ var GLOSSARY = [
   { term: "Cartel", def: "A group that agrees to hold a price together — and that every member has an incentive to quietly break." },
   { term: "Terms of trade", def: "How much of what you buy you can get for what you sell, at current prices." },
   { term: "Derived demand", def: "An input is valuable because of what it helps produce — not for its own sake." }
+];
+
+var HO_GLOSSARY = [
+  { term: "Factor of production", def: "An input used to make goods — here, Labour and Capital." },
+  { term: "Factor endowment", def: "How much of each factor a country actually holds." },
+  { term: "Factor intensity", def: "How much of one factor, relative to the other, a good’s recipe needs." },
+  { term: "Autarky", def: "Producing and consuming entirely on your own, with no trade." },
+  { term: "Production-possibility frontier", def: "Every combination of two goods a country could make with what it has." },
+  { term: "Terms of trade", def: "How much of what you buy you can get for what you sell, at the going price." },
+  { term: "Specialisation", def: "Producing more of one good and less of another, planning to trade for the rest." }
 ];
 
 /* The Lake — one entry per round, shared by Round Cards, Session Guide and
@@ -910,13 +972,64 @@ var LAKE_ROUNDS = [
 /* Per-game resource tabs, in order. "overview" is implicit and always first. */
 var RESOURCE_NAV = {
   "trade-game": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-note","Debrief Note"],["quiz","Quiz"],["student-note","Student Note"]],
-  "the-lake": [["overview","Overview"],["round-cards","Round Cards"],["session-guide","Session Guide"],["debrief-guide","Debrief Guide"],["lessons-learned","Lessons Learned"]]
+  "the-lake": [["overview","Overview"],["round-cards","Round Cards"],["session-guide","Session Guide"],["debrief-guide","Debrief Guide"],["lessons-learned","Lessons Learned"]],
+  "heckscher-ohlin": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-note","Debrief Note"],["quiz","Quiz"],["student-note","Student Note"]]
 };
+
+/* The Heckscher-Ohlin Trade Game — round-by-round reference used by its
+   Debrief Note. Kept separate from LAKE_ROUNDS since this game’s other
+   pages (Teaching Note, Student Note) don’t need a shared round selector. */
+var HO_ROUNDS = [
+  { n: 1, title: "Home production (autarky)",
+    summary: "No trade. Each team picks one point on its own production-possibility frontier — that is exactly what it has to live on this round.",
+    typical: "Teams that spread themselves across both goods score better than teams that fully specialise, since a pile of one good with none of the other is worth half as much under the matched-pair scoring. Nobody has been told there is a “right” country type yet.",
+    meaning: "Labouria’s frontier runs from (0 Cloth, 10 Machinery) to (20 Cloth, 0 Machinery); Capitalia’s from (0, 20) to (10, 0). Same recipes everywhere — 1 Cloth = 2 Labour + 1 Capital, 1 Machinery = 1 Labour + 2 Capital — but Labouria’s scarce factor (Capital) always binds first, and Capitalia’s scarce factor (Labour) always binds first. That single difference is enough to give Cloth a home opportunity cost of 0.5 Machinery in Labouria and 2 Machinery in Capitalia — nobody set those numbers on purpose; they fall straight out of the endowments.",
+    ask: "Ask a Labouria team and a Capitalia team, in turn: “what did one more unit of Cloth cost you, in Machinery you had to give up?” The gap between their two answers is the entire reason trade is about to be worth having."
+  },
+  { n: 2, title: "The border opens (trade)",
+    summary: "A single world price is posted — 1 Machinery per Cloth, sitting between both blocs’ home prices. Teams re-pick production, then may trade with the other bloc at that price.",
+    typical: "Most Labouria teams drift toward all-Cloth production and trade the surplus for Machinery; most Capitalia teams do the mirror move. Scores roughly double what the best mixed autarky bundle could reach.",
+    meaning: "This is the Heckscher-Ohlin result, arrived at without the name being said: a bloc exports the good that uses its abundant factor intensively — labour-abundant Labouria exports the labour-intensive good (Cloth), capital-abundant Capitalia exports the capital-intensive good (Machinery) — and both are better off than they were producing a balanced bundle alone.",
+    ask: "Ask the room to compare their best Round 1 score with their Round 2 score. Then ask: “did anyone get worse at making Cloth between the two rounds?” Nothing about ability changed — only the option to trade did."
+  },
+  { n: 3, title: "Who inside the country actually gains (Stolper–Samuelson)",
+    summary: "Each student is quietly handed a Labour or Capital token roughly matching their team’s mix. Trade’s gains are then paid out by token, not evenly across the team.",
+    typical: "Labour-token holders in Labouria and Capital-token holders in Capitalia see a small bonus; Capital-token holders in Labouria and Labour-token holders in Capitalia see a small deduction — even though their own team’s total score just went up.",
+    meaning: "This is Stolper–Samuelson, the direct sequel to Heckscher-Ohlin: trade raises the real return to a country’s abundant factor and lowers the real return to its scarce factor. A country can gain from trade in aggregate while a specific group inside it — the owners of the scarce factor — genuinely lose. That is not a flaw in the theory; it is most of the actual politics of trade policy.",
+    ask: "Ask a student who was docked: “your country’s score went up. Did you win?” Then ask the room who, in a real economy, holds which factor — and who tends to lobby for tariffs."
+  }
+];
 
 /* The round currently selected in any round-tabs group with data-sync="round" —
    shared across Round Cards / Session Guide / Debrief Guide so switching pages
    keeps you on the same round. */
 var activeRound = 1;
+
+/* ============================================================
+   VISITOR LOG
+   A tiny Google Apps Script + Sheet (see visit-counter-src/ in the repo)
+   logs one row per page open and returns the running total — no cookie,
+   no IP, no session dedup, on purpose: every open counts, including
+   repeat opens from the same device. Paste the deployed web app URL
+   below once it exists; until then the ledger just shows "…".
+   ============================================================ */
+var VISIT_LOG_URL = null; // e.g. "https://script.google.com/macros/s/XXXX/exec"
+var visitorCount = null;
+
+function logVisit(){
+  if(!VISIT_LOG_URL) return;
+  var path = location.hash || "#/";
+  fetch(VISIT_LOG_URL + "?path=" + encodeURIComponent(path))
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && typeof d.count === "number"){
+        visitorCount = d.count;
+        var el = document.getElementById("visitor-count");
+        if(el) el.textContent = visitorCount.toLocaleString();
+      }
+    })
+    .catch(function(){ /* a broken counter should never break the site */ });
+}
 
 /* ============================================================
    TEMPLATES
@@ -929,34 +1042,41 @@ function stationDot(color){ return '<span class="dot" style="background:var(--'+
 function subwayMap(){
   // One line per topic, one station per game — nothing else. Resource pages
   // (notes, guides, quizzes) live one click further in, off the game station.
+  // A line can carry more than one game station, same as a real line carries
+  // more than one stop — the Trade line now runs through two.
   return ''
   + '<figure class="subway-fig">'
-  + '<svg viewBox="0 0 960 260" role="img" aria-label="Map showing two topic lines: International Trade connecting to The International Trade Game, and Common-Pool Resources connecting to The Lake. A third line is under construction.">'
-  + '<line x1="70" y1="70" x2="430" y2="70" stroke="var(--blue-line)" stroke-width="6" stroke-linecap="round"/>'
-  + '<line x1="70" y1="180" x2="430" y2="180" stroke="var(--rise-line)" stroke-width="6" stroke-linecap="round"/>'
-  + '<line x1="500" y1="70" x2="620" y2="70" stroke="var(--rule-strong)" stroke-width="4" stroke-dasharray="2 10" stroke-linecap="round"/>'
+  + '<svg viewBox="0 0 960 380" role="img" aria-label="Map showing two topic lines: International Trade running through The International Trade Game and The Heckscher-Ohlin Trade Game, and Common-Pool Resources connecting to The Lake. A third line is under construction.">'
+  + '<line x1="130" y1="70" x2="400" y2="70" stroke="var(--blue-line)" stroke-width="6" stroke-linecap="round"/>'
+  + '<line x1="400" y1="70" x2="720" y2="70" stroke="var(--blue-line)" stroke-width="6" stroke-linecap="round"/>'
+  + '<line x1="130" y1="200" x2="400" y2="200" stroke="var(--rise-line)" stroke-width="6" stroke-linecap="round"/>'
+  + '<line x1="130" y1="310" x2="250" y2="310" stroke="var(--rule-strong)" stroke-width="4" stroke-dasharray="2 10" stroke-linecap="round"/>'
 
-  + '<a href="#/topics"><circle class="station" cx="70" cy="70" r="12" fill="var(--panel)" stroke="var(--blue-line)" stroke-width="5"/>'
-  + '<text x="70" y="40" font-size="15" font-weight="600" text-anchor="middle">International Trade</text>'
-  + '<text x="70" y="58" font-size="11" text-anchor="middle" fill="var(--ink-faint)" font-family="var(--font-mono)">TOPIC</text></a>'
+  + '<a href="#/topics"><circle class="station" cx="130" cy="70" r="12" fill="var(--panel)" stroke="var(--blue-line)" stroke-width="5"/>'
+  + '<text x="130" y="40" font-size="15" font-weight="600" text-anchor="middle">International Trade</text>'
+  + '<text x="130" y="58" font-size="11" text-anchor="middle" fill="var(--ink-faint)" font-family="var(--font-mono)">TOPIC</text></a>'
 
-  + '<a href="#/games/trade-game"><circle class="station" cx="430" cy="70" r="18" fill="var(--blue-line)" stroke="var(--panel)" stroke-width="4"/>'
-  + '<text x="430" y="40" font-size="12" text-anchor="middle" fill="var(--ink-faint)" font-family="var(--font-mono)">GAME</text>'
-  + '<text x="430" y="112" font-size="14" font-weight="600" text-anchor="middle">The International Trade Game</text></a>'
+  + '<a href="#/games/trade-game"><circle class="station" cx="400" cy="70" r="18" fill="var(--blue-line)" stroke="var(--panel)" stroke-width="4"/>'
+  + '<text x="400" y="40" font-size="12" text-anchor="middle" fill="var(--ink-faint)" font-family="var(--font-mono)">GAME</text>'
+  + '<text x="400" y="112" font-size="14" font-weight="600" text-anchor="middle">The International Trade Game</text></a>'
 
-  + '<a href="#/topics"><circle class="station" cx="70" cy="180" r="12" fill="var(--panel)" stroke="var(--rise-line)" stroke-width="5"/>'
-  + '<text x="70" y="150" font-size="15" font-weight="600" text-anchor="middle">Common-Pool Resources</text>'
-  + '<text x="70" y="168" font-size="11" text-anchor="middle" fill="var(--ink-faint)" font-family="var(--font-mono)">TOPIC</text></a>'
+  + '<a href="#/games/heckscher-ohlin"><circle class="station" cx="720" cy="70" r="18" fill="var(--blue-line)" stroke="var(--panel)" stroke-width="4"/>'
+  + '<text x="720" y="40" font-size="12" text-anchor="middle" fill="var(--ink-faint)" font-family="var(--font-mono)">GAME</text>'
+  + '<text x="720" y="112" font-size="14" font-weight="600" text-anchor="middle">Heckscher-Ohlin</text></a>'
 
-  + '<a href="#/games/the-lake"><circle class="station" cx="430" cy="180" r="18" fill="var(--rise-line)" stroke="var(--panel)" stroke-width="4"/>'
-  + '<text x="430" y="150" font-size="12" text-anchor="middle" fill="var(--ink-faint)" font-family="var(--font-mono)">GAME</text>'
-  + '<text x="430" y="222" font-size="14" font-weight="600" text-anchor="middle">The Lake</text></a>'
+  + '<a href="#/topics"><circle class="station" cx="130" cy="200" r="12" fill="var(--panel)" stroke="var(--rise-line)" stroke-width="5"/>'
+  + '<text x="130" y="170" font-size="15" font-weight="600" text-anchor="middle">Common-Pool Resources</text>'
+  + '<text x="130" y="188" font-size="11" text-anchor="middle" fill="var(--ink-faint)" font-family="var(--font-mono)">TOPIC</text></a>'
 
-  + '<circle cx="620" cy="70" r="7" fill="none" stroke="var(--rule-strong)" stroke-width="3" stroke-dasharray="2 4"/>'
-  + '<text x="636" y="75" font-size="13" fill="var(--ink-faint)">Next topic — line under construction</text>'
+  + '<a href="#/games/the-lake"><circle class="station" cx="400" cy="200" r="18" fill="var(--rise-line)" stroke="var(--panel)" stroke-width="4"/>'
+  + '<text x="400" y="170" font-size="12" text-anchor="middle" fill="var(--ink-faint)" font-family="var(--font-mono)">GAME</text>'
+  + '<text x="400" y="242" font-size="14" font-weight="600" text-anchor="middle">The Lake</text></a>'
+
+  + '<circle cx="250" cy="310" r="7" fill="none" stroke="var(--rule-strong)" stroke-width="3" stroke-dasharray="2 4"/>'
+  + '<text x="266" y="315" font-size="13" fill="var(--ink-faint)">Next topic — line under construction</text>'
 
   + '</svg>'
-  + '<figcaption>Two lines so far — International Trade, and Common-Pool Resources. Each topic runs into one game; click either station to open it.</figcaption>'
+  + '<figcaption>Two lines so far — International Trade now runs through two games, and Common-Pool Resources connects to one. Click any station to open it.</figcaption>'
   + '</figure>';
 }
 
@@ -1017,9 +1137,9 @@ function pageChrome(inner){ return '<div class="container">'+inner+'</div>'; }
 /* ---- Home ---- */
 function renderHome(){
   var gameIds = Object.keys(GAMES);
-  var totalQuizQ = gameIds.reduce(function(sum,id){ return sum + (QUIZZES[id] ? QUIZZES[id].length : 0); }, 0);
   var totalMinutes = gameIds.reduce(function(sum,id){ return sum + (GAMES[id].minutes||0); }, 0);
   var cards = gameIds.map(function(id){ return gameCard(GAMES[id]); }).join("");
+  var visitorDisplay = visitorCount === null ? "…" : visitorCount.toLocaleString();
 
   return ''
   + '<section class="hero">' + pageChrome(''
@@ -1037,8 +1157,8 @@ function renderHome(){
     +     '<h4>Ledger, as of today</h4>'
     +     '<div class="stat-row"><span>Games live</span><span class="n">'+gameIds.length+'</span></div>'
     +     '<div class="stat-row"><span>Topics live</span><span class="n">'+TOPICS.length+'</span></div>'
-    +     '<div class="stat-row"><span>Quiz questions live</span><span class="n">'+totalQuizQ+'</span></div>'
     +     '<div class="stat-row"><span>Classroom minutes documented</span><span class="n">'+totalMinutes+'</span></div>'
+    +     '<div class="stat-row"><span>Visitors logged</span><span class="n" id="visitor-count">'+visitorDisplay+'</span></div>'
     +   '</div>'
     + '</div>'
   ) + '</section>'
@@ -1108,6 +1228,7 @@ function renderGameOverview(id){
   var readMoreBtn = firstRes
     ? '<a class="btn ghost" href="#/games/'+id+'/'+firstRes[0]+'">Read the '+firstRes[1].toLowerCase()+'</a>'
     : '';
+  var badgeText = g.status === "live" ? "Field-tested in a real classroom" : "Designed and ready to pilot — not yet run";
   return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
     + '<div class="game-head">'
     +   '<div>'
@@ -1115,7 +1236,7 @@ function renderGameOverview(id){
     +     '<h1>'+esc(g.title)+'</h1>'
     +     '<p class="lead">'+esc(g.tagline)+'</p>'
     +   '</div>'
-    +   '<span class="stamp-badge">Field-tested in a real classroom</span>'
+    +   '<span class="stamp-badge">'+esc(badgeText)+'</span>'
     + '</div>'
     + subNav(id, "overview")
   ) + '</section>'
@@ -1275,7 +1396,7 @@ function wireQuiz(){
       });
     });
     scoreBox.innerHTML = '<span class="big">'+score+' / '+qDivs.length+'</span><p style="margin:8px 0 0">'+(
-      score === qDivs.length ? "Perfect — you were paying attention while trading, not just while cutting shapes." :
+      score === qDivs.length ? "Perfect — you were paying attention while playing, not just while it was happening around you." :
       score >= qDivs.length*0.7 ? "Solid. Re-read the explanations on the ones you missed — they’re the debrief in miniature." :
       "Worth revisiting the debrief note before retaking this — the explanations below are the fastest way back in."
     )+'</p>';
@@ -1556,6 +1677,124 @@ function renderLakeLessonsLearned(id){
   ) + '</section>';
 }
 
+/* ---- The Heckscher-Ohlin Trade Game ---- */
+function renderHOTeachingNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Teaching note</span>'
+    + '<h1>Running '+esc(g.title)+'</h1>'
+    + '<p class="lead">A three-round design, ready to pilot — built for paper and a whiteboard, no app required.</p>'
+    + subNav(id, "teaching-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + '<div class="editor-note"><strong>Not yet field-tested.</strong> This game was designed from Heckscher-Ohlin and Stolper-Samuelson theory rather than run in a classroom first — the numbers are internally consistent, but treat timings and scores as a first draft to adjust after your own pilot.</div>'
+    + '<div class="at-a-glance">'
+    +   '<div class="item"><div class="k">Session length</div><div class="v">~60 minutes</div></div>'
+    +   '<div class="item"><div class="k">Teams</div><div class="v">Any even number, half Labouria, half Capitalia</div></div>'
+    +   '<div class="item"><div class="k">Materials</div><div class="v">Printed factor cards or tokens, a whiteboard for the posted price</div></div>'
+    +   '<div class="item"><div class="k">Instructor needs</div><div class="v">No app — a whiteboard and the round scripts below</div></div>'
+    + '</div>'
+    + accordionHtml([
+      { title: "Learning objectives", open: true, html:
+        "<ul><li>Discover that identical technology plus different factor endowments alone is enough to generate trade.</li>"
+        + "<li>See a country’s own production-possibility frontier, and why one factor always ends up binding it.</li>"
+        + "<li>Feel the gain from specialising in your abundant factor’s good and trading for the rest.</li>"
+        + "<li>Confront the Stolper-Samuelson twist: a country can gain from trade while a group inside it loses.</li></ul>"
+      },
+      { title: "The setup", html:
+        "<p>Two blocs, same recipes everywhere:</p>"
+        + '<div class="worked-box">1 Cloth = 2 Labour + 1 Capital<br>1 Machinery = 1 Labour + 2 Capital</div>'
+        + "<p>Endowments per team, reissued fresh each round so nothing carries over:</p>"
+        + '<div class="worked-box">Labouria team: 40 Labour, 20 Capital<br>Capitalia team: 20 Labour, 40 Capital</div>'
+        + "<p>Split the class into any even number of small teams (4–8 students), half assigned to each bloc. Handing out the endowment cards <em>is</em> the assignment — don’t explain why the two blocs differ.</p>"
+      },
+      { title: "Running order (≈60 minutes)", html:
+        '<div class="at-a-glance">'
+        + '<div class="item"><div class="k">0–10 min</div><div class="v">Explain the recipes and endowments; hand out cards</div></div>'
+        + '<div class="item"><div class="k">10–25 min</div><div class="v">Round 1 — autarky; teams pick a production point and score it</div></div>'
+        + '<div class="item"><div class="k">25–40 min</div><div class="v">Round 2 — post the 1:1 world price; teams re-produce and trade</div></div>'
+        + '<div class="item"><div class="k">40–50 min</div><div class="v">Round 3 — hand out factor tokens; pay out the Stolper-Samuelson twist</div></div>'
+        + '<div class="item"><div class="k">50–60 min</div><div class="v">Reveal the pattern — into the debrief</div></div>'
+        + '</div>'
+      },
+      { title: "Three decisions worth protecting", html:
+        "<ul><li><strong>Don’t name Heckscher-Ohlin before Round 2 concludes.</strong> Let the specialisation pattern emerge from the numbers, not from being told what to expect.</li>"
+        + "<li><strong>Don’t reveal the Stolper-Samuelson token rule before Round 3 is scored.</strong> The moment a student who \"won\" as a country still loses as an individual is the whole point.</li>"
+        + "<li><strong>Let each bloc discover its own autarky price</strong> — don’t tell them out loud which good is \"cheap\" for them; have them work it off their own frontier.</li></ul>"
+      }
+    ])
+    + '<p style="margin-top:20px;max-width:70ch">When Round 3 is scored, move into the <a href="#/games/'+id+'/debrief-note">debrief note</a>, then assign the <a href="#/games/'+id+'/quiz">quiz</a> afterward.</p>'
+  ) + '</section>';
+}
+
+function renderHODebriefNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  function roundPanel(r){
+    return '<h4>What usually happens</h4><p>'+esc(r.typical)+'</p>'
+      + '<h4>What it means</h4><p>'+esc(r.meaning)+'</p>'
+      + '<div class="qa-block"><div class="who">Ask the room</div><p style="margin:6px 0 0">'+esc(r.ask)+'</p></div>';
+  }
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Debrief note</span>'
+    + '<h1>Debriefing '+esc(g.title)+'</h1>'
+    + '<p class="lead">Ask before you tell — the numbers each bloc already produced are the evidence for everything below.</p>'
+    + subNav(id, "debrief-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "Open with the frontiers, not the theory", open: true, html:
+        "<p>Before naming anything, put both blocs' production-possibility frontiers on the board side by side. Ask the room what’s different between them — the answer is only ever the endowment, never the recipe.</p>"
+      }
+    ])
+    + '<div style="margin:26px 0 6px"><h2 style="margin-bottom:6px">Round by round</h2><p class="muted">What usually happens, what it means, and what to ask.</p></div>'
+    + tabsHtml("ho-rounds", HO_ROUNDS, function(r){return r.n;}, function(r){return r.n+" · "+r.title;}, roundPanel, HO_ROUNDS[0].n, null)
+    + accordionHtml([
+      { title: "Close on the twist, not the theorem", html:
+        "<p>The satisfying finish is not \"Labouria exports Cloth\" — it’s that a country can gain from trade while a specific group inside it loses. That single point is why real trade politics is never a clean fight between countries; it’s a fight between factor owners within them.</p>"
+      },
+      { title: "Where this shows up outside the room", html:
+        '<div class="at-a-glance">'
+        + '<div class="item"><div class="k">Garment exports</div><div class="v">Labour-abundant economies exporting labour-intensive manufacturing</div></div>'
+        + '<div class="item"><div class="k">Capital-goods exports</div><div class="v">Capital-abundant economies exporting machinery and equipment</div></div>'
+        + '<div class="item"><div class="k">Trade politics</div><div class="v">Scarce-factor owners lobbying for tariffs even when their own country gains overall</div></div>'
+        + '</div>'
+      }
+    ])
+  ) + '</section>';
+}
+
+function renderHOStudentNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  var glossary = HO_GLOSSARY.map(function(t){ return '<dt>'+esc(t.term)+'</dt><dd>'+esc(t.def)+'</dd>'; }).join("");
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Student note</span>'
+    + '<h1>Before you play</h1>'
+    + '<p class="lead">A plain-language recap, before or after a session of '+esc(g.title)+'.</p>'
+    + subNav(id, "student-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "What you are actually doing", open: true, html:
+        "<p>Your team is assigned to one of two blocs, each with its own mix of Labour and Capital. Both blocs use the exact same recipes to make Cloth and Machinery — only your endowment differs.</p>"
+        + '<div class="worked-box">1 Cloth = 2 Labour + 1 Capital<br>1 Machinery = 1 Labour + 2 Capital</div>'
+        + "<ul><li>Round 1: no trading — whatever you produce is exactly what you have.</li>"
+        + "<li>Round 2: a world price is posted, and you may trade what you produced with the other bloc.</li>"
+        + "<li>Round 3: something changes about how gains are shared inside your own team — pay attention to who gets what.</li></ul>"
+      },
+      { title: "A few honest tips", html:
+        "<ul><li>Work out what one more unit of each good actually costs you, in terms of the other good, before you commit to a production point.</li>"
+        + "<li>A pile of one good with none of the other is not worth much — balance matters until trade is open.</li>"
+        + "<li>Once trade opens, ask what you’re relatively better resourced to make, not what you like making.</li></ul>"
+      },
+      { title: "Terms you will want to know", html: '<dl class="glossary">' + glossary + '</dl>' }
+    ])
+    + '<div class="editor-note" style="margin-top:20px"><strong>One thing this note will not tell you:</strong> what Round 3 actually changes. That is deliberate.</div>'
+  ) + '</section>';
+}
+
 /* Which function renders which game’s resource page. */
 var RESOURCE_PAGES = {
   "trade-game": {
@@ -1569,6 +1808,12 @@ var RESOURCE_PAGES = {
     "session-guide": renderLakeSessionGuide,
     "debrief-guide": renderLakeDebriefGuide,
     "lessons-learned": renderLakeLessonsLearned
+  },
+  "heckscher-ohlin": {
+    "teaching-note": renderHOTeachingNote,
+    "debrief-note": renderHODebriefNote,
+    "quiz": renderQuiz,
+    "student-note": renderHOStudentNote
   }
 };
 
@@ -1720,6 +1965,7 @@ document.addEventListener("click", function(e){
 });
 
 renderTicker();
+logVisit(); // once per real page open — not on every in-app hash navigation
 window.addEventListener("hashchange", route);
 window.addEventListener("DOMContentLoaded", route);
 route();
