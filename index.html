@@ -560,16 +560,16 @@ var GAMES = {
     tagline: "Two blocs, two goods, two factors, one recipe book — same technology, different endowments, and trade emerges anyway.",
     description: "Two blocs of teams — labour-abundant Labouria and capital-abundant Capitalia — hold the exact same recipes for Cloth and Machinery. Working alone from their own endowment, each bloc discovers its own home price for Cloth before a word of theory is said. When the border opens, both sides specialise in whatever their abundant factor makes cheaply and trade for the rest. A closing twist reassigns each student a factor of production and shows that not everyone inside a winning country actually wins.",
     course: "ECON102 · Thinking Like an Economist · FLAME University",
-    format: "Live classroom · ~60 minutes · factor cards and a whiteboard price — no app required",
+    format: "Live classroom · ~60 minutes · phones + projector, or paper and a whiteboard",
     status: "dev",
     statusLabel: "Ready to pilot",
     tags: ["Factor endowments", "Heckscher-Ohlin", "Gains from trade", "Income distribution"],
-    link: null,
-    linkLabel: "Runs on paper — see the Teaching Note",
+    link: "https://script.google.com/a/macros/flame.edu.in/s/AKfycbwf8laItBpgZIuF4d0sGVA52O3P1desdVDwez24lyffjmsk-O71lYGm8hpBQNBQQ3ER6g/exec",
+    linkLabel: null,
     minutes: 60,
     glance: [
       { k: "Course", v: "ECON102 · Thinking Like an Economist · FLAME University" },
-      { k: "Format", v: "Live classroom · ~60 minutes · factor cards and a whiteboard" },
+      { k: "Format", v: "Live classroom · ~60 minutes · phones + projector, or paper and a whiteboard" },
       { k: "Groups", v: "Any even number of teams, split into two blocs" },
       { k: "Status", v: "Designed and ready to pilot — not yet run in a classroom" }
     ]
@@ -1695,7 +1695,7 @@ function renderHOTeachingNote(id){
   return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
     + '<span class="eyebrow">Teaching note</span>'
     + '<h1>Running '+esc(g.title)+'</h1>'
-    + '<p class="lead">A three-round design, ready to pilot — built for paper and a whiteboard, no app required.</p>'
+    + '<p class="lead">A three-round design, ready to pilot — playable through the deployed link below, or unplugged with paper and a whiteboard.</p>'
     + subNav(id, "teaching-note")
   ) + '</section>'
   + '<section style="padding-top:0">' + pageChrome(''
@@ -1703,8 +1703,8 @@ function renderHOTeachingNote(id){
     + '<div class="at-a-glance">'
     +   '<div class="item"><div class="k">Session length</div><div class="v">~60 minutes</div></div>'
     +   '<div class="item"><div class="k">Teams</div><div class="v">Any even number, half Labouria, half Capitalia</div></div>'
-    +   '<div class="item"><div class="k">Materials</div><div class="v">Printed factor cards or tokens, a whiteboard for the posted price</div></div>'
-    +   '<div class="item"><div class="k">Instructor needs</div><div class="v">No app — a whiteboard and the round scripts below</div></div>'
+    +   '<div class="item"><div class="k">Materials</div><div class="v">The deployed link and a projector, or printed factor cards and a whiteboard if running unplugged</div></div>'
+    +   '<div class="item"><div class="k">Instructor needs</div><div class="v">The link below, or the round scripts if running on paper</div></div>'
     + '</div>'
     + accordionHtml([
       { title: "Learning objectives", open: true, html:
