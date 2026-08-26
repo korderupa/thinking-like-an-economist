@@ -1010,8 +1010,12 @@ var activeRound = 1;
    A tiny Google Apps Script + Sheet (see visit-counter-src/ in the repo)
    logs one row per page open and returns the running total — no cookie,
    no IP, no session dedup, on purpose: every open counts, including
-   repeat opens from the same device. Paste the deployed web app URL
-   below once it exists; until then the ledger just shows "…".
+   repeat opens from the same device.
+
+   Loaded as JSONP (a <script> tag), not fetch() — Apps Script's
+   ContentService doesn't reliably send Access-Control-Allow-Origin, so
+   a plain fetch() gets blocked by CORS even on a fully public
+   deployment. A script tag isn't subject to that restriction.
    ============================================================ */
 var VISIT_LOG_URL = "https://script.google.com/a/macros/flame.edu.in/s/AKfycbzL7d7CB82p1n5mTyMdoMbzpOSt9VoasK9H-H7gxN2g5cKdgvqH1cMLs8ZVIvYLKhn9/exec";
 var visitorCount = null;
@@ -1019,16 +1023,23 @@ var visitorCount = null;
 function logVisit(){
   if(!VISIT_LOG_URL) return;
   var path = location.hash || "#/";
-  fetch(VISIT_LOG_URL + "?path=" + encodeURIComponent(path))
-    .then(function(r){ return r.json(); })
-    .then(function(d){
-      if(d && typeof d.count === "number"){
-        visitorCount = d.count;
-        var el = document.getElementById("visitor-count");
-        if(el) el.textContent = visitorCount.toLocaleString();
-      }
-    })
-    .catch(function(){ /* a broken counter should never break the site */ });
+  var cbName = "__visitLogCb" + Math.random().toString(36).slice(2);
+  var cleanup = function(){
+    delete window[cbName];
+    if(tag.parentNode) tag.parentNode.removeChild(tag);
+  };
+  window[cbName] = function(d){
+    if(d && typeof d.count === "number"){
+      visitorCount = d.count;
+      var el = document.getElementById("visitor-count");
+      if(el) el.textContent = visitorCount.toLocaleString();
+    }
+    cleanup();
+  };
+  var tag = document.createElement("script");
+  tag.src = VISIT_LOG_URL + "?path=" + encodeURIComponent(path) + "&callback=" + cbName;
+  tag.onerror = cleanup; // a broken counter should never break the site
+  document.body.appendChild(tag);
 }
 
 /* ============================================================
