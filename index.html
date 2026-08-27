@@ -583,10 +583,29 @@ var GAMES_ARCHIVE = {
   }
 };
 
-/* LIVE. Empty on purpose — see GAMES_ARCHIVE above for the removed
-   games' full content, ready to restore once redeployed from the new
-   (non-FLAME) Apps Script account. */
-var GAMES = {};
+/* LIVE. */
+var GAMES = {
+  "world-market-watch": {
+    id: "world-market-watch",
+    title: "World Market Watch",
+    tagline: "Guess the world’s #1 producer for 14 real goods. Then guess who’d actually be hurt if demand for it vanished.",
+    description: "For each of 14 real products, a student first guesses which country produces the most of it — then, before that answer is revealed, guesses which of the same five countries would be hit hardest, as a share of their own economy, if world demand collapsed. The two guesses are often different countries. A live class pulse, two power-ups, streak and speed bonuses, and a running leaderboard turn a 15-minute warm-up into a real lesson about the gap between who makes the most and who actually depends on it most.",
+    course: "ECON102 · Thinking Like an Economist · FLAME University",
+    format: "Live classroom · ~15 minutes · phones + projector, one instructor dashboard",
+    status: "dev",
+    statusLabel: "Ready to pilot",
+    tags: ["Trade dependency", "Comparative advantage", "Classroom simulation", "Live leaderboard"],
+    link: "https://script.google.com/macros/s/AKfycbwE36cyudETUuSW6-pPmJTRHIuBAJpczHX8y0ii49EJ5aJaUndZ50wwt-ejW1ttkMBcrg/exec",
+    linkLabel: null,
+    minutes: 15,
+    glance: [
+      { k: "Course", v: "ECON102 · Thinking Like an Economist · FLAME University" },
+      { k: "Format", v: "Live classroom · ~15 minutes · phones + projector" },
+      { k: "Products", v: "14 real goods, order shuffled per student" },
+      { k: "Mechanics", v: "Streak & speed bonuses, two power-ups, a live class pulse, a leaderboard" }
+    ]
+  }
+};
 
 /* ARCHIVED — not live, kept alongside GAMES_ARCHIVE for the same reason. */
 var TOPICS_ARCHIVE = [
@@ -602,8 +621,14 @@ var TOPICS_ARCHIVE = [
   }
 ];
 
-/* LIVE. Empty on purpose — see TOPICS_ARCHIVE above. */
-var TOPICS = [];
+/* LIVE. */
+var TOPICS = [
+  {
+    title: "International Trade",
+    description: "Comparative advantage, production versus dependency, and why the country that makes the most of something is often not the one that needs it most. Explored hands-on through World Market Watch.",
+    games: ["world-market-watch"]
+  }
+];
 
 var TICKER_ITEMS = [
   "OPPORTUNITY COST — the best alternative foregone, never zero",
@@ -993,9 +1018,10 @@ var RESOURCE_NAV_ARCHIVE = {
   "heckscher-ohlin": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-note","Debrief Note"],["quiz","Quiz"],["student-note","Student Note"]]
 };
 
-/* LIVE. Empty on purpose — see RESOURCE_NAV_ARCHIVE above.
-   "overview" is implicit and always first for any game added here. */
-var RESOURCE_NAV = {};
+/* LIVE. "overview" is implicit and always first for any game added here. */
+var RESOURCE_NAV = {
+  "world-market-watch": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
+};
 
 /* The Heckscher-Ohlin Trade Game — round-by-round reference used by its
    Debrief Note. Kept separate from LAKE_ROUNDS since this game’s other
@@ -1033,10 +1059,10 @@ var activeRound = 1;
    no IP, no session dedup, on purpose: every open counts, including
    repeat opens from the same device.
 
-   Loaded as JSONP (a <script> tag), not fetch() — Apps Script's
-   ContentService doesn't reliably send Access-Control-Allow-Origin, so
+   Loaded as JSONP (a <script> tag), not fetch() — Apps Script’s
+   ContentService doesn’t reliably send Access-Control-Allow-Origin, so
    a plain fetch() gets blocked by CORS even on a fully public
-   deployment. A script tag isn't subject to that restriction.
+   deployment. A script tag isn’t subject to that restriction.
    ============================================================ */
 var VISIT_LOG_URL = "https://script.google.com/a/macros/flame.edu.in/s/AKfycbzL7d7CB82p1n5mTyMdoMbzpOSt9VoasK9H-H7gxN2g5cKdgvqH1cMLs8ZVIvYLKhn9/exec";
 var visitorCount = null;
@@ -1075,7 +1101,7 @@ function stationDot(color){ return '<span class="dot" style="background:var(--'+
    kept as a worked reference for redrawing once games return: reuse the
    <line> + <a><circle>...<text>...</circle></a> pattern per station,
    with topic circles at cx>=130 (shorter cx clips long topic names
-   against the viewBox's left edge — see the "Common-Pool Resources"
+   against the viewBox’s left edge — see the "Common-Pool Resources"
    fix in git history if that recurs). */
 function subwayMapArchive(){
   return ''
@@ -1117,7 +1143,22 @@ function subwayMapArchive(){
 /* LIVE. No topics or games yet — see subwayMapArchive() above for the
    drawn map to bring back once games are redeployed. */
 function subwayMap(){
-  return '<div class="empty-state">No lines laid yet — the map will fill in as topics and games are added back.</div>';
+  return ''
+  + '<figure class="subway-fig">'
+  + '<svg viewBox="0 0 640 160" role="img" aria-label="Map showing the International Trade topic connecting to World Market Watch.">'
+  + '<line x1="130" y1="70" x2="420" y2="70" stroke="var(--blue-line)" stroke-width="6" stroke-linecap="round"/>'
+
+  + '<a href="#/topics"><circle class="station" cx="130" cy="70" r="12" fill="var(--panel)" stroke="var(--blue-line)" stroke-width="5"/>'
+  + '<text x="130" y="40" font-size="15" font-weight="600" text-anchor="middle">International Trade</text>'
+  + '<text x="130" y="58" font-size="11" text-anchor="middle" fill="var(--ink-faint)" font-family="var(--font-mono)">TOPIC</text></a>'
+
+  + '<a href="#/games/world-market-watch"><circle class="station" cx="420" cy="70" r="18" fill="var(--blue-line)" stroke="var(--panel)" stroke-width="4"/>'
+  + '<text x="420" y="40" font-size="12" text-anchor="middle" fill="var(--ink-faint)" font-family="var(--font-mono)">GAME</text>'
+  + '<text x="420" y="112" font-size="14" font-weight="600" text-anchor="middle">World Market Watch</text></a>'
+
+  + '</svg>'
+  + '<figcaption>One line so far — International Trade, running into World Market Watch. Click either station to open it.</figcaption>'
+  + '</figure>';
 }
 
 /* Renders a titled, click-to-expand list. items: [{title, html, open}].
@@ -1835,7 +1876,7 @@ function renderHOStudentNote(id){
   ) + '</section>';
 }
 
-/* ARCHIVED — not live. Which function rendered which removed game's
+/* ARCHIVED — not live. Which function rendered which removed game’s
    resource page; the render functions themselves (renderTeachingNote,
    renderLakeRoundCards, renderHOTeachingNote, etc.) are all still
    defined below, untouched, ready to be wired back in here. */
@@ -1860,8 +1901,177 @@ var RESOURCE_PAGES_ARCHIVE = {
   }
 };
 
-/* LIVE. Empty on purpose — see RESOURCE_PAGES_ARCHIVE above. */
-var RESOURCE_PAGES = {};
+/* ---- World Market Watch ---- */
+
+/* A representative subset of the 14 products where the top producer and
+   the most GDP-exposed country differ — the game’s actual teaching
+   point — used by the Debrief Guide’s product selector. Numbers and
+   quoted "insight" lines are taken directly from the deployed game’s
+   own data (market-watch-src/Code.js), not invented. */
+var MW_GAP_PRODUCTS = [
+  { key: "oil", label: "Crude Oil", producer: "United States", exposed: "Iraq", pct: "42%",
+    insight: "Saudi Arabia pumps roughly half as much oil as the U.S. — but oil funds a far bigger share of its economy.",
+    ask: "The US produces the most oil by far. Why might Iraq feel a price collapse more sharply than the US would?" },
+  { key: "copper", label: "Copper", producer: "Chile", exposed: "DR Congo", pct: "15%",
+    insight: "Chile alone produces roughly one in every four pounds of copper mined worldwide.",
+    ask: "Chile mines several times more copper than DR Congo. Why is DR Congo the more exposed economy anyway?" },
+  { key: "gas", label: "Natural Gas", producer: "United States", exposed: "Iran", pct: "8.0%",
+    insight: "For Iran, natural gas is 8% of the entire economy — more than fifteen times its share of world GDP.",
+    ask: "The US and Iran export very different shares of their own GDP in gas. What does that gap tell you about the size and diversity of each economy?" },
+  { key: "autos", label: "Automobiles", producer: "China", exposed: "Japan", pct: "4.3%",
+    insight: "Nearly 1 in 3 cars built worldwide rolls off a factory line in China.",
+    ask: "China builds the most cars by far. Why might a slump in demand cut deeper into Japan’s economy?" },
+  { key: "lithium", label: "Lithium", producer: "Australia", exposed: "Chile", pct: "1.2%",
+    insight: "Australia mines almost half the world’s lithium — the metal at the heart of every EV battery.",
+    ask: "Australia mines the most lithium, but Chile is more exposed. What’s different about how each economy is built?" },
+  { key: "cotton", label: "Cotton", producer: "India", exposed: "Pakistan", pct: "0.6%",
+    insight: "India and China together grow over 40% of the world’s cotton — but India exports the raw fiber, while China turns it into clothes.",
+    ask: "India and Pakistan both grow a lot of cotton, but Pakistan is far more exposed. Why might that be?" }
+];
+
+function mwGapPanel(p){
+  return '<div class="at-a-glance" style="margin-bottom:14px">'
+    + '<div class="item"><div class="k">World’s #1 producer</div><div class="v">'+esc(p.producer)+'</div></div>'
+    + '<div class="item"><div class="k">Most exposed, by %GDP</div><div class="v">'+esc(p.exposed)+' — '+esc(p.pct)+'</div></div>'
+    + '</div>'
+    + '<div class="worked-box" style="font-family:var(--font-body)">'+esc(p.insight)+'</div>'
+    + '<div class="discussion-q">Ask the room: '+esc(p.ask)+'</div>';
+}
+
+function renderMWTeachingNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Teaching note</span>'
+    + '<h1>Running '+esc(g.title)+'</h1>'
+    + '<p class="lead">A self-paced 15-minute warm-up — students play at their own speed while the dashboard fills in live.</p>'
+    + subNav(id, "teaching-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + '<div class="at-a-glance">'
+    +   '<div class="item"><div class="k">Session length</div><div class="v">~15 minutes, self-paced (not clock-enforced)</div></div>'
+    +   '<div class="item"><div class="k">Students need</div><div class="v">Just a first and last name — no roll number, no account</div></div>'
+    +   '<div class="item"><div class="k">Instructor needs</div><div class="v">The shared instructor passcode and the dashboard link, projected</div></div>'
+    +   '<div class="item"><div class="k">Products</div><div class="v">14, order shuffled per student</div></div>'
+    + '</div>'
+    + accordionHtml([
+      { title: "Learning objectives", open: true, html:
+        "<ul><li>Discover that production leadership and economic dependency are often different countries.</li>"
+        + "<li>Distinguish who makes the most of a good from who would actually be hurt if demand for it disappeared.</li>"
+        + "<li>Connect a country’s exposure to how large and diversified its economy is, not just to its output.</li></ul>"
+      },
+      { title: "Before class", html:
+        "<ul><li>Open the Sheet’s <em>World Market Watch</em> menu and confirm the instructor passcode is set.</li>"
+        + "<li>Start a fresh session with a label (e.g. “Section A, 27 Aug”) so this run doesn’t mix with an old one.</li>"
+        + "<li>Copy the student link from the dashboard and put it on the board — students only need to tap “I’m a student” and type their name.</li>"
+        + "<li>Project the instructor dashboard yourself; nothing about it needs to be hidden from the class.</li></ul>"
+      },
+      { title: "Run of show (~15 minutes)", html:
+        '<div class="at-a-glance">'
+        + '<div class="item"><div class="k">0–2 min</div><div class="v">Students open the link, tap “I’m a student,” enter their name</div></div>'
+        + '<div class="item"><div class="k">2–11 min</div><div class="v">Everyone plays through all 14 products at their own pace — producer guess, then exposure guess, instant reveal. Project the dashboard.</div></div>'
+        + '<div class="item"><div class="k">11–13 min</div><div class="v">Once most finish, pause on “Toughest categories” and discuss why those countries dominate — and who’d actually feel it most</div></div>'
+        + '<div class="item"><div class="k">13–15 min</div><div class="v">Reveal the podium, celebrate the top 3, ask someone who used Leverage or earned the “Economist” badge to explain their reasoning</div></div>'
+        + '</div>'
+      },
+      { title: "How the scoring actually works", html:
+        "<ul><li>A correct producer guess is worth 70 points, plus up to 100 more for a consecutive-correct streak, plus 30 for answering inside 14 seconds.</li>"
+        + "<li>A correct exposure guess is a flat 50 points — no streak or speed bonus applies to it.</li>"
+        + "<li>Lithium and Semiconductors are worth double everything, on both questions.</li>"
+        + "<li><strong>Market Intel</strong> (free, twice per session) removes two of the four wrong producer countries before a student answers.</li>"
+        + "<li><strong>Leverage</strong> (once per session) doubles the whole question if the producer guess is right — and costs a flat 30 points if it’s wrong.</li></ul>"
+      },
+      { title: "What to watch on the dashboard", html:
+        "<ul><li>The <strong>Toughest categories</strong> panel — every product sorted by how often the class got the producer wrong. That panel <em>is</em> the debrief agenda.</li>"
+        + "<li>The live class pulse each student sees after answering (“X% of traders who’ve answered so far got this right”) keeps the room engaged even mid-game — no need to narrate it yourself.</li>"
+        + "<li>Streaks of 3+ shown on the ticker — a nice moment to call out a name mid-session.</li></ul>"
+      }
+    ])
+    + '<p style="margin-top:20px;max-width:70ch">When most of the class has finished, move into the <a href="#/games/'+id+'/debrief-guide">debrief guide</a>.</p>'
+  ) + '</section>';
+}
+
+function renderMWDebriefGuide(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Debrief guide</span>'
+    + '<h1>Debriefing '+esc(g.title)+'</h1>'
+    + '<p class="lead">The app itself carries only one line of debrief guidance — discuss why the toughest categories dominate, and who would actually feel it most. Everything below extends that single line; none of it is scripted in the app, so adapt it freely.</p>'
+    + subNav(id, "debrief-guide")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "Start from the dashboard’s own data", open: true, html:
+        "<p>Open <strong>Toughest categories</strong> on the instructor dashboard — it is already sorted by how often your specific class got the producer question wrong. Debrief those products first; they are, by definition, where the room’s intuition and reality diverged most.</p>"
+      }
+    ])
+    + '<div style="margin:28px 0 6px"><h2 style="margin-bottom:6px">Six products where the gap is clearest</h2><p class="muted">Pick one to see the numbers and a question for the room. These are drawn from the game’s own reveal data — not every session will have hit all six.</p></div>'
+    + tabsHtml("mw-gap", MW_GAP_PRODUCTS, function(p){return p.key;}, function(p){return p.label;}, mwGapPanel, MW_GAP_PRODUCTS[0].key, null)
+    + accordionHtml([
+      { title: "Close on two kinds of excellence", html:
+        "<p>The podium (Gold / Silver / Bronze Trader) rewards knowing who produces the most. The <strong>Economist</strong> badge — earned by getting eight or more exposure questions right — rewards understanding who is actually at risk. They rarely go to the same students. Ask the room: which of those two skills is closer to what an economist is actually paid to know?</p>"
+      },
+      { title: "Why the gap exists at all", html:
+        "<p>A country’s exposure to a product depends on how large and diversified its whole economy is, not just on how much of the product it makes. A huge, diversified economy can lead the world in output and barely notice if that one market vanished; a smaller, more concentrated economy can be a modest producer and still have an outsized share of its livelihood riding on it. That’s the same idea behind why a diversified investment portfolio is safer than a concentrated one, applied to a country’s whole economy instead of a portfolio.</p>"
+      }
+    ])
+  ) + '</section>';
+}
+
+function renderMWStudentNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  var glossary = [
+    { term: "Production share", def: "How much of the world’s total supply of something one country makes." },
+    { term: "Economic exposure", def: "How much a country’s own economy would feel it if demand for that product disappeared." },
+    { term: "GDP", def: "The total value of everything a country produces in a year — the denominator that turns “how big is this industry” into “how much does this country depend on it.”" },
+    { term: "Diversification", def: "Spreading an economy (or a portfolio) across many things, so no single loss is catastrophic." },
+    { term: "Comparative advantage", def: "Being relatively better at producing one thing than another — part of why countries specialise and trade at all." }
+  ].map(function(t){ return '<dt>'+esc(t.term)+'</dt><dd>'+esc(t.def)+'</dd>'; }).join("");
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Student note</span>'
+    + '<h1>Before you play</h1>'
+    + '<p class="lead">A plain-language recap, before or after a round of '+esc(g.title)+'.</p>'
+    + subNav(id, "student-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "What you are actually doing", open: true, html:
+        "<p>For each of 14 real products, you’ll answer two questions in order, with nothing revealed between them:</p>"
+        + "<ul><li>Which of five countries produces the most of it, worldwide?</li>"
+        + "<li>Which of the same five would be hurt hardest, as a share of their own economy, if demand for it vanished?</li></ul>"
+        + "<p>The two answers are often different countries. That gap is the entire point of the game.</p>"
+      },
+      { title: "Scoring and power-ups, honestly", html:
+        "<ul><li>A correct producer guess is worth 70 points, plus a streak bonus (up to 100 more) and a speed bonus (30, if you answer within 14 seconds).</li>"
+        + "<li>A correct exposure guess is a flat 50 points.</li>"
+        + "<li>Two products — Lithium and Semiconductors — are worth double.</li>"
+        + "<li><strong>Market Intel</strong>: free, twice a session, removes two wrong producer options before you answer.</li>"
+        + "<li><strong>Leverage</strong>: once a session, doubles the question if you’re right on the producer — and costs you 30 points if you’re wrong. Use it when you’re actually confident, not just when you’re stuck.</li></ul>"
+      },
+      { title: "Badges worth chasing", html:
+        "<ul><li>🔥 <strong>Streak Master</strong> — a streak of 5 or more correct producer guesses in a row.</li>"
+        + "<li>⚡ <strong>Speed Demon</strong> — five or more answers inside the 14-second window.</li>"
+        + "<li>🎯 <strong>Perfectionist</strong> — 100% correct on every producer guess.</li>"
+        + "<li>💪 <strong>Comeback Kid</strong> — a run of three or more correct answers right after a wrong one.</li>"
+        + "<li>🎲 <strong>High Roller</strong> — use Leverage and get the producer right.</li>"
+        + "<li>📊 <strong>Economist</strong> — eight or more correct exposure guesses across the session.</li></ul>"
+      },
+      { title: "Terms you will want to know", html: '<dl class="glossary">' + glossary + '</dl>' }
+    ])
+    + '<div class="editor-note" style="margin-top:20px"><strong>One thing this note will not tell you:</strong> which five countries you’ll actually be offered for each product, or which of the two guesses is the harder one. That’s the game.</div>'
+  ) + '</section>';
+}
+
+/* LIVE. */
+var RESOURCE_PAGES = {
+  "world-market-watch": {
+    "teaching-note": renderMWTeachingNote,
+    "debrief-guide": renderMWDebriefGuide,
+    "student-note": renderMWStudentNote
+  }
+};
 
 function renderNotFound(){
   return '<section class="hero">' + pageChrome('<h1>Not found yet</h1><p class="lead">That page doesn’t exist — <a href="#/">back to the dashboard</a>.</p>') + '</section>';
@@ -1883,7 +2093,7 @@ function renderAbout(){
     +     '<p><em>[Replace this paragraph with your own bio: institution, courses taught, research interests, and what draws you to teaching economics this way.]</em></p>'
     +     '<h2>About this project</h2>'
     +     '<p>Each game here is built to be run in a real classroom first — tested, debugged, refined against an actual session — before it’s documented on this site. Every game ships with a teaching note, a debrief note, a quiz and a student note, not just a description.</p>'
-    +     '<p>The collection is being rebuilt on a new hosting account right now, so the <a href="#/games">games page</a> is briefly empty — the content isn’t gone, it’s just being redeployed. Check back shortly.</p>'
+    +     '<p>The first of these on the new hosting account is <a href="#/games/world-market-watch">World Market Watch</a>, built for ECON102 at FLAME University. More topics and games are added as they’re built — see the <a href="#/">dashboard</a> for how they connect.</p>'
     +   '</div>'
     + '</div>'
   ) + '</section>';
