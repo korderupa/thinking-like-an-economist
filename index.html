@@ -1053,43 +1053,6 @@ var HO_ROUNDS = [
 var activeRound = 1;
 
 /* ============================================================
-   VISITOR LOG
-   A tiny Google Apps Script + Sheet (see visit-counter-src/ in the repo)
-   logs one row per page open and returns the running total — no cookie,
-   no IP, no session dedup, on purpose: every open counts, including
-   repeat opens from the same device.
-
-   Loaded as JSONP (a <script> tag), not fetch() — Apps Script’s
-   ContentService doesn’t reliably send Access-Control-Allow-Origin, so
-   a plain fetch() gets blocked by CORS even on a fully public
-   deployment. A script tag isn’t subject to that restriction.
-   ============================================================ */
-var VISIT_LOG_URL = "https://script.google.com/a/macros/flame.edu.in/s/AKfycbzL7d7CB82p1n5mTyMdoMbzpOSt9VoasK9H-H7gxN2g5cKdgvqH1cMLs8ZVIvYLKhn9/exec";
-var visitorCount = null;
-
-function logVisit(){
-  if(!VISIT_LOG_URL) return;
-  var path = location.hash || "#/";
-  var cbName = "__visitLogCb" + Math.random().toString(36).slice(2);
-  var cleanup = function(){
-    delete window[cbName];
-    if(tag.parentNode) tag.parentNode.removeChild(tag);
-  };
-  window[cbName] = function(d){
-    if(d && typeof d.count === "number"){
-      visitorCount = d.count;
-      var el = document.getElementById("visitor-count");
-      if(el) el.textContent = visitorCount.toLocaleString();
-    }
-    cleanup();
-  };
-  var tag = document.createElement("script");
-  tag.src = VISIT_LOG_URL + "?path=" + encodeURIComponent(path) + "&callback=" + cbName;
-  tag.onerror = cleanup; // a broken counter should never break the site
-  document.body.appendChild(tag);
-}
-
-/* ============================================================
    TEMPLATES
    ============================================================ */
 
@@ -1097,12 +1060,12 @@ function esc(s){ var d=document.createElement("div"); d.textContent = s; return 
 
 function stationDot(color){ return '<span class="dot" style="background:var(--'+color+')"></span>'; }
 
-/* ARCHIVED — not live. The hand-drawn map for the three removed games,
-   kept as a worked reference for redrawing once games return: reuse the
-   <line> + <a><circle>...<text>...</circle></a> pattern per station,
-   with topic circles at cx>=130 (shorter cx clips long topic names
-   against the viewBox’s left edge — see the "Common-Pool Resources"
-   fix in git history if that recurs). */
+/* ARCHIVED — not live, and superseded. This was the old hand-drawn,
+   parallel-lines map for the three removed games; the live subwayMap()
+   below now computes a proper hub-and-spoke layout directly from
+   TOPICS/GAMES, so nothing here needs hand-editing when those games are
+   restored — this function is kept only in case the old parallel-lines
+   look is ever wanted back for reference. */
 function subwayMapArchive(){
   return ''
   + '<figure class="subway-fig">'
@@ -1140,25 +1103,72 @@ function subwayMapArchive(){
   + '</figure>';
 }
 
-/* LIVE. No topics or games yet — see subwayMapArchive() above for the
-   drawn map to bring back once games are redeployed. */
+/* LIVE. Computed from TOPICS/GAMES — nothing to hand-edit when a topic
+   or game is added; the fan simply redistributes itself.
+
+   Real hub-and-spoke, not parallel lines: one central interchange, every
+   topic radiates out from it as its own spoke, and that spoke continues
+   on through the topic's game(s) at increasing distance from the hub.
+   The fan is deliberately kept narrow (±22°) so every spoke leans
+   rightward — that lets every label use the same "place it to the right
+   of its node" rule regardless of how many topics exist, without
+   per-topic label-placement logic. */
+var MAP_LINE_COLORS = ["blue-line","rise-line","violet-line","chalk-line","stamp-line"];
+
 function subwayMap(){
-  return ''
-  + '<figure class="subway-fig">'
-  + '<svg viewBox="0 0 640 160" role="img" aria-label="Map showing the International Trade topic connecting to World Market Watch.">'
-  + '<line x1="130" y1="70" x2="420" y2="70" stroke="var(--blue-line)" stroke-width="6" stroke-linecap="round"/>'
+  if(!TOPICS.length){
+    return '<div class="empty-state">No lines laid yet — the map will fill in as topics and games are added.</div>';
+  }
 
-  + '<a href="#/topics"><circle class="station" cx="130" cy="70" r="12" fill="var(--panel)" stroke="var(--blue-line)" stroke-width="5"/>'
-  + '<text x="130" y="40" font-size="15" font-weight="600" text-anchor="middle">International Trade</text>'
-  + '<text x="130" y="58" font-size="11" text-anchor="middle" fill="var(--ink-faint)" font-family="var(--font-mono)">TOPIC</text></a>'
+  var W = 820, H = 560;
+  var hubX = 110, hubY = H/2;
+  var n = TOPICS.length;
+  var fanDeg = n > 1 ? 44 : 0; // total spread; ±22° at the extremes
+  var startDeg = -fanDeg/2;
+  var stepDeg = n > 1 ? fanDeg/(n-1) : 0;
+  var r1 = 130;   // hub -> topic station
+  var rStep = 170; // topic station -> its games, and between games on the same spoke
 
-  + '<a href="#/games/world-market-watch"><circle class="station" cx="420" cy="70" r="18" fill="var(--blue-line)" stroke="var(--panel)" stroke-width="4"/>'
-  + '<text x="420" y="40" font-size="12" text-anchor="middle" fill="var(--ink-faint)" font-family="var(--font-mono)">GAME</text>'
-  + '<text x="420" y="112" font-size="14" font-weight="600" text-anchor="middle">World Market Watch</text></a>'
+  var lines = '', nodes = '';
 
-  + '</svg>'
-  + '<figcaption>One line so far — International Trade, running into World Market Watch. Click either station to open it.</figcaption>'
-  + '</figure>';
+  TOPICS.forEach(function(t, i){
+    var color = MAP_LINE_COLORS[i % MAP_LINE_COLORS.length];
+    var angle = (startDeg + i*stepDeg) * Math.PI/180;
+    var cos = Math.cos(angle), sin = Math.sin(angle);
+    var tx = hubX + r1*cos, ty = hubY + r1*sin;
+
+    lines += '<line x1="'+hubX+'" y1="'+hubY.toFixed(1)+'" x2="'+tx.toFixed(1)+'" y2="'+ty.toFixed(1)+'" stroke="var(--'+color+')" stroke-width="6" stroke-linecap="round"/>';
+
+    var labelAbove = ty <= hubY;
+    nodes += '<a href="#/topics"><circle class="station" cx="'+tx.toFixed(1)+'" cy="'+ty.toFixed(1)+'" r="11" fill="var(--panel)" stroke="var(--'+color+')" stroke-width="5"/>'
+      + '<text x="'+tx.toFixed(1)+'" y="'+(ty + (labelAbove ? -20 : 32)).toFixed(1)+'" font-size="14" font-weight="600" text-anchor="middle">'+esc(t.title)+'</text></a>';
+
+    var prevX = tx, prevY = ty;
+    (t.games || []).forEach(function(gid, gi){
+      var g = GAMES[gid];
+      if(!g) return;
+      var r = r1 + rStep*(gi+1);
+      var gx = hubX + r*cos, gy = hubY + r*sin;
+      lines += '<line x1="'+prevX.toFixed(1)+'" y1="'+prevY.toFixed(1)+'" x2="'+gx.toFixed(1)+'" y2="'+gy.toFixed(1)+'" stroke="var(--'+color+')" stroke-width="6" stroke-linecap="round"/>';
+      nodes += '<a href="#/games/'+gid+'"><circle class="station" cx="'+gx.toFixed(1)+'" cy="'+gy.toFixed(1)+'" r="16" fill="var(--'+color+')" stroke="var(--panel)" stroke-width="4"/>'
+        + '<text x="'+(gx+24).toFixed(1)+'" y="'+(gy+5).toFixed(1)+'" font-size="14" font-weight="600" text-anchor="start">'+esc(g.title)+'</text></a>';
+      prevX = gx; prevY = gy;
+    });
+  });
+
+  var hub = '<a href="#/topics"><circle cx="'+hubX+'" cy="'+hubY.toFixed(1)+'" r="15" fill="var(--ink)" stroke="var(--panel)" stroke-width="4"/></a>';
+
+  return '<figure class="subway-fig">'
+    + '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Subway-style map: a central hub with one spoke per topic, each running on through its game or games.">'
+    + lines + nodes + hub
+    + '</svg>'
+    + '<div class="map-legend">'
+    +   '<span><span class="dot" style="background:var(--ink)"></span>Hub — every topic</span>'
+    +   '<span><span class="dot" style="background:var(--panel);border:2px solid var(--ink-faint)"></span>Topic</span>'
+    +   '<span><span class="dot" style="background:var(--ink-faint)"></span>Game</span>'
+    + '</div>'
+    + '<figcaption>Every topic branches off one hub, then runs on to its game or games. Click any station to open it.</figcaption>'
+    + '</figure>';
 }
 
 /* Renders a titled, click-to-expand list. items: [{title, html, open}].
@@ -1219,8 +1229,11 @@ function pageChrome(inner){ return '<div class="container">'+inner+'</div>'; }
 function renderHome(){
   var gameIds = Object.keys(GAMES);
   var totalMinutes = gameIds.reduce(function(sum,id){ return sum + (GAMES[id].minutes||0); }, 0);
+  var totalResourcePages = gameIds.reduce(function(sum,id){
+    var nav = RESOURCE_NAV[id] || [];
+    return sum + Math.max(0, nav.length - 1); // minus "overview", which isn't a separate written resource
+  }, 0);
   var cards = gameIds.map(function(id){ return gameCard(GAMES[id]); }).join("");
-  var visitorDisplay = visitorCount === null ? "…" : visitorCount.toLocaleString();
 
   return ''
   + '<section class="hero">' + pageChrome(''
@@ -1238,8 +1251,8 @@ function renderHome(){
     +     '<h4>Ledger, as of today</h4>'
     +     '<div class="stat-row"><span>Games live</span><span class="n">'+gameIds.length+'</span></div>'
     +     '<div class="stat-row"><span>Topics live</span><span class="n">'+TOPICS.length+'</span></div>'
+    +     '<div class="stat-row"><span>Teaching &amp; debrief resources</span><span class="n">'+totalResourcePages+'</span></div>'
     +     '<div class="stat-row"><span>Classroom minutes documented</span><span class="n">'+totalMinutes+'</span></div>'
-    +     '<div class="stat-row"><span>Visitors logged</span><span class="n" id="visitor-count">'+visitorDisplay+'</span></div>'
     +   '</div>'
     + '</div>'
   ) + '</section>'
@@ -1247,7 +1260,7 @@ function renderHome(){
     + '<div class="section-head">'
     +   '<span class="eyebrow">The dashboard</span>'
     +   '<h2>How it all connects</h2>'
-    +   '<p>One line per topic, one station per game. Click a station to open it — the notes, guides and quizzes for each game live one click further in.</p>'
+    +   '<p>Every topic branches off one central hub, and each topic’s own line runs on to its game or games. Click any station to open it — the notes, guides and quizzes for each game live one click further in.</p>'
     + '</div>'
     + subwayMap()
   ) + '</section>'
@@ -2256,7 +2269,6 @@ document.addEventListener("click", function(e){
 });
 
 renderTicker();
-logVisit(); // once per real page open — not on every in-app hash navigation
 window.addEventListener("hashchange", route);
 window.addEventListener("DOMContentLoaded", route);
 route();
