@@ -513,7 +513,14 @@ document.getElementById("year").textContent = new Date().getFullYear();
    keyed by the same id. Add a new topic: add to TOPICS.
    ============================================================ */
 
-var GAMES = {
+/* ARCHIVED — not live. All games were removed from the site because their
+   deployed links ran on the FLAME-linked Google account, which is no
+   longer in use. This object is untouched and ready to reuse: once a
+   game is redeployed from the new account, copy its entry (or the whole
+   object) into the live `GAMES` below and update `link`.
+   Per instruction: do not deploy or link games from the FLAME Apps
+   Script account going forward. */
+var GAMES_ARCHIVE = {
   "trade-game": {
     id: "trade-game",
     title: "The International Trade Game",
@@ -576,7 +583,13 @@ var GAMES = {
   }
 };
 
-var TOPICS = [
+/* LIVE. Empty on purpose — see GAMES_ARCHIVE above for the removed
+   games' full content, ready to restore once redeployed from the new
+   (non-FLAME) Apps Script account. */
+var GAMES = {};
+
+/* ARCHIVED — not live, kept alongside GAMES_ARCHIVE for the same reason. */
+var TOPICS_ARCHIVE = [
   {
     title: "International Trade",
     description: "Comparative advantage, tariffs, subsidies, quotas, factor endowments, and why countries trade at all — explored hands-on through The International Trade Game and The Heckscher-Ohlin Trade Game.",
@@ -588,6 +601,9 @@ var TOPICS = [
     games: ["the-lake"]
   }
 ];
+
+/* LIVE. Empty on purpose — see TOPICS_ARCHIVE above. */
+var TOPICS = [];
 
 var TICKER_ITEMS = [
   "OPPORTUNITY COST — the best alternative foregone, never zero",
@@ -969,12 +985,17 @@ var LAKE_ROUNDS = [
   }
 ];
 
-/* Per-game resource tabs, in order. "overview" is implicit and always first. */
-var RESOURCE_NAV = {
+/* ARCHIVED — not live. Per-game resource tabs for the removed games,
+   kept for restoration alongside GAMES_ARCHIVE. */
+var RESOURCE_NAV_ARCHIVE = {
   "trade-game": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-note","Debrief Note"],["quiz","Quiz"],["student-note","Student Note"]],
   "the-lake": [["overview","Overview"],["round-cards","Round Cards"],["session-guide","Session Guide"],["debrief-guide","Debrief Guide"],["lessons-learned","Lessons Learned"]],
   "heckscher-ohlin": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-note","Debrief Note"],["quiz","Quiz"],["student-note","Student Note"]]
 };
+
+/* LIVE. Empty on purpose — see RESOURCE_NAV_ARCHIVE above.
+   "overview" is implicit and always first for any game added here. */
+var RESOURCE_NAV = {};
 
 /* The Heckscher-Ohlin Trade Game — round-by-round reference used by its
    Debrief Note. Kept separate from LAKE_ROUNDS since this game’s other
@@ -1050,11 +1071,13 @@ function esc(s){ var d=document.createElement("div"); d.textContent = s; return 
 
 function stationDot(color){ return '<span class="dot" style="background:var(--'+color+')"></span>'; }
 
-function subwayMap(){
-  // One line per topic, one station per game — nothing else. Resource pages
-  // (notes, guides, quizzes) live one click further in, off the game station.
-  // A line can carry more than one game station, same as a real line carries
-  // more than one stop — the Trade line now runs through two.
+/* ARCHIVED — not live. The hand-drawn map for the three removed games,
+   kept as a worked reference for redrawing once games return: reuse the
+   <line> + <a><circle>...<text>...</circle></a> pattern per station,
+   with topic circles at cx>=130 (shorter cx clips long topic names
+   against the viewBox's left edge — see the "Common-Pool Resources"
+   fix in git history if that recurs). */
+function subwayMapArchive(){
   return ''
   + '<figure class="subway-fig">'
   + '<svg viewBox="0 0 960 380" role="img" aria-label="Map showing two topic lines: International Trade running through The International Trade Game and The Heckscher-Ohlin Trade Game, and Common-Pool Resources connecting to The Lake. A third line is under construction.">'
@@ -1089,6 +1112,12 @@ function subwayMap(){
   + '</svg>'
   + '<figcaption>Two lines so far — International Trade now runs through two games, and Common-Pool Resources connects to one. Click any station to open it.</figcaption>'
   + '</figure>';
+}
+
+/* LIVE. No topics or games yet — see subwayMapArchive() above for the
+   drawn map to bring back once games are redeployed. */
+function subwayMap(){
+  return '<div class="empty-state">No lines laid yet — the map will fill in as topics and games are added back.</div>';
 }
 
 /* Renders a titled, click-to-expand list. items: [{title, html, open}].
@@ -1186,7 +1215,7 @@ function renderHome(){
     +   '<span class="eyebrow">The collection</span>'
     +   '<h2>Games</h2>'
     + '</div>'
-    + '<div class="grid">' + cards + '</div>'
+    + (cards ? '<div class="grid">' + cards + '</div>' : '<div class="empty-state">No games listed right now — check back soon.</div>')
   ) + '</section>';
 }
 
@@ -1198,7 +1227,7 @@ function renderGames(){
     + '<h1>Games</h1>'
     + '<p class="lead">Every game is field-tested in a real classroom first, then documented here — overview, teaching note, debrief note, quiz and student note, together.</p>'
   ) + '</section>'
-  + '<section>' + pageChrome('<div class="grid">' + cards + '</div>') + '</section>';
+  + '<section>' + pageChrome(cards ? '<div class="grid">' + cards + '</div>' : '<div class="empty-state">No games listed right now — check back soon.</div>') + '</section>';
 }
 
 /* ---- Topics ---- */
@@ -1213,7 +1242,7 @@ function renderTopics(){
     + '<h1>Topics</h1>'
     + '<p class="lead">Economic ideas, grouped by concept rather than by game. See the <a href="#/">home dashboard</a> for how they connect, subway-map style.</p>'
   ) + '</section>'
-  + '<section>' + pageChrome('<div class="grid">' + cards + '</div>') + '</section>';
+  + '<section>' + pageChrome(cards ? '<div class="grid">' + cards + '</div>' : '<div class="empty-state">No topics listed right now — check back soon.</div>') + '</section>';
 }
 
 /* ---- Game sub-nav ---- */
@@ -1806,8 +1835,11 @@ function renderHOStudentNote(id){
   ) + '</section>';
 }
 
-/* Which function renders which game’s resource page. */
-var RESOURCE_PAGES = {
+/* ARCHIVED — not live. Which function rendered which removed game's
+   resource page; the render functions themselves (renderTeachingNote,
+   renderLakeRoundCards, renderHOTeachingNote, etc.) are all still
+   defined below, untouched, ready to be wired back in here. */
+var RESOURCE_PAGES_ARCHIVE = {
   "trade-game": {
     "teaching-note": renderTeachingNote,
     "debrief-note": renderDebriefNote,
@@ -1827,6 +1859,9 @@ var RESOURCE_PAGES = {
     "student-note": renderHOStudentNote
   }
 };
+
+/* LIVE. Empty on purpose — see RESOURCE_PAGES_ARCHIVE above. */
+var RESOURCE_PAGES = {};
 
 function renderNotFound(){
   return '<section class="hero">' + pageChrome('<h1>Not found yet</h1><p class="lead">That page doesn’t exist — <a href="#/">back to the dashboard</a>.</p>') + '</section>';
@@ -1848,7 +1883,7 @@ function renderAbout(){
     +     '<p><em>[Replace this paragraph with your own bio: institution, courses taught, research interests, and what draws you to teaching economics this way.]</em></p>'
     +     '<h2>About this project</h2>'
     +     '<p>Each game here is built to be run in a real classroom first — tested, debugged, refined against an actual session — before it’s documented on this site. Every game ships with a teaching note, a debrief note, a quiz and a student note, not just a description.</p>'
-    +     '<p>The first of these is <a href="#/games/trade-game">The International Trade Game</a>, built for ECON102 at FLAME University. More topics and games are added as they’re built — see the <a href="#/">dashboard</a> for how they connect.</p>'
+    +     '<p>The collection is being rebuilt on a new hosting account right now, so the <a href="#/games">games page</a> is briefly empty — the content isn’t gone, it’s just being redeployed. Check back shortly.</p>'
     +   '</div>'
     + '</div>'
   ) + '</section>';
