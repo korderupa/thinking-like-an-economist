@@ -439,6 +439,24 @@ section.alt{ background: var(--paper-2); border-top:1px solid var(--rule); borde
 
 .empty-state{ border: 1px dashed var(--rule); border-radius: 4px; padding: 32px; text-align: center; color: var(--ink-soft); }
 
+/* ---------------- contact form ---------------- */
+.contact-form{ max-width: 560px; display:flex; flex-direction:column; gap:18px; }
+.contact-form .field{ display:flex; flex-direction:column; gap:6px; }
+.contact-form .field span{
+  font-family: var(--font-mono); font-size: .74rem; text-transform: uppercase;
+  letter-spacing: .06em; color: var(--ink-soft);
+}
+.contact-form input, .contact-form textarea{
+  font-family: var(--font-body); font-size: .98rem; color: var(--ink);
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 3px;
+  padding: 11px 13px; resize: vertical;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.contact-form input:focus, .contact-form textarea:focus{
+  outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-soft);
+}
+.contact-form button{ align-self: flex-start; }
+
 /* ---------------- accordions ---------------- */
 .accordion{ border-top: 1px solid var(--rule); margin: 18px 0; }
 .accordion-item{ border-bottom: 1px solid var(--rule); }
@@ -518,6 +536,7 @@ section.alt{ background: var(--paper-2); border-top:1px solid var(--rule); borde
       <a href="#/games" data-route="games">Games</a>
       <a href="#/about" data-route="about">About</a>
       <a href="#/terms" data-route="terms">Terms of Use</a>
+      <a href="#/contact" data-route="contact">Contact</a>
     </nav>
   </div>
 </header>
@@ -554,7 +573,6 @@ var GAMES_ARCHIVE = {
     title: "The International Trade Game",
     tagline: "A live classroom simulation of comparative advantage, tariffs, and trade policy.",
     description: "Students are split into six “countries” with unequal tools and starting cash, and must manufacture and trade paper shapes for profit while the instructor fires real-time conditions — tariffs, subsidies, embargoes, quotas, cartels — into the live market. Based on John Sloman’s International Trade Game (Economics Network, 2002).",
-    course: "FLAME University",
     format: "Live classroom · 45 minutes · phones + projector",
     status: "live",
     statusLabel: "Field-tested",
@@ -563,7 +581,6 @@ var GAMES_ARCHIVE = {
     linkLabel: "Launch — link coming soon",
     minutes: 45,
     glance: [
-      { k: "Course", v: "FLAME University" },
       { k: "Format", v: "Live classroom · 45 minutes · phones + projector" },
       { k: "Class size", v: "40 students · 6 countries" },
       { k: "Conditions in the library", v: "51 across 6 categories" }
@@ -574,7 +591,6 @@ var GAMES_ARCHIVE = {
     title: "The Lake",
     tagline: "Eight fishers, one shared lake, four rounds of pressure — then a fifth where it is finally yours alone.",
     description: "Eight students share a lake of 144 fish for four rounds, deciding privately each time how many to take while the price of a fish climbs from ₹10 toward ₹40. Between rounds the rules change — first nothing, then talk without enforcement, then a quota with a coin-toss inspector, then a certain price on overuse. In the fifth round the lake is divided into private ponds. The class discovers the tragedy of the commons by living it, then discovers why it is not inevitable.",
-    course: "FLAME University",
     format: "Live classroom · ~85 minutes · phones + projector, one instructor dashboard",
     status: "live",
     statusLabel: "Field-tested",
@@ -583,7 +599,6 @@ var GAMES_ARCHIVE = {
     linkLabel: null,
     minutes: 85,
     glance: [
-      { k: "Course", v: "FLAME University" },
       { k: "Format", v: "Live classroom · ~85 minutes" },
       { k: "Lake size", v: "8 fishers per lake · any number of lakes at once" },
       { k: "Ceiling", v: "₹10,560 lake account, at six fish a round, every round" }
@@ -594,7 +609,6 @@ var GAMES_ARCHIVE = {
     title: "The Heckscher-Ohlin Trade Game",
     tagline: "Two blocs, two goods, two factors, one recipe book — same technology, different endowments, and trade emerges anyway.",
     description: "Two blocs of teams — labour-abundant Labouria and capital-abundant Capitalia — hold the exact same recipes for Cloth and Machinery. Working alone from their own endowment, each bloc discovers its own home price for Cloth before a word of theory is said. When the border opens, both sides specialise in whatever their abundant factor makes cheaply and trade for the rest. A closing twist reassigns each student a factor of production and shows that not everyone inside a winning country actually wins.",
-    course: "FLAME University",
     format: "Live classroom · ~60 minutes · phones + projector, or paper and a whiteboard",
     status: "dev",
     statusLabel: "Ready to pilot",
@@ -603,7 +617,6 @@ var GAMES_ARCHIVE = {
     linkLabel: null,
     minutes: 60,
     glance: [
-      { k: "Course", v: "FLAME University" },
       { k: "Format", v: "Live classroom · ~60 minutes · phones + projector, or paper and a whiteboard" },
       { k: "Groups", v: "Any even number of teams, split into two blocs" },
       { k: "Status", v: "Designed and ready to pilot — not yet run in a classroom" }
@@ -618,7 +631,6 @@ var GAMES = {
     title: "World Market Watch",
     tagline: "Guess the world’s #1 producer for 14 real goods. Then guess who’d actually be hurt if demand for it vanished.",
     description: "For each of 14 real products, a student first guesses which country produces the most of it — then, before that answer is revealed, guesses which of the same five countries would be hit hardest, as a share of their own economy, if world demand collapsed. The two guesses are often different countries. A live class pulse, two power-ups, streak and speed bonuses, and a running leaderboard turn a 15-minute warm-up into a real lesson about the gap between who makes the most and who actually depends on it most.",
-    course: "FLAME University",
     format: "Live classroom · ~15 minutes · phones + projector, one instructor dashboard",
     status: "dev",
     statusLabel: "Ready to pilot",
@@ -627,10 +639,27 @@ var GAMES = {
     linkLabel: null,
     minutes: 15,
     glance: [
-      { k: "Course", v: "FLAME University" },
       { k: "Format", v: "Live classroom · ~15 minutes · phones + projector" },
       { k: "Products", v: "14 real goods, order shuffled per student" },
       { k: "Mechanics", v: "Streak & speed bonuses, two power-ups, a live class pulse, a leaderboard" }
+    ]
+  },
+  "autarky-challenge": {
+    id: "autarky-challenge",
+    title: "The Autarky Challenge",
+    tagline: "No good, company, or country is fully self-sufficient today — this makes a class prove it to themselves, twice.",
+    description: "Part one asks the room to name one good that could be made entirely within a single country, then takes a pencil apart, piece by piece, to show why the honest answer is none. Part two follows one smartphone through a real supply chain — a lithium mine in Chile, a chip fab in Taiwan, a battery plant in China, final assembly in Vietnam — and fires five real disruptions at it one at a time: an earthquake, a tariff, a blocked shipping route, nationalised mines, a factory fire. Each time, students predict what breaks, see the real production/price/employment/GDP consequences, then choose how they would respond from four policy options judged on fit, not marked right or wrong.",
+    format: "Live classroom · ~25 minutes · phones + projector, one instructor dashboard",
+    status: "dev",
+    statusLabel: "Ready to pilot",
+    tags: ["Global value chains", "Trade policy", "Supply chain risk", "Classroom simulation"],
+    link: "https://script.google.com/macros/s/AKfycbysshexD8FlxGHGT36y5RApIt67KMyE-6PlAaPYPDUVXkHAo0CT85xgFpGbocljjbbVvw/exec",
+    linkLabel: null,
+    minutes: 25,
+    glance: [
+      { k: "Format", v: "Live classroom · ~25 minutes · phones + projector" },
+      { k: "Structure", v: "12 instructor-paced steps, in two parts" },
+      { k: "Case product", v: "One smartphone, a real four-country supply chain" }
     ]
   }
 };
@@ -653,8 +682,8 @@ var TOPICS_ARCHIVE = [
 var TOPICS = [
   {
     title: "International Trade",
-    description: "Comparative advantage, production versus dependency, and why the country that makes the most of something is often not the one that needs it most. Explored hands-on through World Market Watch.",
-    games: ["world-market-watch"]
+    description: "Comparative advantage, production versus dependency, global value chains, and why the country that makes the most of something is often not the one that needs it most. Explored hands-on through World Market Watch and The Autarky Challenge.",
+    games: ["world-market-watch", "autarky-challenge"]
   }
 ];
 
@@ -1048,8 +1077,71 @@ var RESOURCE_NAV_ARCHIVE = {
 
 /* LIVE. "overview" is implicit and always first for any game added here. */
 var RESOURCE_NAV = {
-  "world-market-watch": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
+  "world-market-watch": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
+  "autarky-challenge": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
 };
+
+/* The Autarky Challenge — the five Part 2 supply-chain disruption
+   scenarios, used by the Debrief Guide's scenario selector. Every
+   number and quote here is taken directly from the deployed game's own
+   data (autarky-game-src/Code.js), not invented. */
+var AUTARKY_SCENARIOS = [
+  { key: "chip-quake", label: "Chip Fab Earthquake", concept: "Single Point of Failure",
+    banner: "A major earthquake forces the Taiwan chip fab offline for six weeks.",
+    affected: "The chip fab, final assembly, and the retail shelf — no chip, no phone, wherever you're standing in the chain.",
+    effects: [
+      { k: "Production", dir: "Falls", note: "Assembly can't build a phone with no chip to put in it." },
+      { k: "Prices", dir: "Rises", note: "Scarce finished phones get bid up wherever stock remains." },
+      { k: "Employment", dir: "Falls", note: "Assembly-line workers are idled downstream, not just fab workers upstream." },
+      { k: "GDP", dir: "Falls", note: "Both the chip-exporting and the phone-assembling economies take a hit." }
+    ],
+    insight: "One missing part halts an entire finished product, no matter how many other parts are ready.",
+    best: "Absorb the shock — ration output, let prices rise, and wait for the fab to reopen. In the short run supply is inelastic, so the market clears through higher prices and rationed stock, not new production." },
+  { key: "magnet-tariff", label: "Tariff on Rare-Earth Magnets", concept: "Tariff Pass-Through",
+    banner: "A 40% tariff is placed on imported rare-earth magnets.",
+    affected: "The magnet supplier, final assembly, and the retail price tag.",
+    effects: [
+      { k: "Production", dir: "Little change", note: "Magnets still arrive — just at a much higher cost, so output barely dips." },
+      { k: "Prices", dir: "Rises", note: "The tariff is a direct added cost that flows into the final price." },
+      { k: "Employment", dir: "Mixed", note: "Assembly may trim costs elsewhere to absorb the shock." },
+      { k: "GDP", dir: "Falls", note: "A small, cheap part can still tax an entire billion-dollar product line." }
+    ],
+    insight: "Even a tiny, inexpensive component can hold up an entire assembly line if there's no substitute.",
+    best: "Pass the cost through — raise the final price by roughly the tariff amount. Since this is a cost increase rather than a supply cutoff, passing it straight into price is often the fastest workable response." },
+  { key: "canal-block", label: "Shipping Route Blocked", concept: "Logistics Chokepoint",
+    banner: "The main shipping route from the assembly plant to your country is blocked for three weeks.",
+    affected: "Just the retail shelf — production upstream never stops.",
+    effects: [
+      { k: "Production", dir: "Little change", note: "The factory keeps making phones — it just can't get them out." },
+      { k: "Prices", dir: "Rises", note: "Retailers running low raise prices on the stock they have left." },
+      { k: "Employment", dir: "Falls", note: "Retail and local logistics jobs feel the shortage first." },
+      { k: "GDP", dir: "Falls", note: "Import-dependent retail economies see the hit even though nothing broke upstream." }
+    ],
+    insight: "A working factory means nothing if the product can't reach the store.",
+    best: "Reroute shipments or draw down inventory — either is a strong fit for a temporary three-week block, at moderate extra cost, without overreacting to a short-run disruption." },
+  { key: "lithium-nationalized", label: "Lithium Mines Nationalised", concept: "Resource Nationalism",
+    banner: "The lithium-exporting country nationalises its mines and halts all exports.",
+    affected: "The lithium mine, the battery plant, final assembly, and the retail shelf.",
+    effects: [
+      { k: "Production", dir: "Falls", note: "No lithium in, no batteries out — and no batteries, no finished phones." },
+      { k: "Prices", dir: "Rises", note: "Every stage of the chain that depended on lithium gets more expensive." },
+      { k: "Employment", dir: "Falls", note: "Battery and assembly-country jobs are squeezed by a shock they don't control." },
+      { k: "GDP", dir: "Mixed", note: "Importers lose; the lithium country may gain short-term but risks losing buyers for good." }
+    ],
+    insight: "Controlling a critical raw material gives short-term leverage but long-term risk of losing customers who diversify.",
+    best: "Diversify sourcing toward Australian or Argentine lithium. Costlier and slower to scale, but this is the structurally correct response to what is a permanent halt, not a temporary shock." },
+  { key: "assembly-fire", label: "Fire at the Assembly Plant", concept: "Concentration Risk",
+    banner: "A fire shuts the Vietnam assembly plant down for a full month.",
+    affected: "Final assembly and the retail shelf.",
+    effects: [
+      { k: "Production", dir: "Falls", note: "Zero finished phones leave the plant until it reopens." },
+      { k: "Prices", dir: "Rises", note: "Retailers ration dwindling stock at higher prices." },
+      { k: "Employment", dir: "Falls", note: "Assembly-country job losses are steep and immediate." },
+      { k: "GDP", dir: "Falls", note: "The assembly country's exports and the retail country's tech sector both shrink." }
+    ],
+    insight: "When the final assembly link breaks, every upstream part becomes stuck inventory with nowhere to go.",
+    best: "Shift to a backup contract manufacturer. Large electronics firms maintain exactly this kind of contingency arrangement — the fastest credible fix, if the relationship already exists." }
+];
 
 /* The Heckscher-Ohlin Trade Game — round-by-round reference used by its
    Debrief Note. Kept separate from LAKE_ROUNDS since this game’s other
@@ -1266,7 +1358,7 @@ function gameCard(g){
   + '<h3 style="margin-top:.5em"><a href="#/games/'+g.id+'" style="color:inherit">'+esc(g.title)+'</a></h3>'
   + '<p class="muted">'+esc(g.tagline)+'</p>'
   + '<div class="tags">'+g.tags.map(function(t){return '<span class="tag">'+esc(t)+'</span>';}).join("")+'</div>'
-  + '<p class="muted mono" style="font-size:.85rem">'+esc(g.course)+'<br>'+esc(g.format)+'</p>'
+  + '<p class="muted mono" style="font-size:.85rem">'+esc(g.format)+'</p>'
   + '<div class="spacer"></div>'
   + '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">'
   +   action
@@ -2129,12 +2221,152 @@ function renderMWStudentNote(id){
   ) + '</section>';
 }
 
+/* ---- The Autarky Challenge ---- */
+function autarkyScenarioPanel(s){
+  var effects = s.effects.map(function(e){
+    return '<div class="item"><div class="k">'+esc(e.k)+'</div><div class="v">'+esc(e.dir)+' — '+esc(e.note)+'</div></div>';
+  }).join("");
+  return '<span class="eyebrow">'+esc(s.concept)+'</span>'
+    + '<div class="epigraph">'+esc(s.banner)+'</div>'
+    + '<p class="muted" style="margin-bottom:6px">What gets hit</p>'
+    + '<p>'+esc(s.affected)+'</p>'
+    + '<div class="at-a-glance">'+effects+'</div>'
+    + '<div class="worked-box" style="font-family:var(--font-body)">'+esc(s.insight)+'</div>'
+    + '<div class="discussion-q"><strong>Best-fit response:</strong> '+esc(s.best)+'</div>';
+}
+
+function renderAutarkyTeachingNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Teaching note</span>'
+    + '<h1>Running '+esc(g.title)+'</h1>'
+    + '<p class="lead">Twelve steps, opened one at a time — nothing advances until you tap it.</p>'
+    + subNav(id, "teaching-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + '<div class="at-a-glance">'
+    +   '<div class="item"><div class="k">Session length</div><div class="v">~25 minutes, entirely instructor-paced — no in-game timer</div></div>'
+    +   '<div class="item"><div class="k">Students need</div><div class="v">Just a full name — no roll number, no account</div></div>'
+    +   '<div class="item"><div class="k">Instructor needs</div><div class="v">The passcode set from the Sheet menu, and the dashboard projected</div></div>'
+    +   '<div class="item"><div class="k">Structure</div><div class="v">12 steps in 2 parts, opened top to bottom, one at a time</div></div>'
+    + '</div>'
+    + accordionHtml([
+      { title: "Learning objectives", open: true, html:
+        "<ul><li>Discover that no good — not even a pencil — is made in one country, before being told so.</li>"
+        + "<li>Follow one real product's supply chain, and predict what a specific disruption actually breaks.</li>"
+        + "<li>Distinguish a good policy response from a lucky one — each response is graded on fit, not right or wrong.</li>"
+        + "<li>See the same shock produce different effects on production, prices, employment and GDP, and why.</li></ul>"
+      },
+      { title: "Before class", html:
+        "<ul><li>Open the Sheet's <em>Autarky Challenge</em> menu and set the instructor passcode.</li>"
+        + "<li>Join as a test student on your own phone to confirm the link works, then reset the game so the roster is clean.</li>"
+        + "<li>Decide whether to run both parts in one sitting or split at the Part 1/Part 2 boundary (after step 5) across two sessions.</li></ul>"
+      },
+      { title: "Part 1 — Globalisation (steps 1–5)", html:
+        '<div class="at-a-glance">'
+        + '<div class="item"><div class="k">1 · Pick the one</div><div class="v">Guess the one good made 100% domestically — the honest answer is none</div></div>'
+        + '<div class="item"><div class="k">2 · Take the pencil apart</div><div class="v">Wood, graphite, ferrule, eraser — each traced to a different country</div></div>'
+        + '<div class="item"><div class="k">3 · A day without imports</div><div class="v">Rate five everyday items as domestic or imported</div></div>'
+        + '<div class="item"><div class="k">4 · Your verdict</div><div class="v">Ask again whether self-sufficiency is realistic — compare to step 1</div></div>'
+        + '<div class="item"><div class="k">5 · Debrief</div><div class="v">Two discussion questions, plus the live swing between steps 1 and 4</div></div>'
+        + '</div>'
+      },
+      { title: "Part 2 — Supply Chain Challenge (steps 6–12)", html:
+        "<p>One case product throughout: a smartphone, built from a lithium mine in Chile, a chip fab in Taiwan, a battery plant in China, and final assembly in Vietnam, sold wherever your class is. Step 6 shows the intact chain; steps 7–11 each break one link and ask students to predict what's affected before revealing the real consequences; step 12 debriefs the whole part.</p>"
+        + "<p>After each prediction, students choose one of four policy responses to the same disruption — this is judgment, not a right-or-wrong question, and the reveal shows all four side by side with the student's own pick marked.</p>"
+      },
+      { title: "What to watch on the dashboard", html:
+        "<ul><li>Each step's live response tally and per-student table — nothing is hidden from you, even mid-step.</li>"
+        + "<li>The step-5 and step-12 debrief screens auto-compute aggregate stats (e.g. the swing between step 1 and step 4) — project these directly, they're built to be read aloud.</li>"
+        + "<li>The “Solve It” tally under each Part 2 scenario — who picked the best-fit response, and who picked a popular but weaker one.</li></ul>"
+      }
+    ])
+    + '<p style="margin-top:20px;max-width:70ch">When step 12 is scored, move into the <a href="#/games/'+id+'/debrief-guide">debrief guide</a>.</p>'
+  ) + '</section>';
+}
+
+function renderAutarkyDebriefGuide(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Debrief guide</span>'
+    + '<h1>Debriefing '+esc(g.title)+'</h1>'
+    + '<p class="lead">The game carries its own two discussion questions per part — everything else here extends them.</p>'
+    + subNav(id, "debrief-guide")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "Part 1 debrief — what the room actually thinks", open: true, html:
+        "<p>The dashboard shows the live swing between step 1 (who picked “none are fully domestic”) and step 4 (who said self-sufficiency is unrealistic) — read both numbers aloud before asking anything.</p>"
+        + '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>If no one can make anything alone, who benefits most from trade — and who is most exposed when it stops (sanctions, war, pandemic)?</li>"
+        + "<li>Is total self-sufficiency ever worth pursuing for one specific good — defence hardware, staple food, vaccines?</li></ul></div>"
+      }
+    ])
+    + '<div style="margin:28px 0 6px"><h2 style="margin-bottom:6px">Part 2 — the five disruptions</h2><p class="muted">Pick one to see what broke, the real consequences, and the best-fit response.</p></div>'
+    + tabsHtml("autarky-scenarios", AUTARKY_SCENARIOS, function(s){return s.key;}, function(s){return s.label;}, autarkyScenarioPanel, AUTARKY_SCENARIOS[0].key, null)
+    + accordionHtml([
+      { title: "Part 2 debrief — interdependence, not blame", html:
+        "<p>The dashboard shows the class's average accuracy predicting the cascade across all five disruptions — read it aloud before these two.</p>"
+        + '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>Does interdependence make countries safer (mutual benefit) or more fragile (supply shocks)? Give a real example.</li>"
+        + "<li>If a single fire or earthquake can freeze a global product, should companies keep backup suppliers even if it costs more — and who pays for that insurance?</li></ul></div>"
+      },
+      { title: "Why a “best-fit” response, not a right answer", html:
+        "<p>Every Part 2 scenario has one clearly best-fit response among four, but none of them are free — even the best one has a real cost or a real delay attached. The point isn't that one response is costless; it's that the other three are worse fits for that specific disruption's timescale and cause. A quick way to spot the mismatch: ask whether a student's chosen response actually matches whether the shock is temporary (three weeks) or permanent (nationalised mines) — most of the popular wrong picks solve the wrong kind of disruption.</p>"
+      }
+    ])
+  ) + '</section>';
+}
+
+function renderAutarkyStudentNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  var glossary = [
+    { term: "Global value chain", def: "The full path a good travels — raw material to finished product — usually through several countries, not one." },
+    { term: "Import dependence", def: "Relying on another country for a good, or for the machine that makes it." },
+    { term: "Chokepoint", def: "A single link in a chain that, if it breaks, stops everything downstream of it." },
+    { term: "Tariff pass-through", def: "How much of a tariff's cost ends up in the price you pay, rather than absorbed elsewhere." },
+    { term: "Resource nationalism", def: "A country restricting or nationalising exports of a resource it controls." },
+    { term: "Concentration risk", def: "Depending on one supplier, one plant, or one route for something with no backup." }
+  ].map(function(t){ return '<dt>'+esc(t.term)+'</dt><dd>'+esc(t.def)+'</dd>'; }).join("");
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Student note</span>'
+    + '<h1>Before you play</h1>'
+    + '<p class="lead">A plain-language recap, before or after a session of '+esc(g.title)+'.</p>'
+    + subNav(id, "student-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "What you are actually doing", open: true, html:
+        "<p>Part one: guess whether any everyday good is truly made in one country, then watch a pencil get taken apart to find out. Part two: follow one smartphone through a real supply chain, predict what breaks when a disruption hits one link, then choose how you would respond.</p>"
+        + "<ul><li>Nothing advances until your instructor opens the next step — there is no clock to beat.</li>"
+        + "<li>Your answer is scored and explained the moment you submit it — you are never waiting on anyone else.</li>"
+        + "<li>In Part 2, your policy response is not marked right or wrong — it is judged on how well it fits the disruption.</li></ul>"
+      },
+      { title: "A few honest tips", html:
+        "<ul><li>Before predicting what a disruption breaks, trace the chain from raw material to your own hands — the break is always upstream of where you feel it.</li>"
+        + "<li>When picking a policy response, ask whether the disruption is temporary or permanent — the best fix for a three-week problem is usually the wrong fix for a permanent one.</li>"
+        + "<li>Cost and speed are both listed before you choose — a response that is theoretically best but takes five years is not actually available to you this quarter.</li></ul>"
+      },
+      { title: "Terms you will want to know", html: '<dl class="glossary">' + glossary + '</dl>' }
+    ])
+    + '<div class="editor-note" style="margin-top:20px"><strong>One thing this note will not tell you:</strong> which good, if any, turns out to be fully domestic. Play Part 1 first.</div>'
+  ) + '</section>';
+}
+
 /* LIVE. */
 var RESOURCE_PAGES = {
   "world-market-watch": {
     "teaching-note": renderMWTeachingNote,
     "debrief-guide": renderMWDebriefGuide,
     "student-note": renderMWStudentNote
+  },
+  "autarky-challenge": {
+    "teaching-note": renderAutarkyTeachingNote,
+    "debrief-guide": renderAutarkyDebriefGuide,
+    "student-note": renderAutarkyStudentNote
   }
 };
 
@@ -2240,6 +2472,60 @@ function renderTerms(){
   ) + '</section>';
 }
 
+/* ---- Contact ---- */
+var CONTACT_FORM_URL = null; // paste the deployed contact-form Apps Script URL here — see contact-form-src/
+
+function renderContact(){
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Get in touch</span>'
+    + '<h1>Contact</h1>'
+    + '<p class="lead">A question about a game, a report from a session, an idea for what should come next — send it here.</p>'
+  ) + '</section>'
+  + '<section style="padding-top:10px">' + pageChrome(''
+    + '<div id="contact-status"></div>'
+    + '<form id="contact-form" class="contact-form">'
+    +   '<label class="field"><span>Name</span><input type="text" name="name" required maxlength="80"></label>'
+    +   '<label class="field"><span>Email</span><input type="email" name="email" required maxlength="120"></label>'
+    +   '<label class="field"><span>Message</span><textarea name="message" required maxlength="4000" rows="6"></textarea></label>'
+    +   '<button type="submit" class="btn">Send message</button>'
+    + '</form>'
+    + '<p class="muted" style="margin-top:22px">Prefer email directly? Write to <a href="mailto:econarcade@gmail.com">econarcade@gmail.com</a>.</p>'
+  ) + '</section>';
+}
+
+function wireContactForm(){
+  var form = document.getElementById("contact-form");
+  if(!form) return;
+  var statusBox = document.getElementById("contact-status");
+  form.addEventListener("submit", function(ev){
+    ev.preventDefault();
+    var data = new FormData(form);
+    var submitBtn = form.querySelector('button[type="submit"]');
+
+    if(!CONTACT_FORM_URL){
+      var params = new URLSearchParams({
+        subject: "Message from " + (data.get("name") || "the website"),
+        body: data.get("message") + "\n\n— " + data.get("name") + " (" + data.get("email") + ")"
+      });
+      window.location.href = "mailto:econarcade@gmail.com?" + params.toString();
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending…";
+    fetch(CONTACT_FORM_URL, { method: "POST", mode: "no-cors", body: data })
+      .then(function(){
+        form.hidden = true;
+        statusBox.innerHTML = '<div class="editor-note"><strong>Sent.</strong> Thanks — the message is on its way, and a reply will come by email.</div>';
+      })
+      .catch(function(){
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Send message";
+        statusBox.innerHTML = '<div class="editor-note"><strong>That did not go through.</strong> Please try again, or write directly to <a href="mailto:econarcade@gmail.com">econarcade@gmail.com</a>.</div>';
+      });
+  });
+}
+
 /* ============================================================
    ROUTER
    ============================================================ */
@@ -2278,6 +2564,8 @@ function route(){
     html = renderAbout();
   } else if(parts[0] === "terms"){
     html = renderTerms();
+  } else if(parts[0] === "contact"){
+    html = renderContact();
   } else if(parts[0] === "games" && parts.length === 2){
     html = renderGameOverview(parts[1]);
   } else if(parts[0] === "games" && parts.length === 3){
@@ -2292,6 +2580,7 @@ function route(){
   var todayEl = document.getElementById("today");
   if(todayEl) todayEl.textContent = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
   wireQuiz();
+  wireContactForm();
   window.scrollTo({top:0, behavior:"instant"});
   // Restart the CSS fade-in on the new content — resetting to "none" and
   // reading a layout property forces the browser to notice the animation

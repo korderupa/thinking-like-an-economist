@@ -166,6 +166,28 @@ a real classroom"). Keep using this honestly: flip it to `"live"` /
 `"Field-tested"` only after an actual class has run it, and note in the
 teaching note that the numbers are a first draft until then.
 
+## The Contact page
+
+`renderContact()` + `wireContactForm()` render a plain name/email/message
+form. Submission behavior depends on `CONTACT_FORM_URL` (near the bottom
+of the `<script>` block, alongside `wireContactForm()`):
+
+- **Unset (`null`)** — the form falls back to building a `mailto:` link
+  pre-filled with the message, and hands off to the visitor's own mail
+  client. No backend needed, works immediately.
+- **Set** — the form `POST`s to that URL with `fetch(..., {mode:
+  "no-cors"})` instead. `no-cors` is deliberate: Apps Script's
+  `ContentService` doesn't reliably send CORS headers (see the same
+  problem solved differently, via JSONP, in the archived visitor-counter
+  code), and a plain `fetch()` would get blocked reading the response.
+  `no-cors` sidesteps that by never trying to read the response at all —
+  the trade-off is the page can't tell success from failure, so it shows
+  a generic "sent" message once the request completes without throwing.
+
+The actual mail-sending script lives in `../contact-form-src/` (outside
+this folder, like `visit-counter-src/`) — a small Apps Script using
+`MailApp.sendEmail()` to deliver every submission to
+`econarcade@gmail.com`. See that folder's README for deploying it.
 
 ## Publishing
 
