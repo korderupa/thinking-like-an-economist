@@ -146,6 +146,15 @@ if that happens, the fix is either widening `fanDeg` and adding
 angle-aware label placement, or moving to two hubs. Not worth solving
 before the site actually has that many topics.
 
+The `viewBox` is not a fixed size — it's cropped tight to whatever the
+map actually contains, using `mapTextWidth()` (an offscreen canvas
+`measureText()` call) to measure each label's real rendered width so the
+bounding box can include it precisely. This matters: with only one or
+two nodes, a fixed generous canvas left a large dead area of blank paper
+below the map, which read as unfinished. Don't reintroduce a fixed `W`/`H` —
+if the map ever needs a size floor (e.g. so it doesn't look cramped with
+just one topic), add a `Math.max()` on the computed width/height instead.
+
 ## Games designed but not yet run in a classroom
 
 Not every game here started from a real class. `status: "dev"` (see

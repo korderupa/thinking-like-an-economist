@@ -52,6 +52,11 @@
   --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
   --max: 1040px;
+
+  --shadow-xs: 0 1px 2px rgba(16,26,48,.05);
+  --shadow-sm: 0 1px 3px rgba(16,26,48,.06), 0 4px 10px rgba(16,26,48,.05);
+  --shadow-md: 0 4px 10px rgba(16,26,48,.07), 0 10px 24px rgba(16,26,48,.08);
+  --shadow-lg: 0 8px 16px rgba(16,26,48,.09), 0 20px 40px rgba(16,26,48,.12);
 }
 
 @media (prefers-color-scheme: dark){
@@ -157,11 +162,21 @@ p{ margin: 0 0 1em; max-width: 65ch; }
 }
 .mono{ font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
 
+#app{ animation: page-fade-in .28s ease; }
+@keyframes page-fade-in{
+  from{ opacity: 0; transform: translateY(6px); }
+  to{ opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce){
+  #app{ animation: none; }
+}
+
 /* ---------------- header + ticker ---------------- */
 .site-header{
   position: sticky; top:0; z-index: 30;
   background: var(--paper);
   border-bottom: 1px solid var(--rule);
+  box-shadow: var(--shadow-xs);
 }
 .ticker-wrap{
   background: var(--blue-deep);
@@ -214,6 +229,7 @@ p{ margin: 0 0 1em; max-width: 65ch; }
   color: var(--ink); font-weight: 600; font-size: .93rem;
   padding: 4px 0; border-bottom: 2px solid transparent;
 }
+.site-nav a{ transition: border-color .15s ease, color .15s ease; }
 .site-nav a:hover{ text-decoration:none; border-bottom-color: var(--rule-strong); }
 .site-nav a.active{ border-bottom-color: var(--blue); color: var(--blue); }
 
@@ -224,17 +240,21 @@ p{ margin: 0 0 1em; max-width: 65ch; }
   padding: 12px 20px; border-radius: 3px;
   border: 1px solid var(--blue); background: var(--blue); color: #fff !important;
   cursor:pointer; text-decoration:none !important;
+  box-shadow: var(--shadow-xs);
+  transition: background-color .15s ease, border-color .15s ease, box-shadow .18s ease, transform .12s ease;
 }
-.btn:hover{ background: var(--blue-deep); border-color: var(--blue-deep); }
-.btn.ghost{ background: transparent; color: var(--blue) !important; }
-.btn.ghost:hover{ background: var(--blue-soft); }
-.btn.disabled{ opacity:.55; cursor:not-allowed; pointer-events:none; background: var(--ink-faint); border-color: var(--ink-faint); }
+.btn:hover{ background: var(--blue-deep); border-color: var(--blue-deep); box-shadow: var(--shadow-sm); transform: translateY(-1px); }
+.btn:active{ transform: translateY(0); box-shadow: var(--shadow-xs); }
+.btn.ghost{ background: transparent; color: var(--blue) !important; box-shadow: none; }
+.btn.ghost:hover{ background: var(--blue-soft); box-shadow: none; }
+.btn.disabled{ opacity:.55; cursor:not-allowed; pointer-events:none; background: var(--ink-faint); border-color: var(--ink-faint); box-shadow:none; transform:none; }
 
 .tag{
   font-family: var(--font-mono); font-size: .72rem; text-transform: uppercase;
   letter-spacing: .05em; padding: 3px 9px; border-radius: 2px;
   background: var(--blue-soft); color: var(--blue);
   display:inline-block;
+  align-self: flex-start; /* prevents a lone .tag from stretching full-width as a direct child of a flex column, e.g. .card */
 }
 .tag.live{ background: var(--rise-bg); color: var(--rise); }
 .tag.chalk{ background: var(--chalk-bg); color: var(--chalk); }
@@ -270,6 +290,7 @@ p{ margin: 0 0 1em; max-width: 65ch; }
   border-left: 4px solid var(--blue);
   border-radius: 3px;
   padding: 22px 24px;
+  box-shadow: var(--shadow-sm);
 }
 .index-card h4{
   font-family: var(--font-mono); font-size: .72rem; letter-spacing:.1em;
@@ -293,7 +314,10 @@ section.alt{ background: var(--paper-2); border-top:1px solid var(--rule); borde
 .card{
   background: var(--panel); border: 1px solid var(--rule); border-radius: 4px;
   padding: 24px; display:flex; flex-direction:column;
+  box-shadow: var(--shadow-xs);
+  transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
 }
+.card:hover{ box-shadow: var(--shadow-md); transform: translateY(-3px); border-color: var(--rule-strong); }
 .card h3{ margin-bottom: .3em; }
 .card .muted{ color: var(--ink-soft); font-size: .93rem; }
 .card .tags{ margin: 10px 0 14px; display:flex; gap:8px; flex-wrap:wrap; }
@@ -305,9 +329,10 @@ section.alt{ background: var(--paper-2); border-top:1px solid var(--rule); borde
 .subway-fig{ margin: 0; }
 .subway-fig svg{ width:100%; height:auto; display:block; }
 .subway-fig figcaption{ margin-top: 14px; color: var(--ink-soft); font-size: .88rem; }
-.subway-fig a text{ fill: var(--ink); font-family: var(--font-body); }
+.subway-fig a text{ fill: var(--ink); font-family: var(--font-body); transition: fill .15s ease; }
 .subway-fig a:hover text{ fill: var(--blue); }
-.subway-fig a:hover circle.station{ stroke-width: 4; }
+.subway-fig circle.station{ transition: stroke-width .15s ease, filter .15s ease; }
+.subway-fig a:hover circle.station{ stroke-width: 4; filter: drop-shadow(0 3px 6px rgba(16,26,48,.28)); }
 
 /* ---------------- game overview / notes ---------------- */
 .game-head{ display:flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; align-items:flex-start; margin-bottom: 8px; }
@@ -384,6 +409,7 @@ section.alt{ background: var(--paper-2); border-top:1px solid var(--rule); borde
 .quiz-score{
   border: 2px solid var(--blue); border-radius: 4px; padding: 20px 24px; margin-bottom: 24px;
   background: var(--blue-soft);
+  box-shadow: var(--shadow-sm);
   display:none;
 }
 .quiz-score.show{ display:block; }
@@ -420,6 +446,7 @@ section.alt{ background: var(--paper-2); border-top:1px solid var(--rule); borde
   width:100%; text-align:left; background:none; border:none; padding:16px 4px;
   font-family: var(--font-display); font-size: 1.08rem; font-weight:600; color: var(--ink);
   cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:14px;
+  transition: color .15s ease;
 }
 .accordion-header:hover{ color: var(--blue); }
 .accordion-item .chev{ transition: transform .15s ease; color: var(--ink-faint); font-size: 1.2rem; flex:none; }
@@ -435,9 +462,10 @@ section.alt{ background: var(--paper-2); border-top:1px solid var(--rule); borde
   font-family: var(--font-mono); font-size: .76rem; text-transform: uppercase; letter-spacing: .03em;
   padding: 9px 15px; border: 1px solid var(--rule); background: var(--panel); border-radius: 20px;
   cursor:pointer; color: var(--ink-soft);
+  transition: border-color .15s ease, color .15s ease, background-color .15s ease, box-shadow .15s ease;
 }
-.tab-btn:hover{ border-color: var(--rule-strong); color: var(--ink); }
-.tab-btn.active{ background: var(--blue); color: #fff; border-color: var(--blue); }
+.tab-btn:hover{ border-color: var(--rule-strong); color: var(--ink); box-shadow: var(--shadow-xs); }
+.tab-btn.active{ background: var(--blue); color: #fff; border-color: var(--blue); box-shadow: var(--shadow-xs); }
 
 .epigraph{
   font-family: var(--font-display); font-style: italic; font-size: 1.05rem; color: var(--ink-soft);
@@ -1115,21 +1143,36 @@ function subwayMapArchive(){
    per-topic label-placement logic. */
 var MAP_LINE_COLORS = ["blue-line","rise-line","violet-line","chalk-line","stamp-line"];
 
+/* Measures real rendered text width via an offscreen canvas, so the map's
+   viewBox can be cropped tight to its actual content instead of reserving
+   a fixed, mostly-empty canvas (which read as an unfinished/buggy page
+   when there were only one or two nodes on it). */
+function mapTextWidth(str, font){
+  mapTextWidth._ctx = mapTextWidth._ctx || document.createElement("canvas").getContext("2d");
+  mapTextWidth._ctx.font = font;
+  return mapTextWidth._ctx.measureText(str).width;
+}
+
 function subwayMap(){
   if(!TOPICS.length){
     return '<div class="empty-state">No lines laid yet — the map will fill in as topics and games are added.</div>';
   }
 
-  var W = 820, H = 560;
-  var hubX = 110, hubY = H/2;
+  var hubX = 110, hubY = 230;
   var n = TOPICS.length;
   var fanDeg = n > 1 ? 44 : 0; // total spread; ±22° at the extremes
   var startDeg = -fanDeg/2;
   var stepDeg = n > 1 ? fanDeg/(n-1) : 0;
   var r1 = 130;   // hub -> topic station
   var rStep = 170; // topic station -> its games, and between games on the same spoke
+  var labelFont = "600 14px 'IBM Plex Sans', sans-serif";
 
   var lines = '', nodes = '';
+  var minX = hubX - 15, maxX = hubX + 15, minY = hubY - 15, maxY = hubY + 15;
+  function grow(x0, x1, y0, y1){
+    minX = Math.min(minX, x0); maxX = Math.max(maxX, x1);
+    minY = Math.min(minY, y0); maxY = Math.max(maxY, y1);
+  }
 
   TOPICS.forEach(function(t, i){
     var color = MAP_LINE_COLORS[i % MAP_LINE_COLORS.length];
@@ -1140,8 +1183,11 @@ function subwayMap(){
     lines += '<line x1="'+hubX+'" y1="'+hubY.toFixed(1)+'" x2="'+tx.toFixed(1)+'" y2="'+ty.toFixed(1)+'" stroke="var(--'+color+')" stroke-width="6" stroke-linecap="round"/>';
 
     var labelAbove = ty <= hubY;
+    var labelY = ty + (labelAbove ? -20 : 32);
+    var halfW = mapTextWidth(t.title, labelFont) / 2;
     nodes += '<a href="#/topics"><circle class="station" cx="'+tx.toFixed(1)+'" cy="'+ty.toFixed(1)+'" r="11" fill="var(--panel)" stroke="var(--'+color+')" stroke-width="5"/>'
-      + '<text x="'+tx.toFixed(1)+'" y="'+(ty + (labelAbove ? -20 : 32)).toFixed(1)+'" font-size="14" font-weight="600" text-anchor="middle">'+esc(t.title)+'</text></a>';
+      + '<text x="'+tx.toFixed(1)+'" y="'+labelY.toFixed(1)+'" font-size="14" font-weight="600" text-anchor="middle">'+esc(t.title)+'</text></a>';
+    grow(tx - Math.max(11, halfW), tx + Math.max(11, halfW), Math.min(ty - 11, labelY - 14), Math.max(ty + 11, labelY + 6));
 
     var prevX = tx, prevY = ty;
     (t.games || []).forEach(function(gid, gi){
@@ -1152,14 +1198,20 @@ function subwayMap(){
       lines += '<line x1="'+prevX.toFixed(1)+'" y1="'+prevY.toFixed(1)+'" x2="'+gx.toFixed(1)+'" y2="'+gy.toFixed(1)+'" stroke="var(--'+color+')" stroke-width="6" stroke-linecap="round"/>';
       nodes += '<a href="#/games/'+gid+'"><circle class="station" cx="'+gx.toFixed(1)+'" cy="'+gy.toFixed(1)+'" r="16" fill="var(--'+color+')" stroke="var(--panel)" stroke-width="4"/>'
         + '<text x="'+(gx+24).toFixed(1)+'" y="'+(gy+5).toFixed(1)+'" font-size="14" font-weight="600" text-anchor="start">'+esc(g.title)+'</text></a>';
+      var labelW = mapTextWidth(g.title, labelFont);
+      grow(gx - 16, gx + 24 + labelW, gy - 16, gy + 16);
       prevX = gx; prevY = gy;
     });
   });
 
   var hub = '<a href="#/topics"><circle cx="'+hubX+'" cy="'+hubY.toFixed(1)+'" r="15" fill="var(--ink)" stroke="var(--panel)" stroke-width="4"/></a>';
 
+  var pad = 20;
+  var vbX = (minX - pad).toFixed(1), vbY = (minY - pad).toFixed(1);
+  var vbW = (maxX - minX + pad*2).toFixed(1), vbH = (maxY - minY + pad*2).toFixed(1);
+
   return '<figure class="subway-fig">'
-    + '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Subway-style map: a central hub with one spoke per topic, each running on through its game or games.">'
+    + '<svg viewBox="'+vbX+' '+vbY+' '+vbW+' '+vbH+'" role="img" aria-label="Subway-style map: a central hub with one spoke per topic, each running on through its game or games.">'
     + lines + nodes + hub
     + '</svg>'
     + '<div class="map-legend">'
@@ -2241,6 +2293,12 @@ function route(){
   if(todayEl) todayEl.textContent = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
   wireQuiz();
   window.scrollTo({top:0, behavior:"instant"});
+  // Restart the CSS fade-in on the new content — resetting to "none" and
+  // reading a layout property forces the browser to notice the animation
+  // changed, since re-applying the same class/style wouldn't restart it.
+  app.style.animation = "none";
+  app.offsetHeight;
+  app.style.animation = "";
 }
 
 /* One delegated listener for every accordion header and tab button on the
