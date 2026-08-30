@@ -586,24 +586,6 @@ var GAMES_ARCHIVE = {
       { k: "Conditions in the library", v: "51 across 6 categories" }
     ]
   },
-  "the-lake": {
-    id: "the-lake",
-    title: "The Lake",
-    tagline: "Eight fishers, one shared lake, four rounds of pressure — then a fifth where it is finally yours alone.",
-    description: "Eight students share a lake of 144 fish for four rounds, deciding privately each time how many to take while the price of a fish climbs from ₹10 toward ₹40. Between rounds the rules change — first nothing, then talk without enforcement, then a quota with a coin-toss inspector, then a certain price on overuse. In the fifth round the lake is divided into private ponds. The class discovers the tragedy of the commons by living it, then discovers why it is not inevitable.",
-    format: "Live classroom · ~85 minutes · phones + projector, one instructor dashboard",
-    status: "live",
-    statusLabel: "Field-tested",
-    tags: ["Common-pool resources", "Externalities", "Property rights", "Market failure"],
-    link: "https://script.google.com/a/macros/flame.edu.in/s/AKfycbwNhZoE5MCDQSEQppUfdi6P2Kxmz0ogEwCL2K2KHxw6MaqS3ER4NxTPxMr4XpXF-Np0/exec",
-    linkLabel: null,
-    minutes: 85,
-    glance: [
-      { k: "Format", v: "Live classroom · ~85 minutes" },
-      { k: "Lake size", v: "8 fishers per lake · any number of lakes at once" },
-      { k: "Ceiling", v: "₹10,560 lake account, at six fish a round, every round" }
-    ]
-  },
   "heckscher-ohlin": {
     id: "heckscher-ohlin",
     title: "The Heckscher-Ohlin Trade Game",
@@ -661,6 +643,24 @@ var GAMES = {
       { k: "Structure", v: "12 instructor-paced steps, in two parts" },
       { k: "Case product", v: "One smartphone, a real four-country supply chain" }
     ]
+  },
+  "the-lake": {
+    id: "the-lake",
+    title: "The Lake",
+    tagline: "Eight fishers, one shared lake, four rounds of pressure — then a fifth where it is finally yours alone.",
+    description: "Eight students share a lake of 144 fish for four rounds, deciding privately each time how many to take while the price of a fish climbs from ₹10 toward ₹40. Between rounds the rules change — first nothing, then talk without enforcement, then a quota with a coin-toss inspector, then a certain price on overuse. In the fifth round the lake is divided into private ponds. The class discovers the tragedy of the commons by living it, then discovers why it is not inevitable.",
+    format: "Live classroom · ~85 minutes · phones + projector, one instructor dashboard",
+    status: "live",
+    statusLabel: "Field-tested",
+    tags: ["Common-pool resources", "Externalities", "Property rights", "Market failure"],
+    link: "https://script.google.com/macros/s/AKfycbw-5W20lI6S_MAK5QQZnCsFptC97rQ_wnrXzjSEBfXukCASGugDZFkItd3ZtUk8Rpcnfg/exec",
+    linkLabel: null,
+    minutes: 85,
+    glance: [
+      { k: "Format", v: "Live classroom · ~85 minutes" },
+      { k: "Lake size", v: "8 fishers per lake · any number of lakes at once" },
+      { k: "Ceiling", v: "₹10,560 lake account, at six fish a round, every round" }
+    ]
   }
 };
 
@@ -670,11 +670,6 @@ var TOPICS_ARCHIVE = [
     title: "International Trade",
     description: "Comparative advantage, tariffs, subsidies, quotas, factor endowments, and why countries trade at all — explored hands-on through The International Trade Game and The Heckscher-Ohlin Trade Game.",
     games: ["trade-game", "heckscher-ohlin"]
-  },
-  {
-    title: "Common-Pool Resources",
-    description: "Shared, rival resources nobody can be excluded from — the tragedy that follows, and the three repairs that can fix it: enforcement, prices, and property rights. Explored hands-on through The Lake.",
-    games: ["the-lake"]
   }
 ];
 
@@ -684,6 +679,11 @@ var TOPICS = [
     title: "International Trade",
     description: "Comparative advantage, production versus dependency, global value chains, and why the country that makes the most of something is often not the one that needs it most. Explored hands-on through World Market Watch and The Autarky Challenge.",
     games: ["world-market-watch", "autarky-challenge"]
+  },
+  {
+    title: "Common-Pool Resources",
+    description: "Shared, rival resources nobody can be excluded from — the tragedy that follows, and the three repairs that can fix it: enforcement, prices, and property rights. Explored hands-on through The Lake.",
+    games: ["the-lake"]
   }
 ];
 
@@ -1071,14 +1071,14 @@ var LAKE_ROUNDS = [
    kept for restoration alongside GAMES_ARCHIVE. */
 var RESOURCE_NAV_ARCHIVE = {
   "trade-game": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-note","Debrief Note"],["quiz","Quiz"],["student-note","Student Note"]],
-  "the-lake": [["overview","Overview"],["round-cards","Round Cards"],["session-guide","Session Guide"],["debrief-guide","Debrief Guide"],["lessons-learned","Lessons Learned"]],
   "heckscher-ohlin": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-note","Debrief Note"],["quiz","Quiz"],["student-note","Student Note"]]
 };
 
 /* LIVE. "overview" is implicit and always first for any game added here. */
 var RESOURCE_NAV = {
   "world-market-watch": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
-  "autarky-challenge": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
+  "autarky-challenge": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
+  "the-lake": [["overview","Overview"],["round-cards","Round Cards"],["session-guide","Session Guide"],["debrief-guide","Debrief Guide"],["lessons-learned","Lessons Learned"]]
 };
 
 /* The Autarky Challenge — the five Part 2 supply-chain disruption
@@ -2044,12 +2044,6 @@ var RESOURCE_PAGES_ARCHIVE = {
     "quiz": renderQuiz,
     "student-note": renderStudentNote
   },
-  "the-lake": {
-    "round-cards": renderLakeRoundCards,
-    "session-guide": renderLakeSessionGuide,
-    "debrief-guide": renderLakeDebriefGuide,
-    "lessons-learned": renderLakeLessonsLearned
-  },
   "heckscher-ohlin": {
     "teaching-note": renderHOTeachingNote,
     "debrief-note": renderHODebriefNote,
@@ -2367,6 +2361,12 @@ var RESOURCE_PAGES = {
     "teaching-note": renderAutarkyTeachingNote,
     "debrief-guide": renderAutarkyDebriefGuide,
     "student-note": renderAutarkyStudentNote
+  },
+  "the-lake": {
+    "round-cards": renderLakeRoundCards,
+    "session-guide": renderLakeSessionGuide,
+    "debrief-guide": renderLakeDebriefGuide,
+    "lessons-learned": renderLakeLessonsLearned
   }
 };
 
