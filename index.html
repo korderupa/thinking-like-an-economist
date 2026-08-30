@@ -225,6 +225,10 @@ p{ margin: 0 0 1em; max-width: 65ch; }
   font-weight: 500;
 }
 .site-nav{ display:flex; gap: 22px; flex-wrap: wrap; }
+@media (max-width: 480px){
+  .site-nav{ gap: 8px 10px; }
+  .site-nav a{ font-size: .84rem; }
+}
 .site-nav a{
   color: var(--ink); font-weight: 600; font-size: .93rem;
   padding: 4px 0; border-bottom: 2px solid transparent;
@@ -661,6 +665,24 @@ var GAMES = {
       { k: "Lake size", v: "8 fishers per lake · any number of lakes at once" },
       { k: "Ceiling", v: "₹10,560 lake account, at six fish a round, every round" }
     ]
+  },
+  "the-common-pot": {
+    id: "the-common-pot",
+    title: "The Common Pot",
+    tagline: "Every round: keep your tokens, or add them to the shared pot. Twenty rounds to find out what your team actually does.",
+    description: "Up to forty students split into four teams. Each round, every student divides a token endowment between keeping it — worth a fixed amount to them alone — and giving it to the team’s shared pot, which pays every teammate back, not just the giver. The same numbers that decide everything (the private payoff, the pot’s return rate, any minimum target) simply change from round to round, in four blocks: a fixed baseline, a falling private return, a rising outside match, and a closing run of tipping-point and uncertainty rounds. Nothing is ever labelled for students — no round count, no free-rider talk, no “public good” — they only ever see the numbers and decide what to do about them.",
+    format: "Live classroom · ~60 minutes · phones + projector, one instructor dashboard",
+    status: "dev",
+    statusLabel: "Ready to pilot",
+    tags: ["Public goods", "Free-rider problem", "Behavioural economics", "Classroom simulation"],
+    link: "https://script.google.com/macros/s/AKfycbzjPc_ynBoxYZxC3Ihdrtwjo65DczOAh7iz8Da3Hm5cXqIM-s8ZhIlcqoe2gNymtpjh/exec",
+    linkLabel: null,
+    minutes: 60,
+    glance: [
+      { k: "Format", v: "Live classroom · ~60 minutes · phones + projector" },
+      { k: "Structure", v: "20 rounds in 4 blocks, with 3 built-in discussion breaks" },
+      { k: "Teams", v: "4 teams (A–D), up to ~40 students, self-balancing" }
+    ]
   }
 };
 
@@ -684,6 +706,11 @@ var TOPICS = [
     title: "Common-Pool Resources",
     description: "Shared, rival resources nobody can be excluded from — the tragedy that follows, and the three repairs that can fix it: enforcement, prices, and property rights. Explored hands-on through The Lake.",
     games: ["the-lake"]
+  },
+  {
+    title: "Public Goods",
+    description: "Free-riding, voluntary contribution, and why a shared benefit that costs the giver alone tends to be under-supplied — until the incentives around it are redesigned. Explored hands-on through The Common Pot.",
+    games: ["the-common-pot"]
   }
 ];
 
@@ -1078,19 +1105,47 @@ var RESOURCE_NAV_ARCHIVE = {
 var RESOURCE_NAV = {
   "world-market-watch": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
   "autarky-challenge": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
-  "the-lake": [["overview","Overview"],["round-cards","Round Cards"],["session-guide","Session Guide"],["debrief-guide","Debrief Guide"],["lessons-learned","Lessons Learned"]]
+  "the-lake": [["overview","Overview"],["round-cards","Round Cards"],["session-guide","Session Guide"],["debrief-guide","Debrief Guide"],["lessons-learned","Lessons Learned"]],
+  "the-common-pot": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
 };
 
+/* The Common Pot — the four blocks of its default 20-round schedule,
+   used by the Debrief Guide’s block selector. Every number is taken
+   directly from the deployed game’s own round configuration
+   (public-goods-game-src/Code.js), not invented. */
+var COMMON_POT_BLOCKS = [
+  { key: "block1", label: "Block 1 · Rounds 1–5", title: "The Basic Dilemma",
+    setup: "Fixed for all five rounds: a kept token is worth $4 to you alone; a token given to the pot returns $1 to every teammate, including you.",
+    meaning: "Keeping is individually the safer bet no matter what your team does — a kept token pays $4 for certain, a given token only pays you back $1 of what it returns. But the pot pays that $1 to every member, so on a team of five or more the group’s total return from one contributed token can exceed the $4 it cost. That gap — privately worse, collectively better — is the entire dilemma, and nothing in the game ever names it.",
+    typical: "Contributions are usually mixed and moderate — some students keep almost everything, a few give generously, and team totals rarely approach what full cooperation would have paid out.",
+    ask: "Every kept token paid you $4 for certain. Every given token only paid you back $1. What made anyone give at all?" },
+  { key: "block2", label: "Block 2 · Rounds 6–10", title: "Falling Private Return",
+    setup: "The pot’s rate never changes — $1 to every teammate per token — but the price of keeping a token falls round to round: $4, $3, $2, $1, then $0.50.",
+    meaning: "Nothing about the pot changed; only the private alternative got worse. By round 9 keeping and giving pay the same $1; by round 10 keeping is worth less than giving even before anyone else’s contribution is counted. The free-rider incentive was never a fixed law — it was a ratio between two numbers, and this block moves only one of them.",
+    typical: "Contributions tend to climb as the price falls, often sharply once it drops below the pot’s own rate.",
+    ask: "At what price did keeping stop feeling worth it? Was there a moment your own decision flipped, or was it gradual?" },
+  { key: "block3", label: "Block 3 · Rounds 11–15", title: "A Rising Outside Match",
+    setup: "The price of keeping is fixed at $2 throughout; instead, an outside match on the pot climbs round to round — 0%, 50%, 100%, 150%, 200%.",
+    meaning: "By round 15 every dollar given to the pot returns three dollars to each teammate. Block 2 made keeping less attractive; this block makes giving more attractive without touching the private side at all — the same logic as a subsidy or a matching grant, aimed at the public side of the choice rather than the private one.",
+    typical: "Contributions usually rise here too, often faster than in Block 2 for an equivalent change in the gap between the two returns.",
+    ask: "Block 2 lowered the reward for keeping; Block 3 raised the reward for giving. Did the two feel different to your team, even where the underlying gap was similar?" },
+  { key: "block4", label: "Block 4 · Rounds 16–20", title: "Thresholds and Uncertainty",
+    setup: "A mixed closing run: two rounds (16, 18) where the pot only pays out at all if the team clears a rising minimum — 40%, then 60% of possible tokens — a surprise matching round (17), a round where the payout rate is randomised and only revealed after decisions lock in (19), and a finale (20) with the highest bar yet, 75%.",
+    meaning: "Real collective-action problems are often exactly this shape — a bridge either gets built or it does not; an immunisation programme either crosses herd immunity or it does not. A threshold turns the dilemma from a slope into a cliff, and once real payoffs are uncertain rather than guaranteed, a team has to decide under risk, not just under temptation.",
+    typical: "Threshold rounds are hit-or-miss even at the lower 40% bar; teams that miss usually did not coordinate explicitly beforehand.",
+    ask: "In the rounds with a minimum target, did your team discuss a number before deciding, or did everyone just guess what the others would do?" }
+];
+
 /* The Autarky Challenge — the five Part 2 supply-chain disruption
-   scenarios, used by the Debrief Guide's scenario selector. Every
-   number and quote here is taken directly from the deployed game's own
+   scenarios, used by the Debrief Guide’s scenario selector. Every
+   number and quote here is taken directly from the deployed game’s own
    data (autarky-game-src/Code.js), not invented. */
 var AUTARKY_SCENARIOS = [
   { key: "chip-quake", label: "Chip Fab Earthquake", concept: "Single Point of Failure",
     banner: "A major earthquake forces the Taiwan chip fab offline for six weeks.",
-    affected: "The chip fab, final assembly, and the retail shelf — no chip, no phone, wherever you're standing in the chain.",
+    affected: "The chip fab, final assembly, and the retail shelf — no chip, no phone, wherever you’re standing in the chain.",
     effects: [
-      { k: "Production", dir: "Falls", note: "Assembly can't build a phone with no chip to put in it." },
+      { k: "Production", dir: "Falls", note: "Assembly can’t build a phone with no chip to put in it." },
       { k: "Prices", dir: "Rises", note: "Scarce finished phones get bid up wherever stock remains." },
       { k: "Employment", dir: "Falls", note: "Assembly-line workers are idled downstream, not just fab workers upstream." },
       { k: "GDP", dir: "Falls", note: "Both the chip-exporting and the phone-assembling economies take a hit." }
@@ -1106,18 +1161,18 @@ var AUTARKY_SCENARIOS = [
       { k: "Employment", dir: "Mixed", note: "Assembly may trim costs elsewhere to absorb the shock." },
       { k: "GDP", dir: "Falls", note: "A small, cheap part can still tax an entire billion-dollar product line." }
     ],
-    insight: "Even a tiny, inexpensive component can hold up an entire assembly line if there's no substitute.",
+    insight: "Even a tiny, inexpensive component can hold up an entire assembly line if there’s no substitute.",
     best: "Pass the cost through — raise the final price by roughly the tariff amount. Since this is a cost increase rather than a supply cutoff, passing it straight into price is often the fastest workable response." },
   { key: "canal-block", label: "Shipping Route Blocked", concept: "Logistics Chokepoint",
     banner: "The main shipping route from the assembly plant to your country is blocked for three weeks.",
     affected: "Just the retail shelf — production upstream never stops.",
     effects: [
-      { k: "Production", dir: "Little change", note: "The factory keeps making phones — it just can't get them out." },
+      { k: "Production", dir: "Little change", note: "The factory keeps making phones — it just can’t get them out." },
       { k: "Prices", dir: "Rises", note: "Retailers running low raise prices on the stock they have left." },
       { k: "Employment", dir: "Falls", note: "Retail and local logistics jobs feel the shortage first." },
       { k: "GDP", dir: "Falls", note: "Import-dependent retail economies see the hit even though nothing broke upstream." }
     ],
-    insight: "A working factory means nothing if the product can't reach the store.",
+    insight: "A working factory means nothing if the product can’t reach the store.",
     best: "Reroute shipments or draw down inventory — either is a strong fit for a temporary three-week block, at moderate extra cost, without overreacting to a short-run disruption." },
   { key: "lithium-nationalized", label: "Lithium Mines Nationalised", concept: "Resource Nationalism",
     banner: "The lithium-exporting country nationalises its mines and halts all exports.",
@@ -1125,7 +1180,7 @@ var AUTARKY_SCENARIOS = [
     effects: [
       { k: "Production", dir: "Falls", note: "No lithium in, no batteries out — and no batteries, no finished phones." },
       { k: "Prices", dir: "Rises", note: "Every stage of the chain that depended on lithium gets more expensive." },
-      { k: "Employment", dir: "Falls", note: "Battery and assembly-country jobs are squeezed by a shock they don't control." },
+      { k: "Employment", dir: "Falls", note: "Battery and assembly-country jobs are squeezed by a shock they don’t control." },
       { k: "GDP", dir: "Mixed", note: "Importers lose; the lithium country may gain short-term but risks losing buyers for good." }
     ],
     insight: "Controlling a critical raw material gives short-term leverage but long-term risk of losing customers who diversify.",
@@ -1137,7 +1192,7 @@ var AUTARKY_SCENARIOS = [
       { k: "Production", dir: "Falls", note: "Zero finished phones leave the plant until it reopens." },
       { k: "Prices", dir: "Rises", note: "Retailers ration dwindling stock at higher prices." },
       { k: "Employment", dir: "Falls", note: "Assembly-country job losses are steep and immediate." },
-      { k: "GDP", dir: "Falls", note: "The assembly country's exports and the retail country's tech sector both shrink." }
+      { k: "GDP", dir: "Falls", note: "The assembly country’s exports and the retail country’s tech sector both shrink." }
     ],
     insight: "When the final assembly link breaks, every upstream part becomes stuck inventory with nowhere to go.",
     best: "Shift to a backup contract manufacturer. Large electronics firms maintain exactly this kind of contingency arrangement — the fastest credible fix, if the relationship already exists." }
@@ -1228,14 +1283,14 @@ function subwayMapArchive(){
 
    Real hub-and-spoke, not parallel lines: one central interchange, every
    topic radiates out from it as its own spoke, and that spoke continues
-   on through the topic's game(s) at increasing distance from the hub.
+   on through the topic’s game(s) at increasing distance from the hub.
    The fan is deliberately kept narrow (±22°) so every spoke leans
    rightward — that lets every label use the same "place it to the right
    of its node" rule regardless of how many topics exist, without
    per-topic label-placement logic. */
 var MAP_LINE_COLORS = ["blue-line","rise-line","violet-line","chalk-line","stamp-line"];
 
-/* Measures real rendered text width via an offscreen canvas, so the map's
+/* Measures real rendered text width via an offscreen canvas, so the map’s
    viewBox can be cropped tight to its actual content instead of reserving
    a fixed, mostly-empty canvas (which read as an unfinished/buggy page
    when there were only one or two nodes on it). */
@@ -1375,7 +1430,7 @@ function renderHome(){
   var totalMinutes = gameIds.reduce(function(sum,id){ return sum + (GAMES[id].minutes||0); }, 0);
   var totalResourcePages = gameIds.reduce(function(sum,id){
     var nav = RESOURCE_NAV[id] || [];
-    return sum + Math.max(0, nav.length - 1); // minus "overview", which isn't a separate written resource
+    return sum + Math.max(0, nav.length - 1); // minus "overview", which isn’t a separate written resource
   }, 0);
   var cards = gameIds.map(function(id){ return gameCard(GAMES[id]); }).join("");
 
@@ -2248,12 +2303,12 @@ function renderAutarkyTeachingNote(id){
     + accordionHtml([
       { title: "Learning objectives", open: true, html:
         "<ul><li>Discover that no good — not even a pencil — is made in one country, before being told so.</li>"
-        + "<li>Follow one real product's supply chain, and predict what a specific disruption actually breaks.</li>"
+        + "<li>Follow one real product’s supply chain, and predict what a specific disruption actually breaks.</li>"
         + "<li>Distinguish a good policy response from a lucky one — each response is graded on fit, not right or wrong.</li>"
         + "<li>See the same shock produce different effects on production, prices, employment and GDP, and why.</li></ul>"
       },
       { title: "Before class", html:
-        "<ul><li>Open the Sheet's <em>Autarky Challenge</em> menu and set the instructor passcode.</li>"
+        "<ul><li>Open the Sheet’s <em>Autarky Challenge</em> menu and set the instructor passcode.</li>"
         + "<li>Join as a test student on your own phone to confirm the link works, then reset the game so the roster is clean.</li>"
         + "<li>Decide whether to run both parts in one sitting or split at the Part 1/Part 2 boundary (after step 5) across two sessions.</li></ul>"
       },
@@ -2267,12 +2322,12 @@ function renderAutarkyTeachingNote(id){
         + '</div>'
       },
       { title: "Part 2 — Supply Chain Challenge (steps 6–12)", html:
-        "<p>One case product throughout: a smartphone, built from a lithium mine in Chile, a chip fab in Taiwan, a battery plant in China, and final assembly in Vietnam, sold wherever your class is. Step 6 shows the intact chain; steps 7–11 each break one link and ask students to predict what's affected before revealing the real consequences; step 12 debriefs the whole part.</p>"
-        + "<p>After each prediction, students choose one of four policy responses to the same disruption — this is judgment, not a right-or-wrong question, and the reveal shows all four side by side with the student's own pick marked.</p>"
+        "<p>One case product throughout: a smartphone, built from a lithium mine in Chile, a chip fab in Taiwan, a battery plant in China, and final assembly in Vietnam, sold wherever your class is. Step 6 shows the intact chain; steps 7–11 each break one link and ask students to predict what’s affected before revealing the real consequences; step 12 debriefs the whole part.</p>"
+        + "<p>After each prediction, students choose one of four policy responses to the same disruption — this is judgment, not a right-or-wrong question, and the reveal shows all four side by side with the student’s own pick marked.</p>"
       },
       { title: "What to watch on the dashboard", html:
-        "<ul><li>Each step's live response tally and per-student table — nothing is hidden from you, even mid-step.</li>"
-        + "<li>The step-5 and step-12 debrief screens auto-compute aggregate stats (e.g. the swing between step 1 and step 4) — project these directly, they're built to be read aloud.</li>"
+        "<ul><li>Each step’s live response tally and per-student table — nothing is hidden from you, even mid-step.</li>"
+        + "<li>The step-5 and step-12 debrief screens auto-compute aggregate stats (e.g. the swing between step 1 and step 4) — project these directly, they’re built to be read aloud.</li>"
         + "<li>The “Solve It” tally under each Part 2 scenario — who picked the best-fit response, and who picked a popular but weaker one.</li></ul>"
       }
     ])
@@ -2302,13 +2357,13 @@ function renderAutarkyDebriefGuide(id){
     + tabsHtml("autarky-scenarios", AUTARKY_SCENARIOS, function(s){return s.key;}, function(s){return s.label;}, autarkyScenarioPanel, AUTARKY_SCENARIOS[0].key, null)
     + accordionHtml([
       { title: "Part 2 debrief — interdependence, not blame", html:
-        "<p>The dashboard shows the class's average accuracy predicting the cascade across all five disruptions — read it aloud before these two.</p>"
+        "<p>The dashboard shows the class’s average accuracy predicting the cascade across all five disruptions — read it aloud before these two.</p>"
         + '<div class="qa-block"><div class="who">Ask the room</div><ul>'
         + "<li>Does interdependence make countries safer (mutual benefit) or more fragile (supply shocks)? Give a real example.</li>"
         + "<li>If a single fire or earthquake can freeze a global product, should companies keep backup suppliers even if it costs more — and who pays for that insurance?</li></ul></div>"
       },
       { title: "Why a “best-fit” response, not a right answer", html:
-        "<p>Every Part 2 scenario has one clearly best-fit response among four, but none of them are free — even the best one has a real cost or a real delay attached. The point isn't that one response is costless; it's that the other three are worse fits for that specific disruption's timescale and cause. A quick way to spot the mismatch: ask whether a student's chosen response actually matches whether the shock is temporary (three weeks) or permanent (nationalised mines) — most of the popular wrong picks solve the wrong kind of disruption.</p>"
+        "<p>Every Part 2 scenario has one clearly best-fit response among four, but none of them are free — even the best one has a real cost or a real delay attached. The point isn’t that one response is costless; it’s that the other three are worse fits for that specific disruption’s timescale and cause. A quick way to spot the mismatch: ask whether a student’s chosen response actually matches whether the shock is temporary (three weeks) or permanent (nationalised mines) — most of the popular wrong picks solve the wrong kind of disruption.</p>"
       }
     ])
   ) + '</section>';
@@ -2321,7 +2376,7 @@ function renderAutarkyStudentNote(id){
     { term: "Global value chain", def: "The full path a good travels — raw material to finished product — usually through several countries, not one." },
     { term: "Import dependence", def: "Relying on another country for a good, or for the machine that makes it." },
     { term: "Chokepoint", def: "A single link in a chain that, if it breaks, stops everything downstream of it." },
-    { term: "Tariff pass-through", def: "How much of a tariff's cost ends up in the price you pay, rather than absorbed elsewhere." },
+    { term: "Tariff pass-through", def: "How much of a tariff’s cost ends up in the price you pay, rather than absorbed elsewhere." },
     { term: "Resource nationalism", def: "A country restricting or nationalising exports of a resource it controls." },
     { term: "Concentration risk", def: "Depending on one supplier, one plant, or one route for something with no backup." }
   ].map(function(t){ return '<dt>'+esc(t.term)+'</dt><dd>'+esc(t.def)+'</dd>'; }).join("");
@@ -2351,6 +2406,141 @@ function renderAutarkyStudentNote(id){
 }
 
 /* LIVE. */
+/* ---- The Common Pot ---- */
+function commonPotBlockPanel(b){
+  return '<div class="epigraph">'+esc(b.setup)+'</div>'
+    + '<h4>What usually happens</h4><p>'+esc(b.typical)+'</p>'
+    + '<h4>What it means</h4><p>'+esc(b.meaning)+'</p>'
+    + '<div class="discussion-q">Ask the room: '+esc(b.ask)+'</div>';
+}
+
+var COMMON_POT_CONDITIONS = [
+  { name: "Corporate Matching Gift", note: "A company matches every token the group contributes, dollar for dollar." },
+  { name: "Government Green Subsidy", note: "The government triples the impact of contributions toward the shared pot." },
+  { name: "Mandatory Tax + Voluntary Giving", note: "Part of every endowment is automatically taxed into the pot; the rest stays voluntary." },
+  { name: "Income Inequality", note: "Some members start with more tokens than others — does that change who gives?" },
+  { name: "Climate Uncertainty", note: "Nobody knows exactly how much the shared pot will pay out until after decisions lock in." },
+  { name: "The Ask vs. The Give", note: "Identical math — but the decision is framed as taking from the group instead of giving to it." },
+  { name: "Public Recognition Wall", note: "Every member’s individual contribution is posted for the whole group to see afterward." }
+];
+
+function renderCommonPotTeachingNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  var conditionRows = COMMON_POT_CONDITIONS.map(function(c){
+    return '<div class="item"><div class="k">'+esc(c.name)+'</div><div class="v">'+esc(c.note)+'</div></div>';
+  }).join("");
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Teaching note</span>'
+    + '<h1>Running '+esc(g.title)+'</h1>'
+    + '<p class="lead">Twenty rounds, four teams, and a live dashboard that lets you swap the rules mid-game without students ever seeing a label change.</p>'
+    + subNav(id, "teaching-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + '<div class="at-a-glance">'
+    +   '<div class="item"><div class="k">Session length</div><div class="v">~60 minutes, entirely instructor-paced</div></div>'
+    +   '<div class="item"><div class="k">Students need</div><div class="v">A full name and roll number — no account</div></div>'
+    +   '<div class="item"><div class="k">Instructor needs</div><div class="v">The passcode set from the Sheet menu, and the dashboard projected</div></div>'
+    +   '<div class="item"><div class="k">Teams</div><div class="v">4 (A–D), self-balancing as students join, up to ~40 total</div></div>'
+    + '</div>'
+    + accordionHtml([
+      { title: "Learning objectives", open: true, html:
+        "<ul><li>Discover the free-rider tension by living inside it — the words “public good” and “free rider” never appear on a student’s screen.</li>"
+        + "<li>Feel how the balance between a private and a shared return, not any fixed instinct, decides how much a team gives.</li>"
+        + "<li>Compare four different fixes for the same dilemma — a falling private return, a rising outside match, a minimum threshold, and payout uncertainty — inside one session.</li></ul>"
+      },
+      { title: "Before class", html:
+        "<ul><li>Set the instructor passcode from the Sheet’s <em>The Common Pot</em> menu.</li>"
+        + "<li>Join as a test student to confirm the link works, then start a new session so the roster is clean.</li>"
+        + "<li>Decide whether to run the full 20-round default schedule or edit it down — every round is editable live, individually or by block, from the dashboard’s round editor.</li></ul>"
+      },
+      { title: "The default 20-round schedule", html:
+        '<div class="at-a-glance">'
+        + '<div class="item"><div class="k">Block 1 · Rounds 1–5</div><div class="v">Fixed baseline — $4 to keep, $1 to the pot per teammate</div></div>'
+        + '<div class="item"><div class="k">Block 2 · Rounds 6–10</div><div class="v">Price of keeping falls each round: $4, $3, $2, $1, $0.50</div></div>'
+        + '<div class="item"><div class="k">Block 3 · Rounds 11–15</div><div class="v">Outside match on the pot climbs: 0%, 50%, 100%, 150%, 200%</div></div>'
+        + '<div class="item"><div class="k">Block 4 · Rounds 16–20</div><div class="v">Two rising thresholds (40%, 60%), a surprise match, an uncertainty round, and a 75% finale</div></div>'
+        + '</div>'
+        + '<p class="muted">After rounds 5, 10 and 15 the dashboard offers a built-in 10-minute team discussion window — no decisions can be submitted while it runs. These are natural places to pause and ask a question, not just administrative breaks.</p>'
+      },
+      { title: "The condition library — more presets you can fire live", html:
+        "<p>Beyond the default schedule, 14 ready-made conditions can be applied to any round, live, without students seeing anything change except the numbers. A few of the most useful:</p>"
+        + '<div class="at-a-glance">' + conditionRows + '</div>'
+        + "<p class=\"muted\">The dashboard can also suggest one at random, or you can build and save a custom condition of your own.</p>"
+      },
+      { title: "Three decisions worth protecting", open: false, html:
+        "<ul><li><strong>Never narrate the mechanic.</strong> Students only ever see the raw numbers — price, pot rate, any target — never a round count, a progress bar, or a name like “matching grant.” Saying the label out loud defeats the point.</li>"
+        + "<li><strong>Nothing is scored right or wrong.</strong> Contributions stay private by default; only the “Public Recognition Wall” or “Anonymous Giving” conditions change that, and only if you choose to fire them.</li>"
+        + "<li><strong>Use the dashboard’s own Debrief insights panel.</strong> It auto-writes real sentences from your specific session’s data — how contributions moved between blocks, how often a threshold was met, how teams rank — read them aloud rather than computing anything by hand.</li></ul>"
+      }
+    ])
+    + '<p style="margin-top:20px;max-width:70ch">When round 20 ends, move into the <a href="#/games/'+id+'/debrief-guide">debrief guide</a>.</p>'
+  ) + '</section>';
+}
+
+function renderCommonPotDebriefGuide(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Debrief guide</span>'
+    + '<h1>Debriefing '+esc(g.title)+'</h1>'
+    + '<p class="lead">The dashboard’s own Debrief insights panel writes real sentences from your session’s data — read those first, then use whichever block below actually fired.</p>'
+    + subNav(id, "debrief-guide")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "Open with what your own class did, not the theory", open: true, html:
+        "<p>The instructor dashboard already computes, from your specific session: how average contribution moved between blocks, how many team-rounds met a threshold where one applied, and how teams rank by average earnings. Read these aloud before asking anything — the room already produced the evidence.</p>"
+      }
+    ])
+    + '<div style="margin:28px 0 6px"><h2 style="margin-bottom:6px">The four blocks</h2><p class="muted">Pick whichever block your class actually played through.</p></div>'
+    + tabsHtml("common-pot-blocks", COMMON_POT_BLOCKS, function(b){return b.key;}, function(b){return b.label;}, commonPotBlockPanel, COMMON_POT_BLOCKS[0].key, null)
+    + accordionHtml([
+      { title: "Close on the ratio, not the villain", html:
+        "<p>No student in the room was told there was a “right” amount to give, and nobody should leave the debrief thinking a low contributor did something wrong. Every round’s outcome follows from one ratio — the private return against the shared one — and that ratio was set by the round’s design, not by anyone’s character. The four blocks changed four different things about that ratio: the private side, the public side, an all-or-nothing bar, and the certainty of the payoff. Ask the room which of those four levers they would reach for first, if they were actually trying to solve a real version of this problem.</p>"
+      },
+      { title: "Where this shows up outside the room", html:
+        '<div class="at-a-glance">'
+        + '<div class="item"><div class="k">Open-source software</div><div class="v">Maintained by volunteers; used by companies who contribute nothing back</div></div>'
+        + '<div class="item"><div class="k">Vaccination and herd immunity</div><div class="v">A threshold good — protection only holds once enough people cross the bar</div></div>'
+        + '<div class="item"><div class="k">Climate agreements</div><div class="v">Every country prefers the others cut emissions while it keeps growing</div></div>'
+        + '<div class="item"><div class="k">Tax-funded public services</div><div class="v">Mandatory contribution exists precisely because voluntary giving under-supplies them</div></div>'
+        + '</div>'
+      }
+    ])
+  ) + '</section>';
+}
+
+function renderCommonPotStudentNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  var glossary = [
+    { term: "Public good", def: "Something that, once provided, benefits everyone in the group whether or not they personally paid for it." },
+    { term: "Free-rider problem", def: "The temptation to let others pay for a shared benefit you’ll get anyway." },
+    { term: "Marginal per-capita return", def: "How much one contributed token pays back to each member of the group — not to you alone." },
+    { term: "Matching grant", def: "An outside party adds to whatever is voluntarily contributed, increasing its return." },
+    { term: "Threshold good", def: "A shared benefit that only materialises once contributions clear a minimum bar — below it, nothing is paid at all." }
+  ].map(function(t){ return '<dt>'+esc(t.term)+'</dt><dd>'+esc(t.def)+'</dd>'; }).join("");
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Student note</span>'
+    + '<h1>What just happened</h1>'
+    + '<p class="lead">Read this after your instructor’s debrief on '+esc(g.title)+' — nothing here was shown to you during play, on purpose.</p>'
+    + subNav(id, "student-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "What you actually did", open: true, html:
+        "<p>Every round, your team split its tokens between keeping them — worth a fixed amount to you alone — and giving them to a shared pot, which paid every teammate back, including you. The numbers moved across the game without ever being explained: first fixed, then the private return fell, then an outside match on the pot rose, then a run of rounds with a minimum target, a surprise, and an uncertain payout.</p>"
+      },
+      { title: "Why the numbers were doing that", html:
+        "<p>This is a classic public-goods dilemma: keeping a token pays you in full and for certain; giving it pays a smaller amount, but to everyone on your team, not just you. Kept alone, that math favours keeping — which is exactly why real-world versions of this problem (open-source software, vaccination, climate agreements, tax-funded services) tend to under-supply themselves unless something changes the ratio: a lower private payoff, a richer public one, a minimum bar that has to be cleared together, or a mandatory floor that removes the choice entirely.</p>"
+      },
+      { title: "Terms you now have the vocabulary for", html: '<dl class="glossary">' + glossary + '</dl>' }
+    ])
+    + '<div class="editor-note" style="margin-top:20px"><strong>Worth sitting with:</strong> was there a round where you gave more than you had to, even once the numbers made keeping the safer bet? What was that about?</div>'
+  ) + '</section>';
+}
+
 var RESOURCE_PAGES = {
   "world-market-watch": {
     "teaching-note": renderMWTeachingNote,
@@ -2367,6 +2557,11 @@ var RESOURCE_PAGES = {
     "session-guide": renderLakeSessionGuide,
     "debrief-guide": renderLakeDebriefGuide,
     "lessons-learned": renderLakeLessonsLearned
+  },
+  "the-common-pot": {
+    "teaching-note": renderCommonPotTeachingNote,
+    "debrief-guide": renderCommonPotDebriefGuide,
+    "student-note": renderCommonPotStudentNote
   }
 };
 
@@ -2584,7 +2779,7 @@ function route(){
   window.scrollTo({top:0, behavior:"instant"});
   // Restart the CSS fade-in on the new content — resetting to "none" and
   // reading a layout property forces the browser to notice the animation
-  // changed, since re-applying the same class/style wouldn't restart it.
+  // changed, since re-applying the same class/style wouldn’t restart it.
   app.style.animation = "none";
   app.offsetHeight;
   app.style.animation = "";
