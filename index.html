@@ -330,8 +330,8 @@ section.alt{ background: var(--paper-2); border-top:1px solid var(--rule); borde
 /* ---------------- subway map ---------------- */
 .map-legend{ display:flex; gap: 18px; flex-wrap: wrap; margin-top: 18px; font-size: .85rem; color: var(--ink-soft); }
 .map-legend .dot{ display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; vertical-align: -1px; }
-.subway-fig{ margin: 0; }
-.subway-fig svg{ width:100%; height:auto; display:block; }
+.subway-fig{ margin: 0; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
+.subway-fig svg{ width:100%; min-width: 640px; height:auto; display:block; }
 .subway-fig figcaption{ margin-top: 14px; color: var(--ink-soft); font-size: .88rem; }
 .subway-fig a text{ fill: var(--ink); font-family: var(--font-body); transition: fill .15s ease; }
 .subway-fig a:hover text{ fill: var(--blue); }
@@ -701,6 +701,24 @@ var GAMES = {
       { k: "Class size", v: "Any size · one attempt per student, timed and locked" },
       { k: "The shortfall", v: "15 patients ask for 95 hours against a 50-hour machine" }
     ]
+  },
+  "public-verdict": {
+    id: "public-verdict",
+    title: "The Public Verdict",
+    tagline: "Ten statements about what government should — or shouldn’t — do. Agree, disagree, or say it depends, then see where the whole class landed.",
+    description: "Students respond to ten statements about government action — five as individuals, five as a six-person team reaching one shared answer — then see the whole class’s split after each. A ten-question quiz follows, checking whether the underlying idea actually landed. The point isn’t obvious until the debrief: “the government does X” is not the same claim as “X is an economic public good.” Some of the ten statements are textbook public goods, some are paternalism, some are externality regulation, some are pure redistribution — the activity is built to force students to tell those apart, statement by statement, before anyone hands them the vocabulary.",
+    format: "Live classroom · ~20–25 minutes · phones + projector, one instructor dashboard",
+    status: "dev",
+    statusLabel: "Ready to pilot",
+    tags: ["Public goods", "Externalities", "Collective choice", "Classroom simulation"],
+    link: "https://script.google.com/macros/s/AKfycbx9_hVh9Q5otQ7ByvJKwQpzyvVy-wgZ0SrhWHyf90qgKZwUIdSYfjDxI2nY-piIWFQVwQ/exec",
+    linkLabel: null,
+    minutes: 25,
+    glance: [
+      { k: "Format", v: "Live classroom · ~20–25 minutes · phones + projector" },
+      { k: "Class size", v: "Any size · 6 self-balancing teams (A–F)" },
+      { k: "Structure", v: "10 live statements (5 solo, 5 by team), then a 10-question quiz" }
+    ]
   }
 };
 
@@ -724,8 +742,8 @@ var TOPICS = [
   },
   {
     title: "Public Goods",
-    description: "Free-riding, voluntary contribution, and why a shared benefit that costs the giver alone tends to be under-supplied — until the incentives around it are redesigned. Explored hands-on through The Common Pot.",
-    games: ["the-common-pot"]
+    description: "Free-riding, voluntary contribution, non-excludability and non-rivalry, and why a shared benefit that costs the giver alone tends to be under-supplied — until the incentives around it are redesigned, or until “the government provides it” turns out not to mean what people assumed. Explored hands-on through The Common Pot and The Public Verdict.",
+    games: ["the-common-pot", "public-verdict"]
   },
   {
     title: "Scarcity and Rationing",
@@ -1127,7 +1145,8 @@ var RESOURCE_NAV = {
   "the-lake": [["overview","Overview"],["round-cards","Round Cards"],["session-guide","Session Guide"],["debrief-guide","Debrief Guide"],["lessons-learned","Lessons Learned"]],
   "trade-game": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-note","Debrief Note"],["quiz","Quiz"],["student-note","Student Note"]],
   "the-common-pot": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
-  "fifty-hours": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
+  "fifty-hours": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
+  "public-verdict": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
 };
 
 /* The Common Pot — the four blocks of its default 20-round schedule,
@@ -1300,15 +1319,27 @@ function subwayMapArchive(){
 }
 
 /* LIVE. Computed from TOPICS/GAMES — nothing to hand-edit when a topic
-   or game is added; the fan simply redistributes itself.
+   or game is added.
 
-   Real hub-and-spoke, not parallel lines: one central interchange, every
-   topic radiates out from it as its own spoke, and that spoke continues
-   on through the topic’s game(s) at increasing distance from the hub.
-   The fan is deliberately kept narrow (±22°) so every spoke leans
-   rightward — that lets every label use the same "place it to the right
-   of its node" rule regardless of how many topics exist, without
-   per-topic label-placement logic. */
+   Real tube-map geometry, not trig-fan geometry: one horizontal row per
+   topic, evenly stacked and vertically centred on the hub. Each row’s
+   line leaves the hub as a 45° diagonal (the standard octolinear tube-map
+   bend) until it reaches its row, then runs dead straight through the
+   topic station and on through its game(s) — same idea as a real
+   Underground line forking at an interchange and running parallel
+   afterwards. Fixed row height, not an angle, is what guarantees two
+   topics can never collide: their labels live in different horizontal
+   lanes no matter how many topics exist. Every label also carries a
+   paper-coloured halo (paint-order="stroke") so even a line crossing
+   behind a label (which does happen where an outer row’s diagonal
+   passes an inner row, exactly as two real tube lines cross without an
+   interchange) never reads as cutting through the text.
+
+   Scaling note: this trades an angle problem for a height problem — at
+   very high topic counts the map gets tall rather than cluttered, which
+   is the safer failure mode but not free forever. If it ever starts
+   feeling too tall/scrolly, the fix is two hubs side by side (odd rows
+   off one, even rows off the other) rather than shrinking row height. */
 var MAP_LINE_COLORS = ["blue-line","rise-line","violet-line","chalk-line","stamp-line"];
 
 /* Measures real rendered text width via an offscreen canvas, so the map’s
@@ -1326,14 +1357,13 @@ function subwayMap(){
     return '<div class="empty-state">No lines laid yet — the map will fill in as topics and games are added.</div>';
   }
 
-  var hubX = 110, hubY = 230;
+  var hubX = 40, hubY = 0;
   var n = TOPICS.length;
-  var fanDeg = n > 1 ? 44 : 0; // total spread; ±22° at the extremes
-  var startDeg = -fanDeg/2;
-  var stepDeg = n > 1 ? fanDeg/(n-1) : 0;
-  var r1 = 130;   // hub -> topic station
-  var rStep = 170; // topic station -> its games, and between games on the same spoke
+  var rowGap = 108;     // vertical distance between two topics' lines — fixed, not angular, so it can’t shrink as topics are added
+  var bendMargin = 46;  // horizontal run after the 45° bend, before the topic station
+  var nodeGap = 46;     // clearance between one label’s end and the next station on the same row
   var labelFont = "600 14px 'IBM Plex Sans', sans-serif";
+  var labelDX = 14, labelDY = -16; // every label sits above its row’s line, just right of its station — same rule everywhere, no above/below branching
 
   var lines = '', nodes = '';
   var minX = hubX - 15, maxX = hubX + 15, minY = hubY - 15, maxY = hubY + 15;
@@ -1341,35 +1371,39 @@ function subwayMap(){
     minX = Math.min(minX, x0); maxX = Math.max(maxX, x1);
     minY = Math.min(minY, y0); maxY = Math.max(maxY, y1);
   }
+  function haloText(x, y, str, anchor){
+    return '<text x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" font-size="14" font-weight="600" text-anchor="'+anchor+'" '
+      + 'stroke="var(--paper)" stroke-width="5" stroke-linejoin="round" paint-order="stroke">'+esc(str)+'</text>';
+  }
 
   TOPICS.forEach(function(t, i){
     var color = MAP_LINE_COLORS[i % MAP_LINE_COLORS.length];
-    var angle = (startDeg + i*stepDeg) * Math.PI/180;
-    var cos = Math.cos(angle), sin = Math.sin(angle);
-    var tx = hubX + r1*cos, ty = hubY + r1*sin;
+    var rowY = (i - (n-1)/2) * rowGap;
+    var bendX = hubX + Math.abs(rowY);
+    var topicX = bendX + bendMargin;
+    var pathD = 'M'+hubX.toFixed(1)+' '+hubY.toFixed(1)+' L'+bendX.toFixed(1)+' '+rowY.toFixed(1)+' L'+topicX.toFixed(1)+' '+rowY.toFixed(1);
 
-    lines += '<line x1="'+hubX+'" y1="'+hubY.toFixed(1)+'" x2="'+tx.toFixed(1)+'" y2="'+ty.toFixed(1)+'" stroke="var(--'+color+')" stroke-width="6" stroke-linecap="round"/>';
+    var labelW = mapTextWidth(t.title, labelFont);
+    nodes += '<a href="#/topics"><circle class="station" cx="'+topicX.toFixed(1)+'" cy="'+rowY.toFixed(1)+'" r="11" fill="var(--panel)" stroke="var(--'+color+')" stroke-width="5"/>'
+      + haloText(topicX+labelDX, rowY+labelDY, t.title, "start")
+      + '</a>';
+    grow(bendX, topicX + labelDX + labelW, rowY + labelDY - 15, rowY + 16);
 
-    var labelAbove = ty <= hubY;
-    var labelY = ty + (labelAbove ? -20 : 32);
-    var halfW = mapTextWidth(t.title, labelFont) / 2;
-    nodes += '<a href="#/topics"><circle class="station" cx="'+tx.toFixed(1)+'" cy="'+ty.toFixed(1)+'" r="11" fill="var(--panel)" stroke="var(--'+color+')" stroke-width="5"/>'
-      + '<text x="'+tx.toFixed(1)+'" y="'+labelY.toFixed(1)+'" font-size="14" font-weight="600" text-anchor="middle">'+esc(t.title)+'</text></a>';
-    grow(tx - Math.max(11, halfW), tx + Math.max(11, halfW), Math.min(ty - 11, labelY - 14), Math.max(ty + 11, labelY + 6));
-
-    var prevX = tx, prevY = ty;
-    (t.games || []).forEach(function(gid, gi){
+    var cursorX = topicX + labelDX + labelW;
+    (t.games || []).forEach(function(gid){
       var g = GAMES[gid];
       if(!g) return;
-      var r = r1 + rStep*(gi+1);
-      var gx = hubX + r*cos, gy = hubY + r*sin;
-      lines += '<line x1="'+prevX.toFixed(1)+'" y1="'+prevY.toFixed(1)+'" x2="'+gx.toFixed(1)+'" y2="'+gy.toFixed(1)+'" stroke="var(--'+color+')" stroke-width="6" stroke-linecap="round"/>';
-      nodes += '<a href="#/games/'+gid+'"><circle class="station" cx="'+gx.toFixed(1)+'" cy="'+gy.toFixed(1)+'" r="16" fill="var(--'+color+')" stroke="var(--panel)" stroke-width="4"/>'
-        + '<text x="'+(gx+24).toFixed(1)+'" y="'+(gy+5).toFixed(1)+'" font-size="14" font-weight="600" text-anchor="start">'+esc(g.title)+'</text></a>';
-      var labelW = mapTextWidth(g.title, labelFont);
-      grow(gx - 16, gx + 24 + labelW, gy - 16, gy + 16);
-      prevX = gx; prevY = gy;
+      var gx = cursorX + nodeGap;
+      pathD += ' L'+gx.toFixed(1)+' '+rowY.toFixed(1);
+      var gLabelW = mapTextWidth(g.title, labelFont);
+      nodes += '<a href="#/games/'+gid+'"><circle class="station" cx="'+gx.toFixed(1)+'" cy="'+rowY.toFixed(1)+'" r="16" fill="var(--'+color+')" stroke="var(--panel)" stroke-width="4"/>'
+        + haloText(gx+labelDX+6, rowY+labelDY, g.title, "start")
+        + '</a>';
+      grow(gx - 16, gx + labelDX + 6 + gLabelW, rowY + labelDY - 15, rowY + 16);
+      cursorX = gx + labelDX + 6 + gLabelW;
     });
+
+    lines += '<path d="'+pathD+'" fill="none" stroke="var(--'+color+')" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>';
   });
 
   var hub = '<a href="#/topics"><circle cx="'+hubX+'" cy="'+hubY.toFixed(1)+'" r="15" fill="var(--ink)" stroke="var(--panel)" stroke-width="4"/></a>';
@@ -1379,7 +1413,7 @@ function subwayMap(){
   var vbW = (maxX - minX + pad*2).toFixed(1), vbH = (maxY - minY + pad*2).toFixed(1);
 
   return '<figure class="subway-fig">'
-    + '<svg viewBox="'+vbX+' '+vbY+' '+vbW+' '+vbH+'" role="img" aria-label="Subway-style map: a central hub with one spoke per topic, each running on through its game or games.">'
+    + '<svg viewBox="'+vbX+' '+vbY+' '+vbW+' '+vbH+'" role="img" aria-label="Subway-style map: a central hub with one line per topic, each running on through its game or games.">'
     + lines + nodes + hub
     + '</svg>'
     + '<div class="map-legend">'
@@ -2550,6 +2584,152 @@ function renderFiftyHoursStudentNote(id){
   ) + '</section>';
 }
 
+/* ---- The Public Verdict ---- */
+var PUBLIC_VERDICT_STATEMENTS = [
+  { n: 1, mode: "Individual", text: "The government should use the police to stop reckless driving.", category: "Classic public good — protection from harm" },
+  { n: 2, mode: "Individual", text: "The government should build and maintain highways.", category: "Public good with a rivalry wrinkle" },
+  { n: 3, mode: "Individual", text: "The government should require every child to be buckled into a car seat.", category: "Paternalism, not a public good" },
+  { n: 4, mode: "Individual", text: "The government should be able to ban drivers from using a phone at the wheel.", category: "Negative externality regulation" },
+  { n: 5, mode: "Individual", text: "The government should tax 90% of everything I earn in my lifetime.", category: "Redistribution, not provision" },
+  { n: 6, mode: "Team", text: "National defense should be funded voluntarily — anyone who doesn’t want to contribute should be allowed to opt out.", category: "Pure public good — the free-rider problem" },
+  { n: 7, mode: "Team", text: "The city should charge every household the same tax to install and run streetlights, even residents who say they never go outside at night.", category: "Non-excludability in practice" },
+  { n: 8, mode: "Team", text: "The government should fund vaccination campaigns against contagious diseases, even for people who could easily afford to pay for their own vaccine.", category: "Positive externality — herd immunity" },
+  { n: 9, mode: "Team", text: "A community fireworks show should be paid for through voluntary donations only, with nobody required to contribute.", category: "Pure public good — free-rider problem, lower stakes" },
+  { n: 10, mode: "Team", text: "Since not everyone uses the public library, only people who actually check out books should pay for it through a membership fee instead of everyone’s taxes.", category: "Excludability trade-off — club good vs. public good" }
+];
+
+function renderPublicVerdictTeachingNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  var statementRows = PUBLIC_VERDICT_STATEMENTS.map(function(s){
+    return '<div class="item"><div class="k">'+s.n+' · '+esc(s.mode)+'</div><div class="v">'+esc(s.text)+' <em style="color:var(--ink-faint)">— '+esc(s.category)+'</em></div></div>';
+  }).join("");
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Teaching note</span>'
+    + '<h1>Running '+esc(g.title)+'</h1>'
+    + '<p class="lead">Ten statements, live — five decided alone, five decided as a team — then a ten-question quiz that checks whether the underlying idea actually landed.</p>'
+    + subNav(id, "teaching-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + '<div class="at-a-glance">'
+    +   '<div class="item"><div class="k">Session length</div><div class="v">~20–25 minutes — instructor-paced for the ten statements, self-paced for the quiz</div></div>'
+    +   '<div class="item"><div class="k">Students need</div><div class="v">A name and roll number — no account</div></div>'
+    +   '<div class="item"><div class="k">Instructor needs</div><div class="v">The passcode set from the Sheet menu, and the dashboard projected</div></div>'
+    +   '<div class="item"><div class="k">Teams</div><div class="v">6 self-balancing teams (A–F), assigned automatically as students join</div></div>'
+    + '</div>'
+    + accordionHtml([
+      { title: "Learning objectives", open: true, html:
+        "<ul><li>Separate “the government does X” from “X is an economic public good” — the whole activity is built around that gap.</li>"
+        + "<li>Recognise non-excludability and non-rivalry from real cases, before being given the definitions.</li>"
+        + "<li>Tell the free-rider problem apart from paternalism, externality regulation and plain redistribution — four different reasons government acts on the same list of ten statements.</li>"
+        + "<li>Notice that a class can split sharply on a statement while actually agreeing on the underlying economics — and vice versa.</li></ul>"
+      },
+      { title: "Before class", html:
+        "<ul><li>Open the Sheet’s <em>Public Verdict</em> menu and set the instructor passcode.</li>"
+        + "<li>Join as a test student on your own device to confirm the link works, then reset the game so the roster is clean.</li>"
+        + "<li>Skim the ten statements below — you can add a live eleventh statement mid-class if a discussion runs long, but you can’t remove or edit the built-in ten.</li></ul>"
+      },
+      { title: "How a statement actually runs", html:
+        "<ol style=\"padding-left:20px;line-height:1.7\">"
+        + "<li><strong>You open it.</strong> Statements 1–5 are individual — every student answers on their own. Statements 6–10 are team — the six team members talk it over, and whoever taps first sets the team’s answer, which any teammate can still change until you close it.</li>"
+        + "<li><strong>Students answer.</strong> Agree, Disagree, or It depends. An answer locks the moment it’s tapped; the dashboard shows who has and hasn’t answered, live.</li>"
+        + "<li><strong>You close it.</strong> Students immediately see the class-wide split (percentage and count for all three options), their own answer, and — if you wrote one — a one-line insight.</li>"
+        + "<li><strong>You open the next one</strong> — nothing advances on the student side until you do.</li></ol>"
+      },
+      { title: "The ten statements at a glance", html:
+        '<div class="at-a-glance">' + statementRows + '</div>'
+        + "<p style=\"margin-top:14px\">Only the statement text ever reaches students — category, talking points and follow-up questions stay instructor-side until you choose to share them in the debrief.</p>"
+      },
+      { title: "The quiz", html:
+        "<p>Ten multiple-choice questions, one mark each, opened once all ten statements are done. Self-paced, single attempt — a student who has already submitted just sees their locked, fully explained result if they reopen the link. Every question is revealed after submission with the correct option highlighted, the student’s own pick if wrong, and a written explanation.</p>"
+      },
+      { title: "What to watch on the dashboard", html:
+        "<ul><li>While a statement is open: a live, colour-coded feed of who has answered what — nothing is hidden from you, even mid-statement.</li>"
+        + "<li>Once closed: the class-result bar chart, plus your own category, talking-point and follow-up questions for that statement, ready to read aloud.</li>"
+        + "<li>A statement history table (every closed statement’s split, most recent first) and, once the quiz opens, a per-question breakdown sorted worst-first — that’s your shortlist for what to revisit.</li>"
+        + "<li>An on-demand integrity check flags duplicate roll numbers and anyone who hasn’t answered the current statement.</li></ul>"
+      }
+    ])
+    + '<p style="margin-top:20px;max-width:70ch">Once the quiz is open, move into the <a href="#/games/'+id+'/debrief-guide">debrief guide</a> — the dashboard writes a numbered script for every statement; this is what to do with it across all ten.</p>'
+  ) + '</section>';
+}
+
+function renderPublicVerdictDebriefGuide(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  var sortRows = PUBLIC_VERDICT_STATEMENTS.map(function(s){
+    return '<div class="item"><div class="k">'+s.n+'</div><div class="v">'+esc(s.category)+'</div></div>';
+  }).join("");
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Debrief guide</span>'
+    + '<h1>Debriefing '+esc(g.title)+'</h1>'
+    + '<p class="lead">The dashboard already writes a five-step script for every statement, live, from the class’s own answers — this page is for the synthesis across all ten that no single statement’s script can give you.</p>'
+    + subNav(id, "debrief-guide")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "Start with what the dashboard already wrote", open: true, html:
+        "<p>After you close each statement, the dashboard’s debrief panel writes five steps from that statement’s real data: ask a student who agreed to explain why, ask one who disagreed, state the actual class split out loud, read the underlying idea, then open the floor with a follow-up question. Run that, every time — it’s the moment-by-moment debrief. What follows is for after all ten are done.</p>"
+      },
+      { title: "The reveal: sorting the ten", html:
+        '<div class="at-a-glance">' + sortRows + '</div>'
+        + "<p style=\"margin-top:14px\">This is the actual point of the activity, and it only works as a reveal at the end, not statement by statement: line up all ten and ask the class to sort them into “genuine public good” versus “government does it for some other reason.” Most classes get the individual statements roughly right and then discover their team statements (6–10) were chosen precisely because they’re the hard cases.</p>"
+      },
+      { title: "Public good, or something else wearing its clothes?", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>Statement 3 (car seats) and statement 1 (police stopping reckless driving) both look like “government keeping people safe.” Which one is a public good, and which is paternalism — and what’s the actual test that tells them apart?</li>"
+        + "<li>Statement 5 (a 90% lifetime tax) funds public goods too, in principle. Why does almost everyone still call it something different from statement 6 (voluntary defense funding)?</li></ul></div>"
+      },
+      { title: "Free-rider problem, high stakes and low", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>Statement 6 (national defense) and statement 9 (a fireworks show) run on the identical logic — no one can be excluded, so why pay? Did your class treat the high-stakes version and the low-stakes version the same way?</li>"
+        + "<li>If voluntary funding actually worked for statement 9, would that tell you something is wrong with the free-rider theory, or just that low-stakes goods are a special case?</li></ul></div>"
+      },
+      { title: "Where excludability gets complicated", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>Statement 7 (streetlights) and statement 10 (the library) are both things someone claims not to use. One is usually still funded by everyone’s taxes; the other is being proposed as a membership fee. What’s the actual difference in how excludable each one is?</li>"
+        + "<li>Statement 8 (vaccination funding) protects people who never get the vaccine. Is that the same “non-excludability” as streetlights, or a different mechanism wearing the same name?</li></ul></div>"
+      }
+    ])
+  ) + '</section>';
+}
+
+function renderPublicVerdictStudentNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  var glossary = [
+    { term: "Public good", def: "A good that is both non-excludable (you can’t stop people who don’t pay from using it) and non-rival (one person’s use doesn’t reduce anyone else’s)." },
+    { term: "Non-excludability", def: "No practical way to stop someone who hasn’t paid from benefiting anyway." },
+    { term: "Non-rivalry", def: "One person’s use doesn’t use it up or crowd anyone else out." },
+    { term: "Free-rider problem", def: "The incentive to enjoy a good without paying for it, precisely because non-payers can’t be excluded." },
+    { term: "Externality", def: "A cost or benefit of a decision that lands on someone who wasn’t part of making it." },
+    { term: "Club good", def: "Excludable, but non-rival up to a point — a membership fee keeps some people out, but it doesn’t run out." }
+  ].map(function(t){ return '<dt>'+esc(t.term)+'</dt><dd>'+esc(t.def)+'</dd>'; }).join("");
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Student note</span>'
+    + '<h1>Before you play</h1>'
+    + '<p class="lead">A plain-language recap, before or after a session of '+esc(g.title)+'.</p>'
+    + subNav(id, "student-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "What you are actually doing", open: true, html:
+        "<p>You’ll answer ten statements about what government should or shouldn’t do — the first five on your own, the next five as a six-person team reaching one shared answer. After each, you see how the whole class split. Then a ten-question quiz checks whether the underlying idea actually landed.</p>"
+        + "<ul><li>Nothing advances until your instructor opens the next statement — there’s no clock to beat.</li>"
+        + "<li>On team statements, whoever answers first sets the team’s response, but any teammate can change it until your instructor closes the statement — talk it over first.</li>"
+        + "<li>The quiz is self-paced, but it’s one attempt — reopening after you submit just shows your locked, explained result.</li></ul>"
+      },
+      { title: "A few honest tips", html:
+        "<ul><li>Answer honestly, not strategically — the class discussion afterwards runs on the real split, and a flattened result makes for a worse debrief, not a better score.</li>"
+        + "<li>“The government already does this” is not, by itself, a reason something is a public good — that’s the trap several of the ten statements are built to spring.</li>"
+        + "<li>Watch for statements that sound alike but aren’t — a few pairs in this list are deliberately similar on the surface and different underneath.</li></ul>"
+      },
+      { title: "Terms you will want to know", html: '<dl class="glossary">' + glossary + '</dl>' }
+    ])
+    + '<div class="editor-note" style="margin-top:20px"><strong>One thing this note will not tell you:</strong> which of the ten statements are genuine public goods and which just look like one. That sorting is the whole point of the activity — do it yourself first.</div>'
+  ) + '</section>';
+}
+
 /* LIVE. */
 /* ---- The Common Pot ---- */
 function commonPotBlockPanel(b){
@@ -2718,6 +2898,11 @@ var RESOURCE_PAGES = {
     "teaching-note": renderFiftyHoursTeachingNote,
     "debrief-guide": renderFiftyHoursDebriefGuide,
     "student-note": renderFiftyHoursStudentNote
+  },
+  "public-verdict": {
+    "teaching-note": renderPublicVerdictTeachingNote,
+    "debrief-guide": renderPublicVerdictDebriefGuide,
+    "student-note": renderPublicVerdictStudentNote
   }
 };
 
