@@ -683,6 +683,24 @@ var GAMES = {
       { k: "Class size", v: "40 students · 6 countries" },
       { k: "Conditions in the library", v: "51 across 6 categories" }
     ]
+  },
+  "fifty-hours": {
+    id: "fifty-hours",
+    title: "Fifty Hours",
+    tagline: "One dialysis machine. Fifty hours a week. Fifteen patients who need more than that. You decide — alone, once, on the clock.",
+    description: "Each student runs a district hospital with one dialysis machine — fifty hours a week, and fifteen patients on this morning’s list whose combined need is ninety-five. There is no team and no live market: they allocate the hours alone, submit once, then answer fifteen graded questions on the economics of the choice they just made — scarcity, opportunity cost, sunk cost, and the gap between what people say about fairness and what they actually do once the machine is theirs to run. The instructor dashboard turns the whole class’s decisions into the debrief in real time.",
+    format: "Live classroom, individual & timed · ~12 minutes (instructor-adjustable) · any device, one instructor dashboard",
+    status: "dev",
+    statusLabel: "Ready to pilot",
+    tags: ["Scarcity", "Opportunity cost", "Rationing", "Equity vs. efficiency"],
+    link: "https://script.google.com/macros/s/AKfycbwjEaH_ycldVWevCoJqLyht9IehdmA2S_csukSFUqLTjX-lR3FLKk4DjSQkBbVoePKtRw/exec",
+    linkLabel: null,
+    minutes: 12,
+    glance: [
+      { k: "Format", v: "Live classroom, individual & timed · ~12 minutes" },
+      { k: "Class size", v: "Any size · one attempt per student, timed and locked" },
+      { k: "The shortfall", v: "15 patients ask for 95 hours against a 50-hour machine" }
+    ]
   }
 };
 
@@ -708,6 +726,11 @@ var TOPICS = [
     title: "Public Goods",
     description: "Free-riding, voluntary contribution, and why a shared benefit that costs the giver alone tends to be under-supplied — until the incentives around it are redesigned. Explored hands-on through The Common Pot.",
     games: ["the-common-pot"]
+  },
+  {
+    title: "Scarcity and Rationing",
+    description: "The constraint every economic decision starts from — not enough of something for everyone who wants it — and the different ways a society (or one person, alone, on the clock) can decide who gets it anyway: price, lottery, queue, or discretion. Explored hands-on through Fifty Hours.",
+    games: ["fifty-hours"]
   }
 ];
 
@@ -1103,7 +1126,8 @@ var RESOURCE_NAV = {
   "autarky-challenge": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
   "the-lake": [["overview","Overview"],["round-cards","Round Cards"],["session-guide","Session Guide"],["debrief-guide","Debrief Guide"],["lessons-learned","Lessons Learned"]],
   "trade-game": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-note","Debrief Note"],["quiz","Quiz"],["student-note","Student Note"]],
-  "the-common-pot": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
+  "the-common-pot": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
+  "fifty-hours": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
 };
 
 /* The Common Pot — the four blocks of its default 20-round schedule,
@@ -2396,6 +2420,136 @@ function renderAutarkyStudentNote(id){
   ) + '</section>';
 }
 
+/* ---- Fifty Hours ---- */
+function renderFiftyHoursTeachingNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Teaching note</span>'
+    + '<h1>Running '+esc(g.title)+'</h1>'
+    + '<p class="lead">Twelve minutes, alone, on the clock — then the debrief is mostly written for you before you open it.</p>'
+    + subNav(id, "teaching-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + '<div class="at-a-glance">'
+    +   '<div class="item"><div class="k">Session length</div><div class="v">~12 minutes by default (1–90, instructor-adjustable) — one continuous timed block</div></div>'
+    +   '<div class="item"><div class="k">Students need</div><div class="v">A name and roll number — no account, one attempt each</div></div>'
+    +   '<div class="item"><div class="k">Instructor needs</div><div class="v">The passcode set from the Sheet menu, and the dashboard projected</div></div>'
+    +   '<div class="item"><div class="k">Format</div><div class="v">Individual and simultaneous — every student runs the clock alone, on their own device</div></div>'
+    + '</div>'
+    + accordionHtml([
+      { title: "Learning objectives", open: true, html:
+        "<ul><li>Feel scarcity as a binding constraint before being handed the word for it — ninety-five hours asked for, fifty available.</li>"
+        + "<li>Discover opportunity cost, sunk cost and indivisibility by making one real, locked decision, not by defining them.</li>"
+        + "<li>Tell an efficiency argument apart from an equity argument — the quiz asks for both, on the same case.</li>"
+        + "<li>Notice the gap, in themselves, between the principle they can state in a quiz and the choice they actually made ten minutes earlier.</li></ul>"
+      },
+      { title: "Before class", html:
+        "<ul><li>Open the Sheet’s <em>Fifty Hours</em> menu and run “Set up game” — it asks for an instructor passcode.</li>"
+        + "<li>Set the time limit from the dashboard (1–90 minutes; new attempts only — anyone mid-activity keeps their original clock).</li>"
+        + "<li>Join as a test student on your own device to confirm the link works, then clear submissions from the Sheet menu so the roster is clean.</li>"
+        + "<li>Confirm activity status is “Open” before students arrive — closing it blocks new starts but lets anyone mid-activity finish.</li></ul>"
+      },
+      { title: "What a student actually does", html:
+        "<ol style=\"padding-left:20px;line-height:1.7\">"
+        + "<li><strong>Gate:</strong> enters name and roll number, reads six rules, clicks “Start the clock” — the timer starts on that click and does not stop.</li>"
+        + "<li><strong>Step 1 — the list:</strong> fifteen patient cards (id, name, age, hours required, one line of context), a live 50-cell hour ledger that fills blue and turns red past capacity, and two ungraded dropdowns — who they were most certain about, and which refusal was hardest.</li>"
+        + "<li><strong>Step 2 — fifteen questions:</strong> one mark each, no negative marking, answers lock the instant they’re clicked. Unanswered questions can still be submitted — they just score zero.</li>"
+        + "<li><strong>Result:</strong> an immediately locked, fully explained scorecard — every question revealed with the correct answer, their own answer if wrong, and the reasoning. One attempt per roll number, enforced server-side; reopening the link after submission just replays the same locked result.</li></ol>"
+      },
+      { title: "The list and the shortfall", html:
+        "<p>Fifteen patients ask for ninety-five hours combined; the machine has fifty. That forty-five-hour gap is deliberate — it is large enough that no combination of “everyone reasonable” fits, so a real refusal is unavoidable, not an edge case a clever list can dodge.</p>"
+        + "<p>A few names worth knowing before you watch the dashboard: <strong>Hema Joshi</strong> (12 hrs) is the single largest claim on the machine — three smaller patients together cost the same twelve hours. <strong>Kabir Sen</strong> offers ten times the cost of his slot. <strong>Jaya Krishnan</strong> pledges to fund a second machine if she is alive in a year. <strong>Omkar Bhosale</strong> has already held a slot for three years. <strong>Eshan Qureshi</strong> will not survive the month without treatment. <strong>Noor Ali</strong>’s need will roughly double next week if refused now.</p>"
+      },
+      { title: "The quiz, and why it is not abstract", html:
+        "<p>All fifteen questions are written against the list the student just built, not a textbook scenario — the Hema question asks about the twelve hours they may have just given her; the Kabir question asks about the price-rationing they may have just practised. Two questions apply sunk-cost reasoning twice, once to the $250,000 machine and once to a person (Omkar) who has already held a slot for three years — the dashboard tracks separately how many students catch the fallacy in money but miss it in a person.</p>"
+      },
+      { title: "What to watch on the dashboard", html:
+        "<ul><li>Six live stat tiles (submissions, average score, average hours booked, students over capacity, average time, average tab-switches) refresh every 8 seconds.</li>"
+        + "<li>A “For the debrief” card auto-writes discussion starters from the live data — the most-agreed and least-popular patient, the factor tag that moved the room most, and how many students went over fifty hours.</li>"
+        + "<li>A “Say vs. do” card is the sharpest thing on the dashboard: what share of students who correctly named price-rationing as an equity problem still gave Kabir Sen his hours anyway, and what share who correctly reasoned the trio was more efficient than Hema alone still chose Hema. Open with these two.</li></ul>"
+      }
+    ])
+    + '<p style="margin-top:20px;max-width:70ch">Once submissions are in, move into the <a href="#/games/'+id+'/debrief-guide">debrief guide</a> — most of it is generated live on the dashboard, this page is the script for reading it aloud.</p>'
+  ) + '</section>';
+}
+
+function renderFiftyHoursDebriefGuide(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Debrief guide</span>'
+    + '<h1>Debriefing '+esc(g.title)+'</h1>'
+    + '<p class="lead">The dashboard writes half of this debrief for you, live, from what the class actually did — read it aloud before asking anything below.</p>'
+    + subNav(id, "debrief-guide")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "Start here — what the dashboard already told you", open: true, html:
+        "<p>Project the “For the debrief” card first: which patient the class agreed on, which one split the room, and which factor — chronic need, ability to pay, an outside option — was actually associated with being treated. Then open “Say vs. do”: the share of students who called price-rationing inequitable in the quiz but still gave Kabir Sen his hours, and the share who reasoned the trio was more efficient than Hema alone but chose Hema anyway. These two numbers are the debrief — everything below just gives you language for them.</p>"
+      },
+      { title: "Efficiency vs. equity — not the same objection", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>Someone in the quiz said giving the machine to whoever pays most is unfair. Is that an efficiency argument or an equity argument — and does the dashboard say the room actually acted on it?</li>"
+        + "<li>Chetna Pillai (4 hrs, lifelong need) versus a patient who needs the machine once and never again — does “most benefit per hour” favour the same choice as “most in need”? When do those two principles agree, and when do they split?</li></ul></div>"
+      },
+      { title: "Sunk cost — easy in money, hard in a person", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>The $250,000 machine, paid two years ago, shouldn’t affect this week’s decision — everyone agrees. Omkar Bhosale has already held a slot for three years. Is that any different, economically — and did it feel different when his card was in front of you?</li>"
+        + "<li>If sunk-cost reasoning is easier to apply to money than to people, what does that predict about decisions your class will actually face later — a failing project with a well-liked lead, a hire that isn’t working out?</li></ul></div>"
+      },
+      { title: "Rationing, four ways", html:
+        "<p>The quiz named four rationing mechanisms across its questions: price (Kabir Sen’s offer), administrative discretion (the hospital simply deciding), queue, and lottery — none used in this activity, which is itself worth naming. Every method has a winner and a loser; the activity just makes students pick one and live inside it for twelve minutes.</p>"
+        + '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>If you had used a lottery instead of your own judgment, would the list feel more fair, or just less accountable — and to whom?</li>"
+        + "<li>Kabir Sen’s offer was ten times the slot’s cost. What would the money actually have bought — and does knowing that change your answer?</li></ul></div>"
+      },
+      { title: "Idle hours and dynamic scarcity", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>Unused hours this week don’t carry over — they’re simply gone. If you left the machine idle even for one hour, what did that idle hour actually cost, and who paid it?</li>"
+        + "<li>Noor Ali’s need roughly doubles next week if refused now. Does that change what “efficient” means this week — are you minimising this week’s shortfall, or next month’s?</li></ul></div>"
+      }
+    ])
+  ) + '</section>';
+}
+
+function renderFiftyHoursStudentNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  var glossary = [
+    { term: "Scarcity", def: "Not enough of something for everyone who wants it — the constraint the whole activity sits inside." },
+    { term: "Opportunity cost", def: "The best alternative you gave up by choosing what you chose — whoever you turned down to make room." },
+    { term: "Sunk cost", def: "Money or time already spent, that a rational decision should ignore — harder to actually ignore when it’s a person, not a number." },
+    { term: "Indivisibility", def: "A good that can’t be split and still work — half a treatment is not half a cure." },
+    { term: "Rationing", def: "Any method for deciding who gets a scarce good when there isn’t enough for everyone — price, queue, lottery, or discretion." },
+    { term: "Equity vs. efficiency", def: "Two different questions — how much total benefit a choice produces, versus how fairly it’s distributed. A choice can score well on one and badly on the other." }
+  ].map(function(t){ return '<dt>'+esc(t.term)+'</dt><dd>'+esc(t.def)+'</dd>'; }).join("");
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Student note</span>'
+    + '<h1>Before you play</h1>'
+    + '<p class="lead">A plain-language recap, before or after a session of '+esc(g.title)+'.</p>'
+    + subNav(id, "student-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "What you are actually doing", open: true, html:
+        "<p>You run a hospital with one dialysis machine, fifty hours a week, and fifteen patients on this morning’s list who between them need far more than that. You decide, alone, who gets the hours — then answer fifteen questions on the economics of the decision you just made.</p>"
+        + "<ul><li>Once you click “Start the clock,” you have one continuous block of time for reading, allocating, and all fifteen questions — there is no pause.</li>"
+        + "<li>A patient gets all of their hours or none — there is no partial dose, and no saving unused hours for next week.</li>"
+        + "<li>You get one attempt, tied to your roll number. There is no do-over.</li></ul>"
+      },
+      { title: "A few honest tips", html:
+        "<ul><li>There is no correct list — the fifteen questions afterwards are what’s actually marked, so don’t spend your clock hunting for a “right” allocation.</li>"
+        + "<li>An answer locks the moment you click it. Read all four options before you touch one.</li>"
+        + "<li>There’s no negative marking — if you’re short on time, answer rather than leave a question blank.</li>"
+        + "<li>Your “most certain” and “hardest refusal” answers aren’t graded, but they’re exactly what the class debrief runs on — answer them honestly, not strategically.</li></ul>"
+      },
+      { title: "Terms you will want to know", html: '<dl class="glossary">' + glossary + '</dl>' }
+    ])
+    + '<div class="editor-note" style="margin-top:20px"><strong>One thing this note will not tell you:</strong> which fifteen names to write down. There is no correct list — only fifteen questions afterwards that are.</div>'
+  ) + '</section>';
+}
+
 /* LIVE. */
 /* ---- The Common Pot ---- */
 function commonPotBlockPanel(b){
@@ -2559,6 +2713,11 @@ var RESOURCE_PAGES = {
     "teaching-note": renderCommonPotTeachingNote,
     "debrief-guide": renderCommonPotDebriefGuide,
     "student-note": renderCommonPotStudentNote
+  },
+  "fifty-hours": {
+    "teaching-note": renderFiftyHoursTeachingNote,
+    "debrief-guide": renderFiftyHoursDebriefGuide,
+    "student-note": renderFiftyHoursStudentNote
   }
 };
 
