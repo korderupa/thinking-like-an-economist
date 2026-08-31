@@ -572,24 +572,6 @@ document.getElementById("year").textContent = new Date().getFullYear();
    Per instruction: do not deploy or link games from the FLAME Apps
    Script account going forward. */
 var GAMES_ARCHIVE = {
-  "trade-game": {
-    id: "trade-game",
-    title: "The International Trade Game",
-    tagline: "A live classroom simulation of comparative advantage, tariffs, and trade policy.",
-    description: "Students are split into six “countries” with unequal tools and starting cash, and must manufacture and trade paper shapes for profit while the instructor fires real-time conditions — tariffs, subsidies, embargoes, quotas, cartels — into the live market. Based on John Sloman’s International Trade Game (Economics Network, 2002).",
-    format: "Live classroom · 45 minutes · phones + projector",
-    status: "live",
-    statusLabel: "Field-tested",
-    tags: ["Comparative advantage", "Trade policy", "Classroom simulation"],
-    link: null,
-    linkLabel: "Launch — link coming soon",
-    minutes: 45,
-    glance: [
-      { k: "Format", v: "Live classroom · 45 minutes · phones + projector" },
-      { k: "Class size", v: "40 students · 6 countries" },
-      { k: "Conditions in the library", v: "51 across 6 categories" }
-    ]
-  },
   "heckscher-ohlin": {
     id: "heckscher-ohlin",
     title: "The Heckscher-Ohlin Trade Game",
@@ -683,24 +665,39 @@ var GAMES = {
       { k: "Structure", v: "20 rounds in 4 blocks, with 3 built-in discussion breaks" },
       { k: "Teams", v: "4 teams (A–D), up to ~40 students, self-balancing" }
     ]
+  },
+  "trade-game": {
+    id: "trade-game",
+    title: "The International Trade Game",
+    tagline: "A live classroom simulation of comparative advantage, tariffs, and trade policy.",
+    description: "Students are split into six “countries” with unequal tools and starting cash, and must manufacture and trade paper shapes for profit while the instructor fires real-time conditions — tariffs, subsidies, embargoes, quotas, cartels — into the live market. Based on John Sloman’s International Trade Game (Economics Network, 2002).",
+    format: "Live classroom · 45 minutes · phones + projector",
+    status: "live",
+    statusLabel: "Field-tested",
+    tags: ["Comparative advantage", "Trade policy", "Classroom simulation"],
+    link: "https://script.google.com/macros/s/AKfycbwDs-5uIXomQLvFnsyFgihArn8-fIld6hQGhUOsWozQEgRlLml0xLICMv7TxAqx3qfAwg/exec",
+    linkLabel: null,
+    minutes: 45,
+    glance: [
+      { k: "Format", v: "Live classroom · 45 minutes · phones + projector" },
+      { k: "Class size", v: "40 students · 6 countries" },
+      { k: "Conditions in the library", v: "51 across 6 categories" }
+    ]
   }
 };
 
-/* ARCHIVED — not live, kept alongside GAMES_ARCHIVE for the same reason. */
-var TOPICS_ARCHIVE = [
-  {
-    title: "International Trade",
-    description: "Comparative advantage, tariffs, subsidies, quotas, factor endowments, and why countries trade at all — explored hands-on through The International Trade Game and The Heckscher-Ohlin Trade Game.",
-    games: ["trade-game", "heckscher-ohlin"]
-  }
-];
+/* ARCHIVED — not live, kept alongside GAMES_ARCHIVE for the same reason.
+   Once heckscher-ohlin is redeployed, add it straight into the live
+   "International Trade" topic below — don’t recreate this topic there,
+   trade-game already joined it. */
+var TOPICS_ARCHIVE = [];
 
 /* LIVE. */
 var TOPICS = [
   {
     title: "International Trade",
-    description: "Comparative advantage, production versus dependency, global value chains, and why the country that makes the most of something is often not the one that needs it most. Explored hands-on through World Market Watch and The Autarky Challenge.",
-    games: ["world-market-watch", "autarky-challenge"]
+    description: "Comparative advantage, tariffs, production versus dependency, global value chains, and why the country that makes the most of something is often not the one that needs it most. Explored hands-on through The International Trade Game, World Market Watch, and The Autarky Challenge.",
+    games: ["trade-game", "world-market-watch", "autarky-challenge"]
   },
   {
     title: "Common-Pool Resources",
@@ -1097,7 +1094,6 @@ var LAKE_ROUNDS = [
 /* ARCHIVED — not live. Per-game resource tabs for the removed games,
    kept for restoration alongside GAMES_ARCHIVE. */
 var RESOURCE_NAV_ARCHIVE = {
-  "trade-game": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-note","Debrief Note"],["quiz","Quiz"],["student-note","Student Note"]],
   "heckscher-ohlin": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-note","Debrief Note"],["quiz","Quiz"],["student-note","Student Note"]]
 };
 
@@ -1106,6 +1102,7 @@ var RESOURCE_NAV = {
   "world-market-watch": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
   "autarky-challenge": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
   "the-lake": [["overview","Overview"],["round-cards","Round Cards"],["session-guide","Session Guide"],["debrief-guide","Debrief Guide"],["lessons-learned","Lessons Learned"]],
+  "trade-game": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-note","Debrief Note"],["quiz","Quiz"],["student-note","Student Note"]],
   "the-common-pot": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
 };
 
@@ -2093,12 +2090,6 @@ function renderHOStudentNote(id){
    renderLakeRoundCards, renderHOTeachingNote, etc.) are all still
    defined below, untouched, ready to be wired back in here. */
 var RESOURCE_PAGES_ARCHIVE = {
-  "trade-game": {
-    "teaching-note": renderTeachingNote,
-    "debrief-note": renderDebriefNote,
-    "quiz": renderQuiz,
-    "student-note": renderStudentNote
-  },
   "heckscher-ohlin": {
     "teaching-note": renderHOTeachingNote,
     "debrief-note": renderHODebriefNote,
@@ -2542,6 +2533,12 @@ function renderCommonPotStudentNote(id){
 }
 
 var RESOURCE_PAGES = {
+  "trade-game": {
+    "teaching-note": renderTeachingNote,
+    "debrief-note": renderDebriefNote,
+    "quiz": renderQuiz,
+    "student-note": renderStudentNote
+  },
   "world-market-watch": {
     "teaching-note": renderMWTeachingNote,
     "debrief-guide": renderMWDebriefGuide,
