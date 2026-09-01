@@ -719,6 +719,24 @@ var GAMES = {
       { k: "Class size", v: "Any size · 6 self-balancing teams (A–F)" },
       { k: "Structure", v: "10 live statements (5 solo, 5 by team), then a 10-question quiz" }
     ]
+  },
+  "trade-ruler": {
+    id: "trade-ruler",
+    title: "Trade Ruler",
+    tagline: "Govern an island with nothing but labor and capital. Face an AI rival across four rounds of trade. Discover why endowments — not effort — decide who specialises in what.",
+    description: "Each student governs a solo island economy with a randomised split of labor and capital, chooses one of five AI-controlled rival islands to trade with, and plays four rounds of produce → trade → outcome — allocating resources across three goods of different labor/capital intensity, then proposing shipments at whatever price the round’s market sets. The results screen doesn’t stop at who won: it computes each island’s wage and capital return before and after trade, side by side, to show Factor-Price Equalization in numbers, not just a name. Ten toggles — four trade-policy tools (transport costs, tariffs, subsidies, quotas) and six that deliberately break the theory’s textbook assumptions one at a time (volatile markets, currency drift, differing tastes, factor mobility, a technology gap, random world events) — let a student or instructor watch exactly which real-world complication changes the outcome and which don’t. An original build for this site, inspired by Nobel Prize Outreach’s The Trade Ruler Game; not affiliated with or endorsed by the Nobel Foundation.",
+    format: "Self-paced · solo vs. an AI rival island · ~25–35 minutes · any device",
+    status: "dev",
+    statusLabel: "Ready to pilot",
+    tags: ["Heckscher-Ohlin", "Factor endowments", "Factor-price equalization", "Comparative advantage"],
+    link: "https://script.google.com/macros/s/AKfycbwKWvTwaDXHAbh9JYXPeIK2O_6xVliM1A6j0hhafQmpxfktsuhS4bI_9zt7zKPtff_g/exec",
+    linkLabel: null,
+    minutes: 30,
+    glance: [
+      { k: "Format", v: "Self-paced · solo vs. an AI rival island · ~25–35 minutes" },
+      { k: "Class size", v: "Any size · each student plays independently, on their own device" },
+      { k: "Structure", v: "4 rounds of produce → trade → outcome, then an 8-question, 10-minute concept check" }
+    ]
   }
 };
 
@@ -732,8 +750,8 @@ var TOPICS_ARCHIVE = [];
 var TOPICS = [
   {
     title: "International Trade",
-    description: "Comparative advantage, tariffs, production versus dependency, global value chains, and why the country that makes the most of something is often not the one that needs it most. Explored hands-on through The International Trade Game, World Market Watch, and The Autarky Challenge.",
-    games: ["trade-game", "world-market-watch", "autarky-challenge"]
+    description: "Comparative advantage, tariffs, production versus dependency, global value chains, factor endowments, and why the country that makes the most of something is often not the one that needs it most. Explored hands-on through The International Trade Game, World Market Watch, The Autarky Challenge, and Trade Ruler.",
+    games: ["trade-game", "world-market-watch", "autarky-challenge", "trade-ruler"]
   },
   {
     title: "Common-Pool Resources",
@@ -1146,7 +1164,8 @@ var RESOURCE_NAV = {
   "trade-game": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-note","Debrief Note"],["quiz","Quiz"],["student-note","Student Note"]],
   "the-common-pot": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
   "fifty-hours": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
-  "public-verdict": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
+  "public-verdict": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
+  "trade-ruler": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
 };
 
 /* The Common Pot — the four blocks of its default 20-round schedule,
@@ -2730,6 +2749,155 @@ function renderPublicVerdictStudentNote(id){
   ) + '</section>';
 }
 
+/* ---- Trade Ruler ---- */
+function renderTradeRulerTeachingNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Teaching note</span>'
+    + '<h1>Running '+esc(g.title)+'</h1>'
+    + '<p class="lead">Self-paced and solo — there is nothing to run live. The dashboard fills in as students play, on their own time.</p>'
+    + subNav(id, "teaching-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + '<div class="at-a-glance">'
+    +   '<div class="item"><div class="k">Format</div><div class="v">Self-paced, solo vs. an AI rival island — no join code, no live sync</div></div>'
+    +   '<div class="item"><div class="k">Students need</div><div class="v">Just a device and the link — progress autosaves, a reload resumes mid-game</div></div>'
+    +   '<div class="item"><div class="k">Instructor needs</div><div class="v">The dashboard passcode — nothing to run during play itself</div></div>'
+    +   '<div class="item"><div class="k">Length</div><div class="v">~25–35 minutes across 4 rounds, including the 10-minute concept-check quiz</div></div>'
+    + '</div>'
+    + accordionHtml([
+      { title: "Learning objectives", open: true, html:
+        "<ul><li>Derive the Heckscher-Ohlin theorem from lived experience: factor abundance (labor vs. capital), not effort or skill, decides what an island should specialise in.</li>"
+        + "<li>Separate comparative advantage (relative opportunity cost) from absolute productivity — the Technology Gap toggle is built specifically to make this distinction impossible to miss.</li>"
+        + "<li>See Factor-Price Equalization as numbers, not a name: the results screen computes each island’s wage and capital return before and after trade, side by side.</li>"
+        + "<li>Tell a tariff apart from a quota — a price wedge that still lets quantity respond, versus a hard ceiling regardless of price.</li>"
+        + "<li>Recognise which real-world complications (transport costs, shifting tastes, factor mobility, technology gaps, volatile prices, random shocks) change the outcome, and which don’t change the underlying logic at all.</li></ul>"
+      },
+      { title: "Before assigning it", html:
+        "<ul><li>Set or confirm the instructor passcode from the dashboard (default <code>teacher123</code> — change it).</li>"
+        + "<li>Decide whether this runs as homework before a class discussion, or as a solo in-class session — either works, since nothing needs to be synchronised.</li>"
+        + "<li>Every student sees and sets their own toggle conditions on the identity screen before round 1 — decide whether you want to tell the whole class to turn certain ones on (e.g. “everyone play with Tariffs and Technology Gap on”) so the debrief has a common reference point, or let them choose freely and compare.</li></ul>"
+      },
+      { title: "What a student actually does, screen by screen", html:
+        "<ol style=\"padding-left:20px;line-height:1.7\">"
+        + "<li><strong>Intro:</strong> the Heckscher-Ohlin premise, credited to Bertil Ohlin’s 1977 Nobel Prize, with two example islands (labor-rich vs. capital-rich).</li>"
+        + "<li><strong>Your dominion:</strong> a randomised labor/capital split is revealed (labor 18–82%, capital the remainder) — this endowment is fixed for the whole game.</li>"
+        + "<li><strong>Choose a rival:</strong> pick 1 of 5 AI-controlled islands, spread from strongly labor-rich to strongly capital-rich, with a live hint on how large the theoretical gains from trade will be.</li>"
+        + "<li><strong>Name your island and set the terms:</strong> island name, flag colour, AI rival difficulty, and all ten condition toggles.</li>"
+        + "<li><strong>What your workshops can make:</strong> the three goods and their labor/capital intensity.</li>"
+        + "<li><strong>Four rounds</strong> of Produce (allocate labor and capital across the three goods) → Trade (propose up to two shipments; may be fully accepted, partially filled, rejected, or sent to a negotiation with the AI) → Outcome (welfare vs. last round, a mood banner, and a plain-language “tutor’s note” on why welfare moved). A student can replay any round with a different plan and compare side by side before keeping one.</li>"
+        + "<li><strong>Results:</strong> final score, a tier title (from Grandmaster of Comparative Advantage down to Hermit King), efficiency %, a welfare-over-time chart against the no-trade (autarky) baseline, the Factor-Price Equalization table, and the class leaderboard.</li>"
+        + "<li><strong>Optional quiz:</strong> 8 questions, 10-minute countdown, full explained review after submitting.</li></ol>"
+      },
+      { title: "The three goods and the endowments", html:
+        "<p>Jeans are the most labor-intensive good in the model (75% labor / 25% capital), Cell Phones the most capital-intensive (25% labor / 75% capital), and Furniture sits exactly in between (50/50). A labor-rich island’s comparative advantage is Jeans; a capital-rich island’s is Cell Phones — no student is ever told this directly, they have to find it by watching which allocations actually raise their score.</p>"
+      },
+      { title: "AI difficulty and the ten toggles", html:
+        "<p><strong>AI rival difficulty</strong> — Fair Trader (takes most offers near the going rate), Shrewd Negotiator (bargains hard whenever asked for more than it needs), or Cutthroat Cartel (small appetite for imports, quick to counter-offer, and taxes shipments on top).</p>"
+        + '<div class="at-a-glance">'
+        +   '<div class="item"><div class="k">Transport costs</div><div class="v">Adds friction to every shipment, whatever else is on</div></div>'
+        +   '<div class="item"><div class="k">Import tariff</div><div class="v">Adds more friction — a price wedge, not a hard cap</div></div>'
+        +   '<div class="item"><div class="k">Export subsidy</div><div class="v">Tops up export value, but the cost comes straight off the final score</div></div>'
+        +   '<div class="item"><div class="k">Import quota</div><div class="v">A hard unit cap on one chosen good, regardless of price — direct contrast with a tariff</div></div>'
+        +   '<div class="item"><div class="k">Volatile markets</div><div class="v">Relative prices drift up to ±16% a round instead of holding still</div></div>'
+        +   '<div class="item"><div class="k">Currency drift</div><div class="v">Home currency wanders each round — nominal gains can vanish in real terms</div></div>'
+        +   '<div class="item"><div class="k">Differing tastes</div><div class="v">Consumption weights stop being an equal three-way split</div></div>'
+        +   '<div class="item"><div class="k">Factor mobility</div><div class="v">Labor and capital slowly migrate toward whichever island is scarcer</div></div>'
+        +   '<div class="item"><div class="k">Technology gap</div><div class="v">One island gets a 15–30% productivity edge on every good — changes wealth, not who should specialise in what</div></div>'
+        +   '<div class="item"><div class="k">Random world events</div><div class="v">A ~55% per-round chance of a demand surge, bumper harvest, labor strike, storm, or a temporary friction-free trade window</div></div>'
+        + '</div>'
+      },
+      { title: "The quiz", html:
+        "<p>Eight questions, one attempt, a 10-minute countdown that auto-submits at zero. Covers Heckscher-Ohlin, comparative advantage vs. absolute productivity, Factor-Price Equalization, and the tariff-vs-quota distinction — every question maps directly onto something the student just did, not abstract theory.</p>"
+      },
+      { title: "What the dashboard shows you", html:
+        "<ul><li>Class stats: games played, average score, average efficiency, most-picked AI difficulty — filterable to “this session” (since your last reset) or all-time.</li>"
+        + "<li>A <strong>“Needs a look”</strong> panel that auto-flags students worth a closer look: never traded at all, resources never actually allocated toward their own abundant factor, low efficiency (&lt;50% of the frictionless optimum), ignored the round’s biggest price move repeatedly, or a low quiz score.</li>"
+        + "<li>A sortable class standings table — click any student for a full round-by-round drilldown of their allocations, trades, and welfare.</li></ul>"
+      }
+    ])
+    + '<p style="margin-top:20px;max-width:70ch">Once a batch of students have played, move into the <a href="#/games/'+id+'/debrief-guide">debrief guide</a> — it’s built around exactly what the dashboard’s flags and drilldowns give you.</p>'
+  ) + '</section>';
+}
+
+function renderTradeRulerDebriefGuide(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Debrief guide</span>'
+    + '<h1>Debriefing '+esc(g.title)+'</h1>'
+    + '<p class="lead">Nobody played this at the same time or under the same conditions — the debrief’s job is to pull one shared lesson out of many different islands.</p>'
+    + subNav(id, "debrief-guide")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "Start with the dashboard’s own flags", open: true, html:
+        "<p>Open “Needs a look” before class — it’s already sorted the room into who’s worth calling on. A student flagged “never traded” or “misallocated resources” is a much better cold-call than a random one: ask them to explain their own island’s endowment out loud, and let the class spot the mismatch together.</p>"
+      },
+      { title: "The one number that makes the theory real", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>Pull up two students’ Factor-Price Equalization tables — one labor-rich, one capital-rich. Before trade, whose wage was higher? After trade, did that gap get smaller, larger, or reverse? What does that predict about who actually benefits from opening a labor-rich country to trade with a capital-rich one?</li>"
+        + "<li>If wages and capital returns really do converge under free trade, who inside each country gains and who loses — even though the country as a whole is better off?</li></ul></div>"
+      },
+      { title: "Comparative advantage, not competence", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>For students who played with Technology Gap on: did the more productive island still specialise in the same good it would have without the gap? If “who’s richer” changed but “who makes what” didn’t, what does that tell you about what comparative advantage actually depends on?</li>"
+        + "<li>Would a country with worse technology at literally everything still gain from trade? Ask a labor-rich, low-efficiency student to defend their own answer.</li></ul></div>"
+      },
+      { title: "Tariff vs. quota, side by side", html:
+        "<p>Find one student who played with Tariffs on and one with a Quota on the same good — the dashboard drilldown shows exactly how their shipments were capped.</p>"
+        + '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>The tariff student could still get a shipment through at a worse price. The quota student hit a hard wall. Which policy gives a government more predictable control over quantity — and which gives trade more room to respond to how badly each side wants the deal?</li></ul></div>"
+      },
+      { title: "When the textbook assumptions break", html:
+        "<p>Poll the room on which toggles they played with. For each one that came up, ask the student what actually changed in their game — not what they expected to change.</p>"
+        + '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>Currency Drift: did anyone see a round where their “home currency” welfare rose but their real welfare didn’t? What does that say about confusing a nominal gain with an actual one?</li>"
+        + "<li>Factor Mobility: over four rounds, did migration make the two islands more alike or more different — and did that make trade more or less valuable by round four?</li>"
+        + "<li>Random world events: did a single storm or strike change anyone’s overall strategy, or just one round’s numbers?</li></ul></div>"
+      }
+    ])
+  ) + '</section>';
+}
+
+function renderTradeRulerStudentNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  var glossary = [
+    { term: "Heckscher-Ohlin theorem", def: "A country tends to export goods that use its abundant factor (labor or capital) intensively, and import goods that use its scarce factor intensively." },
+    { term: "Factor endowment", def: "How much of each input — here, labor and capital — an economy actually has to work with." },
+    { term: "Comparative advantage", def: "Having a lower opportunity cost of producing one good relative to another — not being more productive overall." },
+    { term: "Factor-price equalization", def: "Free trade at a common price tends to pull wages and capital returns in two trading countries toward each other, even without anyone actually moving." },
+    { term: "Tariff vs. quota", def: "A tariff raises the price of a shipment but still lets the quantity respond; a quota fixes the quantity regardless of price." },
+    { term: "Autarky", def: "The state of not trading at all — producing and consuming only what your own economy makes." }
+  ].map(function(t){ return '<dt>'+esc(t.term)+'</dt><dd>'+esc(t.def)+'</dd>'; }).join("");
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Student note</span>'
+    + '<h1>Before you play</h1>'
+    + '<p class="lead">A plain-language recap, before or after a session of '+esc(g.title)+'.</p>'
+    + subNav(id, "student-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "What you are actually doing", open: true, html:
+        "<p>You govern a small island with a fixed, randomised split of labor and capital. You’ll pick a rival AI island to trade with, then play four rounds of deciding how to allocate your labor and capital across three goods, and what — if anything — to ship to your rival. At the end you’ll see your score, how efficient your choices were, and how trade actually moved wages and capital returns on both islands.</p>"
+        + "<ul><li>Nobody else is playing at the same moment as you — there’s no clock except the optional quiz at the end.</li>"
+        + "<li>Your progress saves automatically. Closing the tab and coming back picks up where you left off.</li>"
+        + "<li>You can replay any single round with a different plan and compare the two outcomes before deciding which to keep.</li></ul>"
+      },
+      { title: "A few honest tips", html:
+        "<ul><li>Nothing on screen tells you outright which good favours your endowment — watch which allocation actually raises your output value, and let that be your evidence.</li>"
+        + "<li>A shipment offer isn’t automatically accepted in full. Your rival can only export what it actually has a surplus of — a huge ask is more likely to come back partial, rejected, or as a counter-offer.</li>"
+        + "<li>If you turn on Technology Gap, don’t assume the more productive island should make everything — check what the theoretical-optimum numbers actually say.</li>"
+        + "<li>Read the “tutor’s note” after every round — it’s written from your own numbers, not a generic tip.</li></ul>"
+      },
+      { title: "Terms you will want to know", html: '<dl class="glossary">' + glossary + '</dl>' }
+    ])
+    + '<div class="editor-note" style="margin-top:20px"><strong>One thing this note will not tell you:</strong> whether your island is labor-rich or capital-rich. That reveal is the first thing the game itself shows you — start there.</div>'
+  ) + '</section>';
+}
+
 /* LIVE. */
 /* ---- The Common Pot ---- */
 function commonPotBlockPanel(b){
@@ -2903,6 +3071,11 @@ var RESOURCE_PAGES = {
     "teaching-note": renderPublicVerdictTeachingNote,
     "debrief-guide": renderPublicVerdictDebriefGuide,
     "student-note": renderPublicVerdictStudentNote
+  },
+  "trade-ruler": {
+    "teaching-note": renderTradeRulerTeachingNote,
+    "debrief-guide": renderTradeRulerDebriefGuide,
+    "student-note": renderTradeRulerStudentNote
   }
 };
 
