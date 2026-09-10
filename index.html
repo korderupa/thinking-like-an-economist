@@ -737,6 +737,42 @@ var GAMES = {
       { k: "Class size", v: "Any size · each student plays independently, on their own device" },
       { k: "Structure", v: "4 rounds of produce → trade → outcome, then an 8-question, 10-minute concept check" }
     ]
+  },
+  "kite-market": {
+    id: "kite-market",
+    title: "Kite Market",
+    tagline: "Workers look for the best wage they can find. Employers compete to hire whoever will make them the most money. Nobody on either side gets told the numbers behind the deal.",
+    description: "A live labor market, played out for real: most of the class joins as workers, a handful run competing kite companies as employers. Wages are struck face-to-face in the room — the app is only the ledger, recording each deal the instant an employer enters it and paying public assistance to anyone still unemployed when a round closes. Employers see a marginal-product schedule for four skill tiers and a value-of-marginal-product ceiling on what they should pay; workers never see either number, only what gets offered to them. Between rounds, workers can pay to train up a tier, buy paid career guidance, or — if the instructor allows it — buy a license and become a new competing employer themselves. The instructor can fire any of eighteen live conditions (recessions, minimum wage, payroll tax, an automation shock that raises productivity at the top and cuts it at the bottom) at any point, and both sides feel it immediately.",
+    format: "Live classroom · one continuous session, ~45–60 minutes · phones/laptops, one instructor dashboard",
+    status: "dev",
+    statusLabel: "Ready to pilot",
+    tags: ["Labor markets", "Marginal product of labor", "Human capital", "Wage determination"],
+    link: "https://script.google.com/macros/s/AKfycbwpGcShPb8fdz2iinNNXAiLFG5OIzuxB_Wbjo5_SCMsvZY1GFlgUjFKpiBpTrPm4NSj/exec",
+    linkLabel: null,
+    minutes: 50,
+    glance: [
+      { k: "Format", v: "Live classroom · one continuous session · ~45–60 minutes" },
+      { k: "Class size", v: "~20+ workers · 4–12 employers, solo or in pairs" },
+      { k: "Conditions in the library", v: "18 across 6 categories, plus unlimited custom ones" }
+    ]
+  },
+  "tax-policy-lab": {
+    id: "tax-policy-lab",
+    title: "Tax Policy Lab",
+    tagline: "Five questions sort you onto a team with people who think differently from you. Then your team builds an entire tax system, twenty-five decisions at a time.",
+    description: "Five individual questions place every student on a lean score from small- to big-government — then a snake draft deliberately spreads that whole spectrum across ten teams, so every team starts already disagreeing. Each team then answers twenty-five group policy questions across five blocks — personal income tax, corporate tax, consumption tax, payroll tax, and property/wealth tax — moving five real outcome meters (Revenue, Inequality, Growth Outlook, Competitiveness, Approval) with every choice. After every five answers, one of eight shock conditions fires automatically for that team alone — not randomly, but chosen to challenge whichever direction the team’s own choices have been leaning. At the end, each team’s final meter profile is matched to one of six archetypes, from Nordic-style high-tax to Growth-at-all-Costs to Fragile/High-Debt, and a fifteen-question quiz closes it out.",
+    format: "Self-paced, team-based · ~30 minutes (instructor-adjustable) · any device, one instructor dashboard",
+    status: "dev",
+    statusLabel: "Ready to pilot",
+    tags: ["Tax policy", "Public finance", "Progressive taxation", "Fiscal policy"],
+    link: "https://script.google.com/macros/s/AKfycbwQknbxSpWLG_azX9ByZduyjfB1LR5jLcwH4dRTInQkIUiaxdAAAgWVFv_aiJeIL0E3Ow/exec",
+    linkLabel: null,
+    minutes: 30,
+    glance: [
+      { k: "Format", v: "Self-paced, team-based · ~30 minutes" },
+      { k: "Class size", v: "Any size · 10 self-forming teams, diversity-maximised by first answers" },
+      { k: "Structure", v: "25 policy decisions in 5 blocks, 8 auto-fired shocks, then a 15-question quiz" }
+    ]
   }
 };
 
@@ -767,6 +803,16 @@ var TOPICS = [
     title: "Scarcity and Rationing",
     description: "The constraint every economic decision starts from — not enough of something for everyone who wants it — and the different ways a society (or one person, alone, on the clock) can decide who gets it anyway: price, lottery, queue, or discretion. Explored hands-on through Fifty Hours.",
     games: ["fifty-hours"]
+  },
+  {
+    title: "Labor Markets",
+    description: "Wages, hiring, and the value of a worker’s marginal product — what actually sets a wage in a room full of live negotiation, and what happens to it when training, competition, or policy changes the numbers underneath. Explored hands-on through Kite Market.",
+    games: ["kite-market"]
+  },
+  {
+    title: "Taxation and Public Finance",
+    description: "Progressive versus regressive taxes, who really bears a tax once incidence is traced through, the Laffer curve, and the genuine value trade-offs behind revenue, growth, equity, and competitiveness that no tax system escapes. Explored hands-on through Tax Policy Lab.",
+    games: ["tax-policy-lab"]
   }
 ];
 
@@ -1165,7 +1211,9 @@ var RESOURCE_NAV = {
   "the-common-pot": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
   "fifty-hours": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
   "public-verdict": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
-  "trade-ruler": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
+  "trade-ruler": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
+  "kite-market": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
+  "tax-policy-lab": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
 };
 
 /* The Common Pot — the four blocks of its default 20-round schedule,
@@ -2898,6 +2946,284 @@ function renderTradeRulerStudentNote(id){
   ) + '</section>';
 }
 
+/* ---- Kite Market ---- */
+function renderKiteMarketTeachingNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Teaching note</span>'
+    + '<h1>Running '+esc(g.title)+'</h1>'
+    + '<p class="lead">One continuous live session — most of the class negotiates wages face to face while a handful run competing companies, and the app is only the ledger.</p>'
+    + subNav(id, "teaching-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + '<div class="at-a-glance">'
+    +   '<div class="item"><div class="k">Session length</div><div class="v">~45–60 minutes, one continuous session — rounds open and close live, no fixed count</div></div>'
+    +   '<div class="item"><div class="k">Workers need</div><div class="v">A name and roll number — no code, no account</div></div>'
+    +   '<div class="item"><div class="k">Employers need</div><div class="v">An instructor-issued access code plus a company name</div></div>'
+    +   '<div class="item"><div class="k">Roster</div><div class="v">~20+ workers · 4–12 employers, solo or in pairs</div></div>'
+    + '</div>'
+    + accordionHtml([
+      { title: "Learning objectives", open: true, html:
+        "<ul><li>See a worker’s wage bump up against a real ceiling — the value of their marginal product — without ever being told the number.</li>"
+        + "<li>Discover diminishing returns directly: the 2nd, 3rd, 4th hire of the same skill tier is worth less to a company than the 1st.</li>"
+        + "<li>Weigh human-capital investment as a real bet — training costs cash now for a higher tier later, with no guarantee it pays off before the session ends.</li>"
+        + "<li>Watch a minimum wage, a payroll tax, or a hiring subsidy shift real hiring decisions, not just a diagram.</li>"
+        + "<li>See skill-biased technological change happen live via the Automation Boom condition — productivity rises for higher tiers and falls for lower ones, in the same instant.</li></ul>"
+      },
+      { title: "Before class", html:
+        "<ul><li>From the Sheet’s <em>Kite Market</em> menu (or the dashboard), set the instructor passcode and an employer access code — workers join with no code, employers need this one.</li>"
+        + "<li>Set expected worker/employer counts if you want the dashboard’s tiles to show a fill rate.</li>"
+        + "<li>Project the dashboard’s two QR codes (worker link / employer link) so students scan in instead of typing a long URL.</li>"
+        + "<li>A two-minute framing before you open Round 1 helps: profit-maximizing employers won’t pay above a worker’s value of marginal product, and a worker’s own fallback if nobody hires them is public assistance.</li></ul>"
+      },
+      { title: "What a worker does", html:
+        "<p>Joins free with name + roll number, and is randomly started Unskilled or Semiskilled with $4–6 in savings and a 3-digit code (for fast hiring). While a round is open, they negotiate face to face — the app only records the deal once an employer enters it. Between rounds they can pay to train up one tier, pay a small fee for personalised career guidance, and — if you’ve allowed it — buy an employer license and start their own competing company.</p>"
+      },
+      { title: "What an employer does", html:
+        "<p>Sees a marginal-product table for all four tiers (this round’s output value per additional hire) and a hint that a profit-maximizing employer never pays above it — workers never see this number. Hires by entering a worker’s code and the wage agreed in the room. After each round, sees revenue/wages/tax/subsidy/profit, a running per-round profit table, and a Price-vs-Marginal-vs-Average-Cost chart built from their own real hires. Can pay to upgrade their company (max twice, +25% output per level).</p>"
+      },
+      { title: "Skill tiers and the marginal-product schedule", html:
+        '<div class="at-a-glance">'
+        +   '<div class="item"><div class="k">Unskilled</div><div class="v">Output per hire: 4,3,3,2,2,1,1,1 · assistance $15</div></div>'
+        +   '<div class="item"><div class="k">Semiskilled</div><div class="v">Output per hire: 7,6,5,4,4,3,2,2 · assistance $22</div></div>'
+        +   '<div class="item"><div class="k">Skilled</div><div class="v">Output per hire: 10,9,8,7,6,5,4,3 · assistance $28</div></div>'
+        +   '<div class="item"><div class="k">Highly Skilled</div><div class="v">Output per hire: 14,12,10,9,8,7,6,5 · assistance $35</div></div>'
+        + '</div>'
+        + "<p style=\"margin-top:12px\">Value of marginal product = that output figure × the market kite price (default $10). Training costs $25 per tier by default; an employer license costs $50; a company upgrade costs $75.</p>"
+      },
+      { title: "The 18 live conditions", html:
+        "<ul><li><strong>Fluctuations</strong> — Economic Expansion/Recession move the kite price up or down; a baseline resets it.</li>"
+        + "<li><strong>Public assistance</strong> — expand it, cut it for top tiers only, or reset to baseline.</li>"
+        + "<li><strong>Market structure</strong> — Allow New Entrants (workers can buy a license and compete with you), a cheaper license, or baseline.</li>"
+        + "<li><strong>Labor policy</strong> — a minimum wage (and its repeal), a payroll tax, a hiring subsidy, or removing all of them.</li>"
+        + "<li><strong>Education policy</strong> — an education subsidy that cuts training cost, or baseline tuition.</li>"
+        + "<li><strong>Technology</strong> — Automation Boom (productivity falls for the two lower tiers, rises for the two higher ones) or a baseline reset.</li></ul>"
+        + "<p>You can also write unlimited custom conditions from the dashboard (price, minimum wage, payroll tax, hiring subsidy).</p>"
+      },
+      { title: "The quiz", html:
+        "<p>10 minutes, one attempt: 5 questions everyone gets, plus 5 written specifically for whichever role that student played. Scored instantly with full explanations on review.</p>"
+      },
+      { title: "What to watch on the dashboard", html:
+        "<ul><li>A live hire ticker, worker and employer leaderboards, and round-history sparklines for average wage and % employed.</li>"
+        + "<li><strong>Suggested next condition</strong> — the dashboard reads the last closed round’s real numbers (unemployment rate, top-tier share, average wage) and proposes a condition with the actual figure attached, e.g. “32% unemployed — consider Economic Expansion.”</li>"
+        + "<li><strong>Debrief insights</strong> — auto-written from the session’s own data: upgrade counts, guidance-buyer vs. non-buyer average earnings, employer upgrade ROI, the class’s skill-tier mix, and the current wage gap between the lowest- and highest-paid tier.</li></ul>"
+      }
+    ])
+    + '<p style="margin-top:20px;max-width:70ch">Once you end the session, move into the <a href="#/games/'+id+'/debrief-guide">debrief guide</a> — it runs almost entirely off the numbers the dashboard already computed.</p>'
+  ) + '</section>';
+}
+
+function renderKiteMarketDebriefGuide(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Debrief guide</span>'
+    + '<h1>Debriefing '+esc(g.title)+'</h1>'
+    + '<p class="lead">Almost everything you need is already written on the dashboard’s own “Debrief insights” panel — this page gives you the questions to ask around it.</p>'
+    + subNav(id, "debrief-guide")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "Start with the dashboard’s own insights", open: true, html:
+        "<p>Read the upgrade count, the guidance-buyer earnings gap, the employer upgrade ROI, the class’s skill mix, and the current wage gap straight off the dashboard before asking anything — these are the session’s real numbers, not estimates.</p>"
+      },
+      { title: "The wage ceiling nobody was told", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>Pull up one employer’s marginal-product table. Ask them: was there a hire you made above what that table said the worker was worth? What happened to your profit that round?</li>"
+        + "<li>Workers never saw this table. Did anyone negotiate a wage that, in hindsight, was clearly under what an employer would have paid?</li></ul></div>"
+      },
+      { title: "Human capital as a real bet", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>Compare the dashboard’s guidance-buyer vs. non-buyer average earnings. Did paying for information actually pay off — and would it have, if the session had run twice as long?</li>"
+        + "<li>Ask a worker who trained up a tier: did their wage actually rise afterward, or did the round end too soon to tell?</li></ul></div>"
+      },
+      { title: "Policy shocks, in real numbers", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>If you fired a minimum wage: did anyone actually go unhired at the new floor who would have taken a lower wage? Find that worker.</li>"
+        + "<li>If you fired Automation Boom: which tier’s wages moved up, which moved down — and does that match “skill-biased technological change,” or something else?</li>"
+        + "<li>If Allow New Entrants fired: what happened to the incumbent employers’ profit once a former worker started competing with them?</li></ul></div>"
+      }
+    ])
+  ) + '</section>';
+}
+
+function renderKiteMarketStudentNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  var glossary = [
+    { term: "Marginal product", def: "The extra output one more worker of a given skill produces — it falls with each additional hire of the same tier." },
+    { term: "Value of marginal product (VMP)", def: "Marginal product × price. A profit-maximizing employer should never pay a wage above this." },
+    { term: "Human capital", def: "Skills and training that raise a worker’s future productivity — built up by paying a real cost now." },
+    { term: "Reservation wage", def: "The lowest wage a worker would actually accept — here, closely tied to what public assistance would pay instead." },
+    { term: "Minimum wage employment effect", def: "A wage floor set above the market wage can price some willing workers out of a job entirely." },
+    { term: "Marginal cost vs. average cost", def: "Marginal cost is the cost of your last hire alone; average cost spreads all your wages across all your output — they don’t have to move together." }
+  ].map(function(t){ return '<dt>'+esc(t.term)+'</dt><dd>'+esc(t.def)+'</dd>'; }).join("");
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Student note</span>'
+    + '<h1>Before you play</h1>'
+    + '<p class="lead">A plain-language recap, before or after a session of '+esc(g.title)+'.</p>'
+    + subNav(id, "student-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "What you are actually doing", open: true, html:
+        "<p>Most of the class plays workers looking for the best wage they can negotiate; a few run competing companies that hire from four skill tiers. Deals are struck face to face in the room — the app only records them. Rounds open and close live, for as long as the instructor keeps the session running.</p>"
+        + "<ul><li>As a worker, you can train up a tier, pay for career guidance, or — if allowed — buy a license and become an employer yourself.</li>"
+        + "<li>As an employer, you can see exactly how much extra output each additional hire is worth to you — workers never see this.</li>"
+        + "<li>Live conditions can change the market at any moment: prices, taxes, subsidies, even a technology shock.</li></ul>"
+      },
+      { title: "A few honest tips", html:
+        "<ul><li>If you’re unemployed, public assistance is your fallback — negotiate with that number in mind, not blind hope.</li>"
+        + "<li>Training up a tier costs real cash now for a productivity gain later — it isn’t guaranteed to pay off before the session ends.</li>"
+        + "<li>If you’re an employer, hiring past the point where a worker’s value to you drops below their wage is a loss, not a favor.</li>"
+        + "<li>Watch for announced conditions — a minimum wage, a tax, a subsidy, an automation shock — and rethink your plan the moment one fires.</li></ul>"
+      },
+      { title: "Terms you will want to know", html: '<dl class="glossary">' + glossary + '</dl>' }
+    ])
+    + '<div class="editor-note" style="margin-top:20px"><strong>One thing this note will not tell you:</strong> what an employer’s marginal-product table actually says, or what any other worker is earning. Find that out the way the game intends — by negotiating.</div>'
+  ) + '</section>';
+}
+
+/* ---- Tax Policy Lab ---- */
+function renderTaxPolicyLabTeachingNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Teaching note</span>'
+    + '<h1>Running '+esc(g.title)+'</h1>'
+    + '<p class="lead">Five questions sort the room into disagreeing teams on purpose — then each team builds a tax system twenty-five decisions at a time.</p>'
+    + subNav(id, "teaching-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + '<div class="at-a-glance">'
+    +   '<div class="item"><div class="k">Length</div><div class="v">~30 minutes by default (instructor-adjustable), covering both phases together</div></div>'
+    +   '<div class="item"><div class="k">Students need</div><div class="v">A name and roll number — no account</div></div>'
+    +   '<div class="item"><div class="k">Teams</div><div class="v">10 teams, formed automatically once everyone has answered the first 5 questions</div></div>'
+    +   '<div class="item"><div class="k">Pacing</div><div class="v">Every phase change is your click; within a phase, teams work at their own pace against a shared clock</div></div>'
+    + '</div>'
+    + accordionHtml([
+      { title: "Learning objectives", open: true, html:
+        "<ul><li>Tell a progressive tax from a regressive one by its actual effect on income shares, not by a label.</li>"
+        + "<li>Trace tax incidence — who really bears a payroll or corporate tax often isn’t who legally pays it.</li>"
+        + "<li>See the Laffer curve as a real trade-off: the most extreme rate in several blocks doesn’t raise the most revenue.</li>"
+        + "<li>Distinguish a Pigovian tax (correcting an externality) from a revenue tax from redistribution.</li>"
+        + "<li>Confront the actual trade-offs between revenue, growth, inequality, competitiveness, and approval — no policy mix wins on every meter at once.</li></ul>"
+      },
+      { title: "Before class", html:
+        "<ul><li>Set the instructor passcode from the Sheet’s <em>Tax Policy Lab</em> menu.</li>"
+        + "<li>Decide the time limit (default 30 minutes, covers both the individual and group phases, extendable live).</li>"
+        + "<li>If you want a zero-server-load option for a large or LMS-embedded quiz, the standalone quiz link needs no prior game session at all.</li></ul>"
+      },
+      { title: "How a session actually runs", html:
+        "<ol style=\"padding-left:20px;line-height:1.7\">"
+        + "<li><strong>5 individual questions</strong> — small- vs. big-government trade-offs (deficits, who should pay more, capital gains, subsidies, the size of government). These are never scored as right or wrong — only used to compute each student’s lean.</li>"
+        + "<li><strong>Team formation</strong> — a snake draft deliberately spreads the sorted lean spectrum across 10 teams, so every team starts with real internal disagreement, not a like-minded bloc.</li>"
+        + "<li><strong>25 group questions in 5 blocks</strong> — personal income tax, corporate tax, consumption tax, payroll tax, property/wealth tax. The whole team sees the same question; whoever answers first locks it for everyone.</li>"
+        + "<li><strong>Shock conditions</strong> — after every 5th team answer (except the 25th), one of 8 conditions fires automatically for that team alone — chosen specifically to challenge whatever direction the team’s own choices have been leaning, not at random and not by your click.</li>"
+        + "<li><strong>Results</strong> — each team’s final 5-meter profile is matched to the nearest of 6 archetypes.</li>"
+        + "<li><strong>Quiz</strong> — 15 questions, 10 minutes, full explained review on submission.</li></ol>"
+      },
+      { title: "The 5 policy blocks, at a glance", html:
+        '<div class="at-a-glance">'
+        +   '<div class="item"><div class="k">Block A</div><div class="v">Personal income tax — top rate, brackets, deductions, capital gains, EITC</div></div>'
+        +   '<div class="item"><div class="k">Block B</div><div class="v">Corporate &amp; business tax — headline rate, R&amp;D credits, loss carry-forward, subsidies, offshore loopholes</div></div>'
+        +   '<div class="item"><div class="k">Block C</div><div class="v">Consumption &amp; sin taxes — sales tax/VAT, exemptions, carbon tax, tobacco/alcohol/sugar, tariffs</div></div>'
+        +   '<div class="item"><div class="k">Block D</div><div class="v">Payroll &amp; social insurance — rate, the earnings cap, employer/employee split, pensions, unemployment insurance</div></div>'
+        +   '<div class="item"><div class="k">Block E</div><div class="v">Property, wealth &amp; resources — property tax, a wealth tax, estate tax, resource royalties, stadium financing</div></div>'
+        + '</div>'
+      },
+      { title: "The 5 meters and 6 archetypes", html:
+        "<p>Every option moves some mix of Revenue, Inequality, Growth Outlook, Competitiveness, and Approval — deliberately with no meter that’s simply “good”: high revenue can crowd out growth, high approval can come at competitiveness’s expense. At the end, each team’s meter profile is matched to whichever of six archetypes it sits closest to: Nordic-style High-Tax, Supply-Side Low-Tax, Balanced Centrist, Populist-Redistributive, Growth-at-all-Costs, or Fragile/High-Debt.</p>"
+      },
+      { title: "The 8 shock conditions", html:
+        "<p>Recession, a stock-market boom, a tax-haven leak scandal, a global minimum corporate tax agreement, an aging-population report, an automation wave, a commodity price spike, and an election year — each moves the meters in a specific direction, and each team gets whichever one most cuts against its own trajectory so far.</p>"
+      },
+      { title: "The quiz", html:
+        "<p>15 questions, 10 minutes, one attempt — covering progressive/regressive taxation, tax incidence, elasticity and deadweight loss, the Laffer curve, Pigovian taxes, tax competition, countercyclical policy, and resource taxation. Every question is paired with a full written explanation shown on review.</p>"
+      },
+      { title: "What the dashboard shows you", html:
+        "<ul><li>A live card per team: roster, progress, running meters, and which conditions have hit them.</li>"
+        + "<li>A live answer breakdown for every individual and group question — exact counts and percentages per option.</li>"
+        + "<li><strong>For the debrief</strong> — auto-written from the class’s own data: the most evenly split question, the strongest consensus, the two teams furthest apart on their meters (a strong pair to compare live), the widest single-meter spread across teams, and how many distinct archetypes emerged.</li>"
+        + "<li>Post-quiz stats: submissions and average score.</li></ul>"
+      }
+    ])
+    + '<p style="margin-top:20px;max-width:70ch">Once results are revealed, move into the <a href="#/games/'+id+'/debrief-guide">debrief guide</a> — it follows the dashboard’s own “For the debrief” panel almost line for line.</p>'
+  ) + '</section>';
+}
+
+function renderTaxPolicyLabDebriefGuide(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Debrief guide</span>'
+    + '<h1>Debriefing '+esc(g.title)+'</h1>'
+    + '<p class="lead">The dashboard’s “For the debrief” panel is written from your own class’s data — read it first, then use these prompts to go one level deeper.</p>'
+    + subNav(id, "debrief-guide")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "Open with the archetypes", open: true, html:
+        "<p>Read the Teams panel’s archetype for every team out loud. Ask: “How many different countries did we just build, using the exact same twenty-five questions?”</p>"
+      },
+      { title: "The two teams furthest apart", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>The dashboard names the two teams with the widest gap across all five meters. Ask each to defend one specific decision to the other, out loud.</li></ul></div>"
+      },
+      { title: "Say vs. do", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>Did your team’s actual 25 answers match what you, individually, said in the first 5 questions — or did the group land somewhere none of you would have picked alone?</li></ul></div>"
+      },
+      { title: "Trade-offs, named specifically", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>Pick two teams with very different Revenue vs. Growth Outlook. Ask each: what did you get, and what did you give up? Push until they name the actual trade-off (equity vs. efficiency, revenue vs. competitiveness), not just “we chose differently.”</li>"
+        + "<li>Read out each team’s shock-condition history. Ask why the app picked that one for them specifically — and what a team that got a different shock thinks would have happened to them instead.</li></ul></div>"
+      },
+      { title: "Close on the quiz’s weak spot", html:
+        "<p>Use the average score as a starting point, but spend the time on whichever single question the room got wrong most — that is the concept worth re-explaining, not the score itself.</p>"
+        + '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>There usually isn’t a single right tax system in this activity. What determined which one your team built — the economics, or the values you started with?</li></ul></div>"
+      }
+    ])
+  ) + '</section>';
+}
+
+function renderTaxPolicyLabStudentNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  var glossary = [
+    { term: "Progressive vs. regressive tax", def: "Progressive takes a larger income share from higher earners; regressive takes a larger share from lower earners." },
+    { term: "Tax incidence", def: "Who actually ends up bearing a tax’s cost — which can differ from who is legally required to pay it." },
+    { term: "The Laffer curve", def: "Past some point, raising a tax rate further can reduce total revenue, because it shrinks the taxed activity faster than it raises the per-unit take." },
+    { term: "Pigovian tax", def: "A tax designed to correct a negative externality — closing the gap between a private cost and the true social cost." },
+    { term: "Deadweight loss", def: "The value lost from transactions a tax discourages entirely, on top of whatever revenue it actually raises." },
+    { term: "Tax competition", def: "Countries cutting rates to attract mobile investment away from each other — sometimes called a race to the bottom." }
+  ].map(function(t){ return '<dt>'+esc(t.term)+'</dt><dd>'+esc(t.def)+'</dd>'; }).join("");
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Student note</span>'
+    + '<h1>Before you play</h1>'
+    + '<p class="lead">A plain-language recap, before or after a session of '+esc(g.title)+'.</p>'
+    + subNav(id, "student-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "What you are actually doing", open: true, html:
+        "<p>You’ll answer 5 questions on your own — these sort you onto a team of people who don’t all think like you. Your team then answers 25 questions building an entire tax system, block by block, while five outcome meters move underneath every choice. Along the way, shock events will hit your team specifically — chosen to challenge the direction you’ve been leaning, not at random. At the end, your team’s numbers are matched to one of six real-world-flavoured archetypes.</p>"
+        + "<ul><li>Once any teammate picks an answer, it locks for the whole team — talk it through before someone taps.</li>"
+        + "<li>No meter is simply “good” — a choice that raises one often costs you on another.</li></ul>"
+      },
+      { title: "A few honest tips", html:
+        "<ul><li>There’s no correct tax system — the quiz afterward is what’s actually graded, so don’t stall the team hunting for a “right” answer.</li>"
+        + "<li>Watch which two meters an option’s hint arrows point at before your team locks in — you’re trading one thing for another, every time.</li>"
+        + "<li>The shock condition your team gets isn’t bad luck — it’s chosen because it challenges exactly what you’ve been doing. Notice what it targets.</li></ul>"
+      },
+      { title: "Terms you will want to know", html: '<dl class="glossary">' + glossary + '</dl>' }
+    ])
+    + '<div class="editor-note" style="margin-top:20px"><strong>One thing this note will not tell you:</strong> which of the six archetypes your team will land on. Build your system first — the reveal is the point.</div>'
+  ) + '</section>';
+}
+
 /* LIVE. */
 /* ---- The Common Pot ---- */
 function commonPotBlockPanel(b){
@@ -3076,6 +3402,16 @@ var RESOURCE_PAGES = {
     "teaching-note": renderTradeRulerTeachingNote,
     "debrief-guide": renderTradeRulerDebriefGuide,
     "student-note": renderTradeRulerStudentNote
+  },
+  "kite-market": {
+    "teaching-note": renderKiteMarketTeachingNote,
+    "debrief-guide": renderKiteMarketDebriefGuide,
+    "student-note": renderKiteMarketStudentNote
+  },
+  "tax-policy-lab": {
+    "teaching-note": renderTaxPolicyLabTeachingNote,
+    "debrief-guide": renderTaxPolicyLabDebriefGuide,
+    "student-note": renderTaxPolicyLabStudentNote
   }
 };
 
