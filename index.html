@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,6 +33,7 @@
   --blue:       #002A60;
   --blue-deep:  #001B40;
   --blue-soft:  #DCE6F2;
+  --panel-deep: #001B40;
   --blue-line:  #002A60;
 
   --chalk:      #A8650A;
@@ -81,6 +82,7 @@
     --blue:       #6E93D6;
     --blue-deep:  #A9C2EC;
     --blue-soft:  #14294A;
+    --panel-deep: #0B2648;
 
     --chalk:      #F2B25A;
     --chalk-bg:   #3A2A10;
@@ -116,6 +118,7 @@
   --blue:       #6E93D6;
   --blue-deep:  #A9C2EC;
   --blue-soft:  #14294A;
+  --panel-deep: #0B2648;
 
   --chalk:      #F2B25A;
   --chalk-bg:   #3A2A10;
@@ -197,7 +200,7 @@ p{ margin: 0 0 1em; max-width: 65ch; }
   box-shadow: var(--shadow-xs);
 }
 .ticker-wrap{
-  background: var(--blue-deep);
+  background: var(--panel-deep);
   color: #fff;
   overflow: hidden;
   white-space: nowrap;
@@ -302,7 +305,7 @@ p{ margin: 0 0 1em; max-width: 65ch; }
 /* ---------------- hero / ledger spread ---------------- */
 .hero{ padding: 56px 0 40px; border-bottom: 1px solid var(--rule); }
 .hero-home{
-  background: var(--blue-deep);
+  background: var(--panel-deep);
   border-bottom: 1px solid rgba(255,255,255,.15);
 }
 .hero.hero-home .eyebrow{ color: var(--chalk-line); }
