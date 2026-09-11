@@ -1498,10 +1498,8 @@ function subwayMapArchive(){
 var MAP_LINE_COLORS = ["blue-line","rise-line","violet-line","chalk-line","stamp-line"];
 
 /* The same coin + rising-line mark used in the hero illustration, reused
-   as every card’s little icon badge — one recurring brand mark instead
-   of a different literal icon per topic (which would need upkeep every
-   time a topic is renamed or reordered). Only the badge’s background
-   colour changes, via topicAccentVar. */
+   as every card’s little icon badge — one recurring brand mark, in one
+   uniform colour (set on .card-icon in CSS) for every card. */
 function cardIconMark(){
   return '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
     + '<circle cx="6.5" cy="6.5" r="2.4" fill="#fff" stroke="none"/>'
