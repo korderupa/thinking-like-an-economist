@@ -302,15 +302,24 @@ p{ margin: 0 0 1em; max-width: 65ch; }
   background: var(--stamp-bg);
 }
 
-/* ---------------- hero / ledger spread ---------------- */
-.hero{ padding: 56px 0 40px; border-bottom: 1px solid var(--rule); }
-.hero-home{
+/* ---------------- hero / ledger spread ----------------
+   Every page’s top band — home, games, topics, about, terms,
+   contact, and every individual game/resource page — shares this
+   one dark-navy treatment, so the whole site reads as one system
+   rather than a light site with one dark page bolted on. */
+.hero{
+  padding: 56px 0 40px;
   background: var(--panel-deep);
   border-bottom: 1px solid rgba(255,255,255,.15);
 }
-.hero.hero-home .eyebrow{ color: var(--chalk-line); }
-.hero.hero-home h1{ color: #fff; }
-.hero.hero-home p.lead{ color: rgba(255,255,255,.8); }
+.hero .eyebrow{ color: var(--chalk-line); }
+.hero h1{ color: #fff; }
+.hero p.lead{ color: rgba(255,255,255,.8); font-size: 1.13rem; max-width: 46ch; }
+.hero .subnav{ border-bottom-color: rgba(255,255,255,.18); }
+.hero .subnav a{ color: rgba(255,255,255,.65); }
+.hero .subnav a:hover{ color: #fff; }
+.hero .subnav a.active{ color: var(--chalk-line); border-bottom-color: var(--chalk-line); }
+.hero .stamp-badge{ color: var(--chalk-line); border-color: var(--chalk-line); background: rgba(255,255,255,.08); }
 .hero-home .index-card{
   background: rgba(255,255,255,.08);
   border-color: rgba(255,255,255,.18);
@@ -320,13 +329,12 @@ p{ margin: 0 0 1em; max-width: 65ch; }
 .hero-home .index-card h4{ color: rgba(255,255,255,.62); }
 .hero-home .stat-row{ color: #fff; border-bottom-color: rgba(255,255,255,.18); }
 .hero-home .stat-row .n{ color: var(--chalk-line); }
-.hero-home .btn.ghost{ border-color: rgba(255,255,255,.55); color: #fff !important; }
-.hero-home .btn.ghost:hover{ background: rgba(255,255,255,.12); }
+.hero .btn.ghost{ border-color: rgba(255,255,255,.55); color: #fff !important; }
+.hero .btn.ghost:hover{ background: rgba(255,255,255,.12); }
 .ledger-spread{
   display:grid; grid-template-columns: 1.3fr .9fr; gap: 40px; align-items: start;
 }
 @media (max-width: 760px){ .ledger-spread{ grid-template-columns: 1fr; } }
-.hero p.lead{ font-size: 1.13rem; color: var(--ink-soft); max-width: 46ch; }
 .hero-actions{ display:flex; gap: 14px; margin-top: 22px; flex-wrap: wrap; }
 
 .hero-right{ display:flex; flex-direction:column; gap: 22px; }
@@ -383,11 +391,13 @@ section.alt{ background: var(--paper-2); border-top:1px solid var(--rule); borde
 .card-band{
   display:flex; align-items:center; justify-content:space-between; gap:10px;
   padding: 16px 20px;
+  background: var(--blue-soft);
 }
 .card-icon{
   width:36px; height:36px; border-radius:50%; flex:none;
   display:flex; align-items:center; justify-content:center;
   box-shadow: 0 2px 6px rgba(16,26,48,.18);
+  background: var(--blue);
 }
 .card-body{ padding: 18px 24px 24px; display:flex; flex-direction:column; flex:1; }
 .card h3{ margin-bottom: .3em; }
@@ -1487,25 +1497,6 @@ function subwayMapArchive(){
    off one, even rows off the other) rather than shrinking row height. */
 var MAP_LINE_COLORS = ["blue-line","rise-line","violet-line","chalk-line","stamp-line"];
 
-/* Same five-colour cycle as the map, reused everywhere a topic needs a
-   colour — game cards, topic cards — so the palette reads as one system
-   tied to the map, not a random rainbow. Index 0 (blue) intentionally has
-   no .tag suffix, since .tag’s un-suffixed default already is blue. */
-var TOPIC_ACCENT_VAR = ["--blue","--rise","--violet","--chalk","--stamp"];
-/* Every colour’s light tint variable, parallel to TOPIC_ACCENT_VAR —
-   named "-bg" for four of the five and "-soft" for blue specifically
-   (an old naming inconsistency from early in the project), so this
-   lookup exists rather than string-concatenating a suffix. */
-var TOPIC_ACCENT_SOFT_VAR = ["--blue-soft","--rise-bg","--violet-bg","--chalk-bg","--stamp-bg"];
-var TOPIC_TAG_CLASS = ["","live","violet","chalk","stamp"];
-function topicIndexOfGame(gameId){
-  for(var i=0;i<TOPICS.length;i++){ if(TOPICS[i].games.indexOf(gameId) > -1) return i; }
-  return 0;
-}
-function topicAccentVar(topicIndex){ return TOPIC_ACCENT_VAR[topicIndex % TOPIC_ACCENT_VAR.length]; }
-function topicAccentSoftVar(topicIndex){ return TOPIC_ACCENT_SOFT_VAR[topicIndex % TOPIC_ACCENT_SOFT_VAR.length]; }
-function topicTagClass(topicIndex){ return TOPIC_TAG_CLASS[topicIndex % TOPIC_TAG_CLASS.length]; }
-
 /* The same coin + rising-line mark used in the hero illustration, reused
    as every card’s little icon badge — one recurring brand mark instead
    of a different literal icon per topic (which would need upkeep every
@@ -1635,16 +1626,13 @@ function tabsHtml(groupKey, items, keyFn, labelFn, panelFn, activeKey, syncAttr)
 
 function gameCard(g){
   var statusClass = g.status === "live" ? "live" : "chalk";
-  var topicIdx = topicIndexOfGame(g.id);
-  var accentVar = topicAccentVar(topicIdx);
-  var softVar = topicAccentSoftVar(topicIdx);
   var action = g.link
     ? '<a class="btn" href="'+esc(g.link)+'" target="_blank" rel="noopener">Launch the game →</a>'
     : '<span class="btn disabled">'+esc(g.linkLabel||"Coming soon")+'</span>';
   return ''
   + '<article class="card reveal">'
-  + '<div class="card-band" style="background:var('+softVar+')">'
-  +   '<span class="card-icon" style="background:var('+accentVar+')">'+cardIconMark()+'</span>'
+  + '<div class="card-band">'
+  +   '<span class="card-icon">'+cardIconMark()+'</span>'
   +   '<span class="tag '+statusClass+'">'+esc(g.statusLabel)+'</span>'
   + '</div>'
   + '<div class="card-body">'
@@ -1750,11 +1738,11 @@ function renderGames(){
 
 /* ---- Topics ---- */
 function renderTopics(){
-  var cards = TOPICS.map(function(t, i){
+  var cards = TOPICS.map(function(t){
     var links = t.games.map(function(id){ return '<li><a href="#/games/'+id+'">'+esc(GAMES[id].title)+'</a></li>'; }).join("");
     return '<article class="card reveal">'
-      + '<div class="card-band" style="background:var('+topicAccentSoftVar(i)+')">'
-      +   '<span class="card-icon" style="background:var('+topicAccentVar(i)+')">'+cardIconMark()+'</span>'
+      + '<div class="card-band">'
+      +   '<span class="card-icon">'+cardIconMark()+'</span>'
       + '</div>'
       + '<div class="card-body"><h3>'+esc(t.title)+'</h3><p>'+esc(t.description)+'</p>'
       + '<p class="muted" style="margin-bottom:.3em">Explored through:</p><ul class="muted">'+links+'</ul></div>'
