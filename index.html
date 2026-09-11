@@ -288,6 +288,23 @@ p{ margin: 0 0 1em; max-width: 65ch; }
 .hero p.lead{ font-size: 1.13rem; color: var(--ink-soft); max-width: 46ch; }
 .hero-actions{ display:flex; gap: 14px; margin-top: 22px; flex-wrap: wrap; }
 
+.hero-right{ display:flex; flex-direction:column; gap: 22px; }
+.hero-art{ display:block; width:100%; max-width: 230px; height:auto; overflow: visible; margin: 0 auto; }
+.hero-card{ animation: card-float 5s ease-in-out infinite; }
+@keyframes card-float{
+  0%, 100%{ transform: translateY(0); }
+  50%{ transform: translateY(-7px); }
+}
+@media (max-width: 760px){ .hero-art{ max-width: 170px; } }
+@media (prefers-reduced-motion: reduce){ .hero-card{ animation: none; } }
+
+/* ---------------- scroll-reveal ---------------- */
+.reveal{ opacity: 0; transform: translateY(18px); transition: opacity .55s ease, transform .55s ease; }
+.reveal.in{ opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce){
+  .reveal{ opacity:1; transform:none; transition:none; }
+}
+
 .index-card{
   background: var(--panel);
   border: 1px solid var(--rule);
@@ -317,11 +334,12 @@ section.alt{ background: var(--paper-2); border-top:1px solid var(--rule); borde
 .grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 22px; }
 .card{
   background: var(--panel); border: 1px solid var(--rule); border-radius: 4px;
+  border-top: 4px solid var(--rule-strong);
   padding: 24px; display:flex; flex-direction:column;
   box-shadow: var(--shadow-xs);
   transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
 }
-.card:hover{ box-shadow: var(--shadow-md); transform: translateY(-3px); border-color: var(--rule-strong); }
+.card:hover{ box-shadow: var(--shadow-md); transform: translateY(-5px); border-color: var(--rule-strong); }
 .card h3{ margin-bottom: .3em; }
 .card .muted{ color: var(--ink-soft); font-size: .93rem; }
 .card .tags{ margin: 10px 0 14px; display:flex; gap:8px; flex-wrap:wrap; }
@@ -422,13 +440,23 @@ section.alt{ background: var(--paper-2); border-top:1px solid var(--rule); borde
 /* ---------------- about ---------------- */
 .about-layout{ display:grid; grid-template-columns: 220px 1fr; gap: 40px; align-items: start; }
 @media (max-width: 640px){ .about-layout{ grid-template-columns: 1fr; } }
+/* A colour-ring monogram badge — every one of the site’s five topic
+   colours in one place, standing in for a portrait until a real photo
+   exists. To swap in a photo later: put it at assets/img/rupa-korde.jpg
+   and replace .portrait’s two inner divs with a single <img>; .portrait
+   img below already has the fill/crop rule ready for that swap. */
 .portrait{
-  width: 100%; aspect-ratio: 1; border-radius: 4px; border: 1px solid var(--rule);
-  background: var(--paper-2); display:flex; align-items:center; justify-content:center;
-  color: var(--ink-faint); font-family: var(--font-mono); font-size: .78rem; text-align:center; padding: 16px;
-  overflow:hidden;
+  position:relative; width:100%; max-width:230px; aspect-ratio:1; margin: 0 auto;
+  border-radius:50%; padding:9px;
+  background: conic-gradient(from 200deg, var(--blue), var(--rise), var(--violet), var(--chalk), var(--stamp), var(--blue));
+  box-shadow: var(--shadow-md);
 }
-.portrait img{ width:100%; height:100%; object-fit:cover; }
+.portrait-inner{
+  position:absolute; inset:9px; border-radius:50%; background: var(--panel);
+  display:flex; align-items:center; justify-content:center;
+  font-family: var(--font-display); font-weight:600; font-size:3.4rem; color: var(--ink);
+}
+.portrait img{ width:100%; height:100%; object-fit:cover; border-radius:50%; }
 
 .editor-note{
   border-left: 3px solid var(--chalk-line); background: var(--chalk-bg); padding: 10px 14px;
@@ -1409,6 +1437,19 @@ function subwayMapArchive(){
    off one, even rows off the other) rather than shrinking row height. */
 var MAP_LINE_COLORS = ["blue-line","rise-line","violet-line","chalk-line","stamp-line"];
 
+/* Same five-colour cycle as the map, reused everywhere a topic needs a
+   colour — game cards, topic cards — so the palette reads as one system
+   tied to the map, not a random rainbow. Index 0 (blue) intentionally has
+   no .tag suffix, since .tag’s un-suffixed default already is blue. */
+var TOPIC_ACCENT_VAR = ["--blue","--rise","--violet","--chalk","--stamp"];
+var TOPIC_TAG_CLASS = ["","live","violet","chalk","stamp"];
+function topicIndexOfGame(gameId){
+  for(var i=0;i<TOPICS.length;i++){ if(TOPICS[i].games.indexOf(gameId) > -1) return i; }
+  return 0;
+}
+function topicAccentVar(topicIndex){ return TOPIC_ACCENT_VAR[topicIndex % TOPIC_ACCENT_VAR.length]; }
+function topicTagClass(topicIndex){ return TOPIC_TAG_CLASS[topicIndex % TOPIC_TAG_CLASS.length]; }
+
 /* Measures real rendered text width via an offscreen canvas, so the map’s
    viewBox can be cropped tight to its actual content instead of reserving
    a fixed, mostly-empty canvas (which read as an unfinished/buggy page
@@ -1470,7 +1511,7 @@ function subwayMap(){
       cursorX = gx + labelDX + 6 + gLabelW;
     });
 
-    lines += '<path d="'+pathD+'" fill="none" stroke="var(--'+color+')" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>';
+    lines += '<path class="map-line" d="'+pathD+'" fill="none" stroke="var(--'+color+')" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>';
   });
 
   var hub = '<a href="#/topics"><circle cx="'+hubX+'" cy="'+hubY.toFixed(1)+'" r="15" fill="var(--ink)" stroke="var(--panel)" stroke-width="4"/></a>';
@@ -1479,7 +1520,7 @@ function subwayMap(){
   var vbX = (minX - pad).toFixed(1), vbY = (minY - pad).toFixed(1);
   var vbW = (maxX - minX + pad*2).toFixed(1), vbH = (maxY - minY + pad*2).toFixed(1);
 
-  return '<figure class="subway-fig">'
+  return '<figure class="subway-fig reveal-map">'
     + '<svg viewBox="'+vbX+' '+vbY+' '+vbW+' '+vbH+'" role="img" aria-label="Subway-style map: a central hub with one line per topic, each running on through its game or games.">'
     + lines + nodes + hub
     + '</svg>'
@@ -1526,11 +1567,12 @@ function tabsHtml(groupKey, items, keyFn, labelFn, panelFn, activeKey, syncAttr)
 
 function gameCard(g){
   var statusClass = g.status === "live" ? "live" : "chalk";
+  var accentVar = topicAccentVar(topicIndexOfGame(g.id));
   var action = g.link
     ? '<a class="btn" href="'+esc(g.link)+'" target="_blank" rel="noopener">Launch the game →</a>'
     : '<span class="btn disabled">'+esc(g.linkLabel||"Coming soon")+'</span>';
   return ''
-  + '<article class="card">'
+  + '<article class="card reveal" style="border-top-color:var('+accentVar+')">'
   + '<span class="tag '+statusClass+'">'+esc(g.statusLabel)+'</span>'
   + '<h3 style="margin-top:.5em"><a href="#/games/'+g.id+'" style="color:inherit">'+esc(g.title)+'</a></h3>'
   + '<p class="muted">'+esc(g.tagline)+'</p>'
@@ -1546,6 +1588,29 @@ function gameCard(g){
 
 function pageChrome(inner){ return '<div class="container">'+inner+'</div>'; }
 
+/* A small fanned "hand of cards," one per line colour on the map — each
+   card carries a coin dot and a rising ledger-line, so the illustration
+   reads as "this site’s own five topic-colours," not a generic decoration.
+   The fan angle is a real SVG transform (rotate around a shared pivot);
+   the gentle float is a separate, purely-CSS-animated inner group, so the
+   two never fight over the same `transform`. */
+var HERO_CARD_SOFT_VAR = { blue:"--blue-soft", rise:"--rise-bg", violet:"--violet-bg", chalk:"--chalk-bg", stamp:"--stamp-bg" };
+function heroArtSvg(){
+  var colors = ["blue","rise","violet","chalk","stamp"];
+  var angles = [-26,-13,0,13,26];
+  var cards = colors.map(function(c, i){
+    return '<g transform="rotate('+angles[i]+' 160 250)">'
+      + '<g class="hero-card" style="animation-delay:'+(i*0.3)+'s">'
+      +   '<rect x="118" y="120" width="84" height="124" rx="10" fill="var('+HERO_CARD_SOFT_VAR[c]+')" stroke="var(--'+c+')" stroke-width="2.5"/>'
+      +   '<circle cx="136" cy="140" r="7" fill="var(--'+c+')"/>'
+      +   '<path d="M126 210 L140 190 L152 200 L166 172" fill="none" stroke="var(--'+c+')" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>'
+      + '</g></g>';
+  }).join("");
+  return '<svg class="hero-art" viewBox="0 0 320 260" role="img" aria-label="Five colourful cards fanned out, one per topic line on the dashboard map below.">'
+    + cards
+    + '</svg>';
+}
+
 /* ---- Home ---- */
 function renderHome(){
   var gameIds = Object.keys(GAMES);
@@ -1559,7 +1624,7 @@ function renderHome(){
   return ''
   + '<section class="hero">' + pageChrome(''
     + '<div class="ledger-spread">'
-    +   '<div>'
+    +   '<div class="reveal">'
     +     '<span class="eyebrow">Economics, taught by doing</span>'
     +     '<h1>Games and simulations<br>for teaching economics.</h1>'
     +     '<p class="lead">Thinking Like an Economist is a growing collection of classroom games, teaching notes, debriefs and quizzes — built so students discover economic reasoning by living inside the incentives, not by copying it off a slide.</p>'
@@ -1568,17 +1633,20 @@ function renderHome(){
     +       '<a class="btn ghost" href="#/topics">Browse by topic</a>'
     +     '</div>'
     +   '</div>'
-    +   '<div class="index-card">'
+    +   '<div class="hero-right">'
+    +   heroArtSvg()
+    +   '<div class="index-card reveal">'
     +     '<h4>Ledger, as of today</h4>'
-    +     '<div class="stat-row"><span>Games live</span><span class="n">'+gameIds.length+'</span></div>'
-    +     '<div class="stat-row"><span>Topics live</span><span class="n">'+TOPICS.length+'</span></div>'
-    +     '<div class="stat-row"><span>Teaching &amp; debrief resources</span><span class="n">'+totalResourcePages+'</span></div>'
-    +     '<div class="stat-row"><span>Classroom minutes documented</span><span class="n">'+totalMinutes+'</span></div>'
+    +     '<div class="stat-row"><span>Games live</span><span class="n" data-count="'+gameIds.length+'">0</span></div>'
+    +     '<div class="stat-row"><span>Topics live</span><span class="n" data-count="'+TOPICS.length+'">0</span></div>'
+    +     '<div class="stat-row"><span>Teaching &amp; debrief resources</span><span class="n" data-count="'+totalResourcePages+'">0</span></div>'
+    +     '<div class="stat-row"><span>Classroom minutes documented</span><span class="n" data-count="'+totalMinutes+'">0</span></div>'
+    +   '</div>'
     +   '</div>'
     + '</div>'
   ) + '</section>'
   + '<section>' + pageChrome(''
-    + '<div class="section-head">'
+    + '<div class="section-head reveal">'
     +   '<span class="eyebrow">The dashboard</span>'
     +   '<h2>How it all connects</h2>'
     +   '<p>Every topic branches off one central hub, and each topic’s own line runs on to its game or games. Click any station to open it — the notes, guides and quizzes for each game live one click further in.</p>'
@@ -1586,7 +1654,7 @@ function renderHome(){
     + subwayMap()
   ) + '</section>'
   + '<section class="alt">' + pageChrome(''
-    + '<div class="section-head">'
+    + '<div class="section-head reveal">'
     +   '<span class="eyebrow">The collection</span>'
     +   '<h2>Games</h2>'
     + '</div>'
@@ -1607,9 +1675,9 @@ function renderGames(){
 
 /* ---- Topics ---- */
 function renderTopics(){
-  var cards = TOPICS.map(function(t){
+  var cards = TOPICS.map(function(t, i){
     var links = t.games.map(function(id){ return '<li><a href="#/games/'+id+'">'+esc(GAMES[id].title)+'</a></li>'; }).join("");
-    return '<article class="card"><h3>'+esc(t.title)+'</h3><p>'+esc(t.description)+'</p>'
+    return '<article class="card reveal" style="border-top-color:var('+topicAccentVar(i)+')"><h3>'+esc(t.title)+'</h3><p>'+esc(t.description)+'</p>'
       + '<p class="muted" style="margin-bottom:.3em">Explored through:</p><ul class="muted">'+links+'</ul></article>';
   }).join("");
   return '<section class="hero" style="padding-bottom:20px">' + pageChrome(''
@@ -3427,7 +3495,7 @@ function renderAbout(){
   ) + '</section>'
   + '<section>' + pageChrome(''
     + '<div class="about-layout">'
-    +   '<div><div class="portrait">Photo placeholder<br>(add assets/img/rupa-korde.jpg)</div></div>'
+    +   '<div><div class="portrait reveal"><div class="portrait-inner">RK</div></div></div>'
     +   '<div class="prose">'
     +     '<h2>Why this exists</h2>'
     +     '<p>An economic argument only earns its keep once someone can act on it — not once they can recite it back on an exam. That is the entire premise of this site. A class that plays a tariff, a shared fishery, a public budget, or a pay gap understands it in a way a slide never quite manages, because they made the decisions and lived with the consequences before anyone handed them the vocabulary for what had just happened.</p>'
@@ -3572,6 +3640,101 @@ function wireContactForm(){
 }
 
 /* ============================================================
+   ANIMATION — scroll-reveal, count-up stats, and the map’s lines
+   drawing themselves in. All three are re-armed after every route()
+   render, since the DOM they act on is thrown away and rebuilt on
+   every hash change. Every one of them no-ops instantly under
+   prefers-reduced-motion instead of animating anyway. */
+var PREFERS_REDUCED_MOTION = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function wireReveal(){
+  var els = document.querySelectorAll(".reveal:not(.in)");
+  if(PREFERS_REDUCED_MOTION || !("IntersectionObserver" in window)){
+    els.forEach(function(el){ el.classList.add("in"); });
+    return;
+  }
+  // Cards in the same .grid stagger by their position in it, so a row of
+  // game/topic cards cascades in left-to-right instead of popping at once.
+  var seenGrids = new WeakMap();
+  els.forEach(function(el){
+    var grid = el.closest(".grid");
+    if(grid){
+      var i = seenGrids.get(grid) || 0;
+      el.style.transitionDelay = Math.min(i, 8) * 60 + "ms";
+      seenGrids.set(grid, i + 1);
+    }
+  });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add("in");
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: .12, rootMargin: "0px 0px -40px 0px" });
+  els.forEach(function(el){ io.observe(el); });
+}
+
+function wireCounters(){
+  var els = document.querySelectorAll("[data-count]:not([data-counted])");
+  if(!els.length) return;
+  function run(el){
+    el.setAttribute("data-counted", "1");
+    var target = parseInt(el.getAttribute("data-count"), 10) || 0;
+    if(PREFERS_REDUCED_MOTION || !target){ el.textContent = target; return; }
+    var start = null, duration = 900;
+    function step(ts){
+      if(start === null) start = ts;
+      var p = Math.min(1, (ts - start) / duration);
+      var eased = 1 - Math.pow(1 - p, 3); // ease-out-cubic
+      el.textContent = Math.round(eased * target);
+      if(p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  if(!("IntersectionObserver" in window)){ els.forEach(run); return; }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){ run(entry.target); io.unobserve(entry.target); }
+    });
+  }, { threshold: .4 });
+  els.forEach(function(el){ io.observe(el); });
+}
+
+function wireMapDrawIn(){
+  var fig = document.querySelector(".reveal-map:not([data-drawn])");
+  if(!fig) return;
+  var paths = fig.querySelectorAll(".map-line");
+  if(!paths.length) return;
+  if(PREFERS_REDUCED_MOTION){ fig.setAttribute("data-drawn", "1"); return; }
+  function draw(){
+    fig.setAttribute("data-drawn", "1");
+    paths.forEach(function(p, i){
+      var len = p.getTotalLength();
+      p.style.strokeDasharray = len;
+      p.style.strokeDashoffset = len;
+      p.style.transition = "none";
+      // Two rAFs: the first lets the browser paint the "fully hidden" state,
+      // the second then flips to 0 so the transition actually has something
+      // to animate from — setting both in the same frame just skips to the end.
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){
+          p.style.transition = "stroke-dashoffset 1s ease " + (i * 90) + "ms";
+          p.style.strokeDashoffset = 0;
+        });
+      });
+    });
+  }
+  if(!("IntersectionObserver" in window)){ draw(); return; }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){ draw(); io.unobserve(entry.target); }
+    });
+  }, { threshold: .3 });
+  io.observe(fig);
+}
+
+/* ============================================================
    ROUTER
    ============================================================ */
 function renderTicker(){
@@ -3626,6 +3789,9 @@ function route(){
   if(todayEl) todayEl.textContent = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
   wireQuiz();
   wireContactForm();
+  wireReveal();
+  wireCounters();
+  wireMapDrawIn();
   window.scrollTo({top:0, behavior:"instant"});
   // Restart the CSS fade-in on the new content — resetting to "none" and
   // reading a layout property forces the browser to notice the animation
