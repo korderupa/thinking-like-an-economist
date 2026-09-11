@@ -861,6 +861,24 @@ var GAMES = {
       { k: "Class size", v: "Any size · 10 self-forming teams, diversity-maximised by first answers" },
       { k: "Structure", v: "25 policy decisions in 5 blocks, 8 auto-fired shocks, then a 15-question quiz" }
     ]
+  },
+  "the-budget-room": {
+    id: "the-budget-room",
+    title: "The Budget Room",
+    tagline: "Sixteen spending lines, one purse, and a €25bn fiscal-headroom cap. Raise one, cut another to pay for it — or borrow the room instead, on someone else’s terms.",
+    description: "A solo, self-paced budget simulation with no backend at all: allocate the fictional country of Gondor’s national budget across sixteen spending lines in four sectors, each adjustable from −20% to +20% of its baseline in fixed steps. A €25bn fiscal headroom caps how much net spending a student can add without cutting something else to fund it — going further means issuing domestic bonds, drawing an IMF programme, or taking a bilateral loan, and each of the three carries a real, different price: a shrinking Business-confidence meter, conditionality that locks three subsidy lines at or below baseline for as long as the loan is drawn, or a straight fee that wastes part of every euro borrowed. Four live objectives track competing goals as a student plays. Locking in a budget classifies it into one of six archetypes by nearest-centroid match across four sentiment meters and the deficit, then reveals a newspaper-style headline, a breakdown of exactly which spending lines moved each group’s sentiment and by how much, a plain accounting of how the budget was financed, and a proportional bar-chart comparison against Gondor’s current budget.",
+    format: "Self-paced, solo · ~15–20 minutes · any device, no login, no backend",
+    status: "dev",
+    statusLabel: "Ready to pilot",
+    tags: ["Fiscal policy", "Opportunity cost", "Public debt", "Budget deficits"],
+    link: "budget-room.html",
+    linkLabel: null,
+    minutes: 18,
+    glance: [
+      { k: "Format", v: "Self-paced, solo · ~15–20 minutes · any device, no login" },
+      { k: "Structure", v: "16 spending lines across 4 sectors, one fiscal-headroom cap, 3 financing instruments" },
+      { k: "Outcome", v: "1 of 6 archetypes, matched by nearest-centroid across 4 sentiment meters and the deficit" }
+    ]
   }
 };
 
@@ -901,6 +919,11 @@ var TOPICS = [
     title: "Taxation and Public Finance",
     description: "Progressive versus regressive taxes, who really bears a tax once incidence is traced through, the Laffer curve, and the genuine value trade-offs behind revenue, growth, equity, and competitiveness that no tax system escapes. Explored hands-on through Tax Policy Lab.",
     games: ["tax-policy-lab"]
+  },
+  {
+    title: "Government Budgets and Public Debt",
+    description: "The opportunity cost baked into every line of a national budget, the difference between a fiscal deficit and the debt that finances it, and why borrowing from a bond market, the IMF, or another government are not the same choice wearing different names. Explored hands-on through The Budget Room.",
+    games: ["the-budget-room"]
   }
 ];
 
@@ -1301,7 +1324,8 @@ var RESOURCE_NAV = {
   "public-verdict": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
   "trade-ruler": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
   "kite-market": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
-  "tax-policy-lab": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
+  "tax-policy-lab": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
+  "the-budget-room": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
 };
 
 /* The Common Pot — the four blocks of its default 20-round schedule,
@@ -3494,6 +3518,152 @@ function renderCommonPotStudentNote(id){
   ) + '</section>';
 }
 
+/* ---- The Budget Room ---- */
+function renderBudgetRoomTeachingNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Teaching note</span>'
+    + '<h1>Running '+esc(g.title)+'</h1>'
+    + '<p class="lead">Self-paced and solo, with no backend at all — there’s no dashboard, no roster, and nothing to configure. Share the link and let students play.</p>'
+    + subNav(id, "teaching-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + '<div class="at-a-glance">'
+    +   '<div class="item"><div class="k">Format</div><div class="v">Self-paced, solo · no join code, no live sync, nothing to run during play</div></div>'
+    +   '<div class="item"><div class="k">Students need</div><div class="v">Just a device and the link — one sitting, since progress does not save across a reload</div></div>'
+    +   '<div class="item"><div class="k">Instructor needs</div><div class="v">Nothing to set up — there is no passcode and no server side to this game at all</div></div>'
+    +   '<div class="item"><div class="k">Length</div><div class="v">~15–20 minutes to build and lock in one budget</div></div>'
+    + '</div>'
+    + accordionHtml([
+      { title: "Learning objectives", open: true, html:
+        "<ul><li>Feel opportunity cost directly: every euro added to one spending line, past a point, has to come from cutting another — the game will not let a student simply wish more money into existence.</li>"
+        + "<li>Separate a fiscal deficit from how it is financed — the deficit number is the same whether it is covered by domestic bonds, an IMF programme, or a bilateral loan, but the price of each is completely different.</li>"
+        + "<li>Encounter IMF conditionality as a mechanic, not a headline — drawing the loan actually locks three subsidy lines at or below baseline for as long as it is outstanding.</li>"
+        + "<li>See that a stakeholder group’s sentiment moves because of specific, traceable spending decisions — the results screen names exactly which lines moved which group, and by how much.</li>"
+        + "<li>Recognise “balanced budget” as one deliberate political choice among several defensible ones (the six archetypes), not the one correct answer everything else is graded against.</li></ul>"
+      },
+      { title: "Before assigning it", html:
+        "<ul><li>Nothing to configure — there is no instructor passcode, no roster, and no backend of any kind. Just share the link.</li>"
+        + "<li>Because there is no built-in class dashboard, if you want a shared debrief moment, tell students to note down (or screenshot) their final archetype, headline, and deficit before closing the tab — closing or reloading resets the game to baseline, nothing persists.</li>"
+        + "<li>Decide whether students explore freely, or whether you want a shared starting condition for a common thread in the debrief — e.g. “everyone try to keep Business above 50 without touching the IMF.”</li></ul>"
+      },
+      { title: "What a student actually does, screen by screen", html:
+        "<ol style=\"padding-left:20px;line-height:1.7\">"
+        + "<li><strong>Briefing:</strong> a one-paragraph scenario — growth has cooled, the opposition is split between austerity and expansion, and bond markets will tolerate the current deficit but not a sharp blowout.</li>"
+        + "<li><strong>Sixteen sliders</strong> across four sectors (Social Welfare, Human Capital, Economic Support, Core State), each adjustable from −20% to +20% of its own baseline in fixed steps, alongside a live Fiscal Headroom readout, four live sentiment meters, and a checklist of four objectives that light up the instant they’re satisfied.</li>"
+        + "<li><strong>Optional financing:</strong> three sliders — domestic bonds, an IMF programme, a bilateral loan — that extend the fiscal headroom beyond its own €25bn, each at a different cost (see below).</li>"
+        + "<li><strong>Locking in</strong> switches to a results view: the matched archetype and its description, the four final meters, the fiscal deficit, a newspaper-style headline generated from the student’s own numbers, a coalition read, the single biggest single-line bet, a breakdown of exactly which lines drove each meter, how the budget was financed, and a proportional two-bar chart comparing the student’s budget against Gondor’s current one, line by line.</li></ol>"
+      },
+      { title: "The sixteen spending lines and the headroom cap", html:
+        '<div class="at-a-glance">'
+        +   '<div class="item"><div class="k">Social Welfare</div><div class="v">Farmer Income Support, Food &amp; Nutrition Subsidies, Public Pensions, Unemployment Safety Net, Disability &amp; Elderly Care</div></div>'
+        +   '<div class="item"><div class="k">Human Capital</div><div class="v">Public Healthcare, Education, Housing &amp; Urban Development, Research &amp; Innovation</div></div>'
+        +   '<div class="item"><div class="k">Economic Support</div><div class="v">Fuel &amp; Energy Subsidies, Agricultural Input Subsidies, Small Business Credit Guarantees</div></div>'
+        +   '<div class="item"><div class="k">Core State</div><div class="v">Defence &amp; Security, Infrastructure &amp; Rural Connectivity, Judiciary &amp; Law Enforcement, Diplomatic Corps &amp; Foreign Aid</div></div>'
+        + '</div>'
+        + "<p style=\"margin-top:12px\">Baseline adjustable spending across all sixteen lines is €601bn, against €800bn of fixed revenue and €349bn of fixed, non-adjustable spending (interest, administration) — a baseline deficit of €150bn, 4.7% of a €3,200bn GDP. A student can move any line down as far as they like; moving lines up, in total, past the €25bn free fiscal headroom requires cutting an equivalent amount elsewhere, or paying for the room with financing.</p>"
+      },
+      { title: "The three financing instruments", html:
+        '<div class="at-a-glance">'
+        +   '<div class="item"><div class="k">Domestic public debt (bonds)</div><div class="v">Up to €30bn, €1-for-€1 of extra headroom. Cost: Business &amp; investor sentiment falls a little for every €1bn issued.</div></div>'
+        +   '<div class="item"><div class="k">IMF programme</div><div class="v">Up to €60bn, €1-for-€1 — by far the most room available. Cost: Fuel &amp; Energy, Agricultural Input, and Food &amp; Nutrition subsidies are locked at or below their baseline for as long as any of it is drawn.</div></div>'
+        +   '<div class="item"><div class="k">Bilateral loan</div><div class="v">Up to €20bn, but fees mean only 85 cents of extra headroom for every euro borrowed.</div></div>'
+        + '</div>'
+        + "<p style=\"margin-top:12px\">Reducing a loan a student is already relying on is refused past the point where it would leave their current spending unaffordable — the game holds them to financing they have already spent, the same as a real budget would.</p>"
+      },
+      { title: "The six archetypes", html:
+        "<p>On locking in, a student’s final Farmers / Middle Class / Low-Income / Business meters plus a normalised deficit figure are matched, by nearest Euclidean distance, to whichever of six archetypes they land closest to: <strong>Fiscal Hawk</strong> (broad cuts, no borrowing), <strong>Austerity Technocrat</strong> (deep cuts everywhere, including the lines business relies on), <strong>Growth Investor</strong> (funds infrastructure, defence and research by trimming transfers), <strong>Welfare Champion</strong> (funds a real expansion of transfers and care by cutting deep into defence and diplomacy), <strong>Populist Spender</strong> (a little more for almost everyone, funded to the very edge of the fiscal headroom), and <strong>Balanced Reformer</strong> (small moves, or none at all).</p>"
+      },
+      { title: "What the results screen shows a student", html:
+        "<ul><li>A newspaper-style headline naming the group that gained most and the group that lost most, written fresh from that student’s own numbers.</li>"
+        + "<li>A coalition read — how many of the four groups are firmly for the budget, how many firmly against.</li>"
+        + "<li>The single biggest euro swing in the whole budget, named.</li>"
+        + "<li>For each of the four sentiment meters, the top one or two spending lines that actually drove it, with the size of each contribution.</li>"
+        + "<li>A plain sentence on how the budget was financed, including the IMF’s conditionality if it was drawn.</li>"
+        + "<li>A proportional bar comparing Gondor’s current budget against the student’s, line by line, plus a legend giving the exact euro change on every one of the sixteen lines.</li></ul>"
+      }
+    ])
+    + '<p style="margin-top:20px;max-width:70ch">Once a batch of students have played and noted their results, move into the <a href="#/games/'+id+'/debrief-guide">debrief guide</a> — it works entirely from what they wrote down, since there is no dashboard to pull it from.</p>'
+  ) + '</section>';
+}
+
+function renderBudgetRoomDebriefGuide(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Debrief guide</span>'
+    + '<h1>Debriefing '+esc(g.title)+'</h1>'
+    + '<p class="lead">Nobody’s results are stored anywhere — the debrief runs on what students noted down or screenshotted, and on a show of hands.</p>'
+    + subNav(id, "debrief-guide")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "Start with a show of hands", open: true, html:
+        "<p>Poll the room by archetype before anything else — who landed on Fiscal Hawk, Austerity Technocrat, Growth Investor, Welfare Champion, Populist Spender, Balanced Reformer. The spread itself is worth a beat: a room split roughly down the middle is a better opening than a landslide toward one archetype, and either result is worth asking the room to explain.</p>"
+      },
+      { title: "The trade-off, not the deficit", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>Find two students who landed on different archetypes. Ask each for their “biggest bet” line and why they chose it over the alternatives on their own results screen.</li>"
+        + "<li>For a Welfare Champion and a Growth Investor sitting side by side: whose Business meter is lower, and what specifically did each of them cut to pay for their priority?</li></ul></div>"
+      },
+      { title: "Conditionality was not a footnote", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>For anyone who drew on the IMF programme: what did you actually give up? Have them name the three locked subsidy lines and say whether they’d have made that trade if it were the only way to close their gap.</li>"
+        + "<li>Ask a student who avoided the IMF entirely what it cost them not to use it — a lower ceiling on ambition, more painful cuts elsewhere, or both?</li></ul></div>"
+      },
+      { title: "Same deficit, different bill", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>Find two students with a similar final deficit percentage but a different financing mix (one funded mostly by cuts and base headroom, one leaning on bonds or the IMF). Did “the same deficit” feel like the same decision to make?</li>"
+        + "<li>Who actually pays for a bond issue, in this model — and is that the same group who pays for an IMF programme?</li></ul></div>"
+      },
+      { title: "Who actually felt it", html:
+        "<p>Pull up one student’s “why the numbers moved” breakdown and read the top line or two contributing to their most-changed meter.</p>"
+        + '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>Was that the line they meant to move most, or a side effect of something they cut for an unrelated reason?</li>"
+        + "<li>Which of the sixteen lines showed up as a top driver most often across the room, and does that match how much money it actually moved, or how emotionally loaded the category is?</li></ul></div>"
+      }
+    ])
+  ) + '</section>';
+}
+
+function renderBudgetRoomStudentNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  var glossary = [
+    { term: "Fiscal deficit", def: "How much more a government spends in a year than it collects in revenue — the gap that has to be financed somehow." },
+    { term: "Fiscal headroom", def: "How much extra net spending is allowed before it has to be funded by cutting something else or by borrowing." },
+    { term: "Deficit financing", def: "Covering a deficit by borrowing rather than by raising revenue or cutting spending — bonds, an international loan, or a bilateral loan are three different ways to do it." },
+    { term: "Sovereign bond", def: "A loan a government takes from its own investors, repaid later with interest — the cheapest source of financing here, but not a free one." },
+    { term: "IMF conditionality", def: "Terms attached to an international loan that restrict what a borrowing government can do with its own budget while the loan is outstanding." },
+    { term: "Opportunity cost", def: "What you give up by choosing one use of a euro over the next-best use of that same euro." }
+  ].map(function(t){ return '<dt>'+esc(t.term)+'</dt><dd>'+esc(t.def)+'</dd>'; }).join("");
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Student note</span>'
+    + '<h1>Before you play</h1>'
+    + '<p class="lead">A plain-language recap, before or after a session of '+esc(g.title)+'.</p>'
+    + subNav(id, "student-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "What you are actually doing", open: true, html:
+        "<p>You are Gondor’s Finance Minister for one budget. Sixteen spending lines, one purse: push any line up or down, but net increases beyond your free fiscal headroom have to be paid for — by cutting something else, or by borrowing. When you’re done, you lock it in and see how the country reads your choices.</p>"
+        + "<ul><li>Nothing saves. Closing the tab or reloading resets everything to baseline — finish it in one sitting.</li>"
+        + "<li>You can borrow your way past the free headroom in three different ways, and none of them are free either.</li>"
+        + "<li>Four objectives track themselves live as you adjust sliders — you don’t have to hit all of them, and some genuinely pull against each other.</li></ul>"
+      },
+      { title: "A few honest tips", html:
+        "<ul><li>Cutting is always free to do; only raising a line past your headroom costs something. If a slider won’t move further, that’s the game telling you exactly where your limit is, not a bug.</li>"
+        + "<li>The IMF programme offers by far the most room — read what it locks before you draw it, not after.</li>"
+        + "<li>Watch the four sentiment meters as you move sliders, not just at the end — by the time you lock in, it’s too late to trace which decision moved which group.</li>"
+        + "<li>There is no “correct” final budget. Six different, genuinely defensible archetypes exist for a reason.</li></ul>"
+      },
+      { title: "Terms you will want to know", html: '<dl class="glossary">' + glossary + '</dl>' }
+    ])
+    + '<div class="editor-note" style="margin-top:20px"><strong>One thing this note will not tell you:</strong> which of the sixteen lines moves which group’s sentiment the most, or exactly where the six archetypes sit. Find both out by playing — the results screen will show its own working.</div>'
+  ) + '</section>';
+}
+
 var RESOURCE_PAGES = {
   "trade-game": {
     "teaching-note": renderTeachingNote,
@@ -3546,6 +3716,11 @@ var RESOURCE_PAGES = {
     "teaching-note": renderTaxPolicyLabTeachingNote,
     "debrief-guide": renderTaxPolicyLabDebriefGuide,
     "student-note": renderTaxPolicyLabStudentNote
+  },
+  "the-budget-room": {
+    "teaching-note": renderBudgetRoomTeachingNote,
+    "debrief-guide": renderBudgetRoomDebriefGuide,
+    "student-note": renderBudgetRoomStudentNote
   }
 };
 
