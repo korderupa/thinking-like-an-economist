@@ -879,6 +879,24 @@ var GAMES = {
       { k: "Structure", v: "16 spending lines across 4 sectors, one fiscal-headroom cap, 3 financing instruments" },
       { k: "Outcome", v: "1 of 6 archetypes, matched by nearest-centroid across 4 sentiment meters and the deficit" }
     ]
+  },
+  "the-council-of-kingdoms": {
+    id: "the-council-of-kingdoms",
+    title: "The Council of Kingdoms",
+    tagline: "Eight Middle-earth kingdoms, one shared fiscal-headroom rule, and a round-by-round council that decides who ends the year on top.",
+    description: "The live, team-based classroom sibling to The Budget Room: instead of one student building one budget alone, the whole class splits into kingdoms — Gondor, Rohan, Rivendell, Lothlórien, Erebor, the Shire, Dale and Mirkwood — each jointly governing one shared treasury on the same sixteen-line, fiscal-headroom-capped engine. Every round (the instructor picks 4–8) opens with an economic condition fired automatically and identically on every kingdom at once — a recession, a trade boom, an inflation shock that erodes unindexed transfers, a productivity dividend, a debt reckoning — so the final ranking measures judgement, not who got the easier draw; twelve further conditions can be fired by the instructor on demand, mid-round, for a curveball no rulebook announced in advance. Kingdoms can also lend to and borrow from each other directly in The Lending Hall, negotiating their own interest rate rather than accepting a fixed one, with the deal — principal and interest — settling up in the final score. Each kingdom's own GDP compounds or contracts round to round on its own choices, directly setting how much fiscal room it starts the next round with, charted live on its own screen. A live leaderboard, a genuine instructor analytics panel (who's cutting what, who's borrowing from whom, a running decision feed built for the debrief), and a per-kingdom results screen — printable to keep — close out the session.",
+    format: "Live classroom · team-based · 4–8 rounds of ~10 minutes each · phones/laptops, one instructor dashboard, optional projector Wall",
+    status: "dev",
+    statusLabel: "Ready to pilot",
+    tags: ["Fiscal policy", "Macroeconomics", "Public debt", "Game theory"],
+    link: "https://script.google.com/macros/s/AKfycbwMH3vQVqrw7XCNIIwwd-Ide84IVjJ3YJv-hdPPrJe-whllsz0SBg098_gYThq1d1Cx/exec",
+    linkLabel: null,
+    minutes: 60,
+    glance: [
+      { k: "Format", v: "Live classroom · team-based · one instructor dashboard, optional projector Wall" },
+      { k: "Class size", v: "Any size · 4–8 kingdoms, students join by name and are assigned automatically and evenly" },
+      { k: "Structure", v: "4–8 rounds of ~10 minutes, an automatic condition every round plus instructor-fired ones, a live leaderboard" }
+    ]
   }
 };
 
@@ -922,8 +940,8 @@ var TOPICS = [
   },
   {
     title: "Government Budgets and Public Debt",
-    description: "The opportunity cost baked into every line of a national budget, the difference between a fiscal deficit and the debt that finances it, and why borrowing from a bond market, the IMF, or another government are not the same choice wearing different names. Explored hands-on through The Budget Room.",
-    games: ["the-budget-room"]
+    description: "The opportunity cost baked into every line of a national budget, the difference between a fiscal deficit and the debt that finances it, and why borrowing from a bond market, the IMF, or another government are not the same choice wearing different names. Explored hands-on through The Budget Room and The Council of Kingdoms.",
+    games: ["the-budget-room", "the-council-of-kingdoms"]
   }
 ];
 
@@ -1325,7 +1343,8 @@ var RESOURCE_NAV = {
   "trade-ruler": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
   "kite-market": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
   "tax-policy-lab": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
-  "the-budget-room": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
+  "the-budget-room": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
+  "the-council-of-kingdoms": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
 };
 
 /* The Common Pot — the four blocks of its default 20-round schedule,
@@ -3664,6 +3683,152 @@ function renderBudgetRoomStudentNote(id){
   ) + '</section>';
 }
 
+/* ---- The Council of Kingdoms ---- */
+function renderCouncilOfKingdomsTeachingNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Teaching note</span>'
+    + '<h1>Running '+esc(g.title)+'</h1>'
+    + '<p class="lead">The whole class plays at once, in teams, on a live clock — the same budget engine as The Budget Room, but shared, timed, and ranked.</p>'
+    + subNav(id, "teaching-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + '<div class="at-a-glance">'
+    +   '<div class="item"><div class="k">Format</div><div class="v">Live classroom · 4–8 rounds of ~10 minutes · one instructor dashboard, optional projector Wall</div></div>'
+    +   '<div class="item"><div class="k">Kingdoms need</div><div class="v">Just a name (and, optionally, a roll number) — no code, auto-assigned evenly</div></div>'
+    +   '<div class="item"><div class="k">Instructor needs</div><div class="v">A passcode set once from the Sheet’s menu, then kingdom count + round count + timer on the setup screen</div></div>'
+    +   '<div class="item"><div class="k">Roster</div><div class="v">Any size · 4–8 kingdoms, students share and jointly edit one treasury per kingdom</div></div>'
+    + '</div>'
+    + accordionHtml([
+      { title: "Learning objectives", open: true, html:
+        "<ul><li>Feel opportunity cost as a live, shared constraint — a kingdom’s fiscal headroom is one number the whole team has to negotiate around, not a private budget.</li>"
+        + "<li>Live through nine core macro mechanisms across the condition library: automatic stabilisers, growth easing fiscal pressure, inflation eroding unindexed transfers, a supply/cost-push shock, a sovereign risk premium, a demand shock, a productivity dividend, the guns-vs-butter trade-off, and a debt reckoning.</li>"
+        + "<li>Negotiate a real interest rate directly with another team in The Lending Hall, and live with the settlement — principal and interest — landing in the final score.</li>"
+        + "<li>See GDP as path-dependent: this round’s growth (or contraction) directly sets next round’s fiscal room, so an early mistake compounds and an early win pays forward.</li>"
+        + "<li>Read a live leaderboard and a transparent scoring formula that rewards balance, fiscal discipline and ambition all at once — not simply “spend the most.”</li></ul>"
+      },
+      { title: "Before class", html:
+        "<ul><li>From the bound Sheet’s <em>Council of Kingdoms</em> menu, set the instructor passcode and (if you want a projector view) the Wall passcode.</li>"
+        + "<li>On the dashboard’s setup screen, choose how many kingdoms (4–8) and how many rounds (4–8, ~10 minutes each by default) — <strong>Start the Council</strong> always applies whatever is currently selected, so there’s no separate “save” step to remember.</li>"
+        + "<li>Project the Wall display if you have a screen for it — a live, read-only condition banner and leaderboard, built for the room to watch together.</li>"
+        + "<li>Tell students to join with just their name — a roll number is optional but is exactly what lets them rejoin the same kingdom if a phone dies or a tab closes mid-session, rather than restarting.</li></ul>"
+      },
+      { title: "What a kingdom actually does, round by round", html:
+        "<ol style=\"padding-left:20px;line-height:1.7\">"
+        + "<li><strong>Join:</strong> every member of a kingdom sees and edits the same shared treasury — sixteen sliders, three financing instruments, four sentiment meters, all live across every member’s screen.</li>"
+        + "<li><strong>A condition fires automatically</strong> the instant a round opens — the same one, on every kingdom, at once — with an in-world proclamation, not a dry patch note.</li>"
+        + "<li><strong>The Lending Hall:</strong> post an offer to lend or borrow (amount fixed, rate negotiable), accept another kingdom’s offer outright, or counter with a different rate.</li>"
+        + "<li><strong>Submit early</strong> once satisfied — the round closes the instant every active kingdom has submitted, or the timer runs out, whichever comes first.</li>"
+        + "<li><strong>An Insights panel</strong> appears after every round closes — a newspaper-style headline, a coalition read, the single biggest bet, exactly which lines drove each meter, and how the round was financed — the same panel The Budget Room shows at the very end, here shown after every round.</li>"
+        + "<li><strong>GDP updates</strong> — a live chart on the kingdom’s own screen shows how their growth (or contraction) is compounding round to round.</li>"
+        + "<li><strong>Final round:</strong> a live leaderboard reveal, each kingdom matched to one of six archetypes, and a results screen a student can print or save as a PDF.</li></ol>"
+      },
+      { title: "The Lending Hall, next to the three official instruments", html:
+        '<div class="at-a-glance">'
+        +   '<div class="item"><div class="k">Domestic bonds / IMF / bilateral loan</div><div class="v">Fixed terms, no negotiation — the same three instruments as The Budget Room, each with its own cost (a Business-confidence penalty, IMF conditionality, or a straight fee)</div></div>'
+        +   '<div class="item"><div class="k">The Lending Hall</div><div class="v">Peer-to-peer: post a LEND or BORROW offer, negotiate the rate directly with another kingdom, and settle principal + interest in the final score</div></div>'
+        + '</div>'
+        + "<p style=\"margin-top:12px\">The contrast is the lesson: a fixed-rate instrument versus a negotiated one, and a domestic lender versus a foreign one, are not the same choice wearing different names.</p>"
+      },
+      { title: "The condition library — 15 in total", html:
+        "<p><strong>Six fire automatically</strong> as the default round order (and are also available for the instructor to re-fire manually): The Long Winter (recession), The Caravan Roads Reopen (trade boom), The Iron Price Rises (cost-push shock), The Money Lenders Grow Wary (sovereign risk premium), A Season of Plenty (productivity dividend), The Overlord’s Ultimatum (a defence floor for the round).</p>"
+        + "<p><strong>Two more fire automatically but only ever at round close</strong> (so they’re not available for manual firing, where the timing would be ambiguous): Coin Debasement in the East (inflation erodes transfers unless indexed) and Refugees from the North (a demand shock rewarding a fast capacity response).</p>"
+        + "<p><strong>One is finale-only:</strong> The Debt Comes Due, which reckons the cost of everything ever borrowed, all at once, in the very last round.</p>"
+        + "<p><strong>Six more exist purely for the instructor to fire on demand</strong>, mid-round, whenever the room needs a curveball: A Royal Wedding (a rare positive, non-economic sentiment boost), A Bumper Harvest (a farmer-specific upside), Currency Speculators Circle (hits Business harder the higher a kingdom’s current deficit already is), Public Unrest (only bites a kingdom already struggling — a stable one shrugs it off), The Merchants’ Guild Strikes (a targeted supply-side disruption), and A Neighbouring Realm Defaults (financial contagion, scaled to how much a kingdom has borrowed from any source).</p>"
+      },
+      { title: "Scoring and the leaderboard", html:
+        "<p>Live, and recomputed after every round: the average of the four sentiment meters, plus five points for each of four live objectives currently met, minus a penalty once the deficit runs past 6% of GDP, minus a further penalty if any meter has fallen into genuine crisis (below 25). The Lending Hall then adds a smaller secondary adjustment at the very end — net interest earned as a lender, net interest owed as a borrower — real, but never enough on its own to decide the ranking.</p>"
+      },
+      { title: "What the instructor dashboard shows you", html:
+        "<ul><li><strong>Category tendency</strong> — the average % change on every one of the sixteen lines across all kingdoms right now, so you can say “half the room cut Defence this round” with a real number behind it.</li>"
+        + "<li><strong>Meter spread</strong> and a <strong>live archetype read</strong> per kingdom — not just at the end.</li>"
+        + "<li><strong>Biggest movers</strong> — whose score changed the most since the last round closed, and the top line that drove it.</li>"
+        + "<li><strong>Financing and Lending Hall activity</strong> — who’s drawn on what, who’s a net lender versus a net borrower, at what rates.</li>"
+        + "<li>A <strong>capped, running decision feed</strong> — a chronological log of notable moves (“Rohan raised Defence +10%”, “Gondor accepted a 6% loan from Erebor”) built specifically to hand you real talking points, not a data dump.</li></ul>"
+      }
+    ])
+    + '<p style="margin-top:20px;max-width:70ch">Once the council concludes, move into the <a href="#/games/'+id+'/debrief-guide">debrief guide</a> — it runs directly off the leaderboard, the archetype spread, and the decision feed the dashboard already built for you.</p>'
+  ) + '</section>';
+}
+
+function renderCouncilOfKingdomsDebriefGuide(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Debrief guide</span>'
+    + '<h1>Debriefing '+esc(g.title)+'</h1>'
+    + '<p class="lead">Almost everything you need is already on the dashboard’s own analytics panel and decision feed — this page gives you the questions to ask around them.</p>'
+    + subNav(id, "debrief-guide")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "Start with the leaderboard and the archetype spread", open: true, html:
+        "<p>Read the final ranking together, then the archetype each kingdom landed on. A room split across several different archetypes is a better opening than a landslide toward one — either way, ask the room to explain the spread before you explain anything yourself.</p>"
+      },
+      { title: "The Lending Hall, after the fact", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>Who borrowed, who lent, and at what rate? For a kingdom that lent: did the interest they’re owed actually beat what they’d have gained spending that headroom at home instead?</li>"
+        + "<li>Find a loan that was countered before it was accepted. What made each side move off their first number?</li>"
+        + "<li>For a kingdom that avoided the Lending Hall entirely: was that caution, or a missed opportunity?</li></ul></div>"
+      },
+      { title: "GDP as a path, not a snapshot", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>Pull up two kingdoms’ GDP charts — one that trended up, one that trended down. Ask the shrinking kingdom what their early rounds looked like. Did a bad round make the next one harder, specifically?</li>"
+        + "<li>Did anyone deliberately invest in Infrastructure or Research early, betting on a growth dividend later? Did it pay off by the final round?</li></ul></div>"
+      },
+      { title: "What the room actually did, in aggregate", html:
+        "<p>Open the dashboard’s category-tendency panel from your notes or a screenshot taken during play.</p>"
+        + '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>Which line did most kingdoms move in the same direction? Was that a response to a shared condition, or just fashion?</li>"
+        + "<li>Find the kingdom that was the biggest outlier on one line. Ask them to defend it to the room.</li></ul></div>"
+      },
+      { title: "The conditions nobody chose", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>For any instructor-fired condition: how did it feel different from the automatic one that opened the round — more unfair, or just less predictable?</li>"
+        + "<li>Public Unrest only hit kingdoms already below a threshold. Did the kingdoms it skipped notice, or did everyone assume it hit everyone equally?</li></ul></div>"
+      }
+    ])
+  ) + '</section>';
+}
+
+function renderCouncilOfKingdomsStudentNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  var glossary = [
+    { term: "Fiscal headroom", def: "How much extra net spending your kingdom can add before it has to be funded by cutting something else or by borrowing." },
+    { term: "The Lending Hall", def: "Where kingdoms lend to and borrow from each other directly, negotiating the interest rate themselves rather than accepting a fixed one." },
+    { term: "GDP growth rate", def: "How much your kingdom's economy grew or shrank this round — it compounds, and it directly sets how much fiscal room you start the next round with." },
+    { term: "Archetype", def: "A read of your kingdom's overall budget style, matched by how close your final numbers sit to six defined profiles — there is no single correct one." },
+    { term: "Sovereign risk premium", def: "The penalty a heavily-indebted kingdom pays when lenders grow warier of it — the more you've already borrowed, the more the next euro costs." },
+    { term: "Objectives", def: "Four live goals your kingdom can aim for, some of which genuinely pull against each other — you are not expected to hit all four." }
+  ].map(function(t){ return '<dt>'+esc(t.term)+'</dt><dd>'+esc(t.def)+'</dd>'; }).join("");
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Student note</span>'
+    + '<h1>Before you play</h1>'
+    + '<p class="lead">A plain-language recap, before or after a session of '+esc(g.title)+'.</p>'
+    + subNav(id, "student-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "What you are actually doing", open: true, html:
+        "<p>You and your teammates jointly govern one Middle-earth kingdom's treasury across several rounds. Every round opens with an event — sometimes good news, sometimes a shock — that hits every kingdom at once, and you adjust your shared budget in response before the timer runs out or your team submits early.</p>"
+        + "<ul><li>Anyone on your team can move a slider — everyone sees the change immediately.</li>"
+        + "<li>You can borrow past your own fiscal headroom three official ways, or negotiate directly with another kingdom in The Lending Hall.</li>"
+        + "<li>Your kingdom's GDP carries forward — a strong round now means more room later; a weak one means less.</li></ul>"
+      },
+      { title: "A few honest tips", html:
+        "<ul><li>Talk to your team before moving a slider someone else is watching — the shared budget means a decision made alone can surprise everyone else on the same screen.</li>"
+        + "<li>Read the Insights panel after every round closes — it names exactly which lines drove each group's reaction, which is the fastest way to learn what your own choices are actually doing.</li>"
+        + "<li>A loan in The Lending Hall is a real bet for both sides — the rate you agree to is what you're judged on at the end, not just the euros today.</li>"
+        + "<li>Submit early once you're genuinely done — waiting out the clock for no reason just costs the room time.</li></ul>"
+      },
+      { title: "Terms you will want to know", html: '<dl class="glossary">' + glossary + '</dl>' }
+    ])
+    + '<div class="editor-note" style="margin-top:20px"><strong>One thing this note will not tell you:</strong> which archetype you’ll land on, or what rate another kingdom will actually accept in The Lending Hall. Both are for you to find out at the table.</div>'
+  ) + '</section>';
+}
+
 var RESOURCE_PAGES = {
   "trade-game": {
     "teaching-note": renderTeachingNote,
@@ -3721,6 +3886,11 @@ var RESOURCE_PAGES = {
     "teaching-note": renderBudgetRoomTeachingNote,
     "debrief-guide": renderBudgetRoomDebriefGuide,
     "student-note": renderBudgetRoomStudentNote
+  },
+  "the-council-of-kingdoms": {
+    "teaching-note": renderCouncilOfKingdomsTeachingNote,
+    "debrief-guide": renderCouncilOfKingdomsDebriefGuide,
+    "student-note": renderCouncilOfKingdomsStudentNote
   }
 };
 
