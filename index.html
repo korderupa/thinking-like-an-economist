@@ -897,6 +897,24 @@ var GAMES = {
       { k: "Class size", v: "Any size · 4–8 kingdoms, students join by name and are assigned automatically and evenly" },
       { k: "Structure", v: "4–8 rounds of ~10 minutes, an automatic condition every round plus instructor-fired ones, a live leaderboard" }
     ]
+  },
+  "trading-floor": {
+    id: "trading-floor",
+    title: "The Trading Floor",
+    tagline: "Twenty-four real things a classmate actually did. Four economic ideas they prove. One signature at a time, over about a week, until someone blacks out the board.",
+    description: "Every student gets a 5×5 board — twenty-four real behaviours (swapped lunch with a classmate, quit one job for a better-paying one, gave up a hobby to make rent) around a single free space at the centre. To fill a square, a student picks a classmate from the roster and sends them a signature request for that behaviour; the classmate confirms it really happened, or declines it, from their own device. Only then does the finder — not the signer — choose which of four economic themes (Scarcity, Incentives, Gains from Trade, Interdependency) the behaviour actually illustrates, and is told immediately whether that’s right. Nobody can sign their own card, and once a classmate has signed one square for you, they can’t sign a second. Points come from four sources at once — 10 for a confirmed square, 5 more for the correct theme, 50 for completing any row, column or diagonal, 100 for blacking out all twenty-four — so the live leaderboard rewards getting the theme right as much as finding the person. The whole activity runs asynchronously over a window the instructor sets (a week by default, adjustable any time), with no accounts at all: a class code, a name, and a self-chosen PIN are all it takes to join, or to come back to an in-progress card later in the week.",
+    format: "Self-paced, whole-class · about a week (instructor sets the deadline) · any device, no accounts",
+    status: "dev",
+    statusLabel: "Ready to pilot",
+    tags: ["Scarcity", "Incentives", "Gains from trade", "Interdependency"],
+    link: "https://script.google.com/macros/s/AKfycbx321Jmzy-56ptOtDok43dPG89o-jy7UNDAQkuhwq9pvCVSmRftaSnFY7M0gEd_w8H5xA/exec",
+    linkLabel: null,
+    minutes: 30,
+    glance: [
+      { k: "Format", v: "Self-paced, whole-class · ~1 week window (instructor sets the deadline) · any device, no accounts" },
+      { k: "Board", v: "5×5 · 24 real-behaviour squares across 4 themes, plus one free space" },
+      { k: "Class size", v: "Up to ~40 · first to join with the class code are the roster, same as Kahoot or Blooket" }
+    ]
   }
 };
 
@@ -908,6 +926,11 @@ var TOPICS_ARCHIVE = [];
 
 /* LIVE. */
 var TOPICS = [
+  {
+    title: "Foundations of Economic Thinking",
+    description: "The handful of ideas every other topic on this site quietly assumes you already have — scarcity forcing a trade-off, incentives changing what people do at the margin, gains from trade even between unequal partners, and the ordinary interdependency of everyone else’s choices on your own. Explored hands-on through The Trading Floor.",
+    games: ["trading-floor"]
+  },
   {
     title: "International Trade",
     description: "Comparative advantage, tariffs, production versus dependency, global value chains, factor endowments, and why the country that makes the most of something is often not the one that needs it most. Explored hands-on through The Paper Trade, World Market Watch, The Autarky Challenge, and Trade Ruler.",
@@ -1344,7 +1367,8 @@ var RESOURCE_NAV = {
   "kite-market": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
   "tax-policy-lab": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
   "the-budget-room": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
-  "the-council-of-kingdoms": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
+  "the-council-of-kingdoms": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
+  "trading-floor": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
 };
 
 /* The Common Pot — the four blocks of its default 20-round schedule,
@@ -3829,6 +3853,129 @@ function renderCouncilOfKingdomsStudentNote(id){
   ) + '</section>';
 }
 
+/* ---- The Trading Floor ---- */
+function renderTradingFloorTeachingNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Teaching note</span>'
+    + '<h1>Running '+esc(g.title)+'</h1>'
+    + '<p class="lead">A whole-class scavenger hunt for real behaviour, spread over about a week — there is nothing to run live, only to open, watch, and close.</p>'
+    + subNav(id, "teaching-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + '<div class="at-a-glance">'
+    +   '<div class="item"><div class="k">Window</div><div class="v">You open the game, set a deadline (7 days by default, adjustable any time), and close it</div></div>'
+    +   '<div class="item"><div class="k">Students need</div><div class="v">The class code, their name, and a PIN they choose themselves — no account, no roster to pre-type</div></div>'
+    +   '<div class="item"><div class="k">Instructor needs</div><div class="v">The instructor PIN you set on first login, and the Dashboard checked in on over the week</div></div>'
+    +   '<div class="item"><div class="k">Class size</div><div class="v">Up to ~40 — the first people to join with the class code are the class, same as Kahoot or Blooket</div></div>'
+    + '</div>'
+    + accordionHtml([
+      { title: "Learning objectives", open: true, html:
+        "<ul><li>Recognise Scarcity, Incentives, Gains from Trade and Interdependency in a classmate’s actual life, not a textbook case written to make the theme obvious.</li>"
+        + "<li>Notice that finding a true example is only half the task — naming which theme it belongs to is graded separately, and is where most of the wrong answers happen.</li>"
+        + "<li>See the same theme show up at very different stakes (a ride to school, a grade on a group project) and still recognise it as the same underlying idea.</li></ul>"
+      },
+      { title: "Before the week starts", html:
+        "<ul><li>Log into the Dashboard as instructor and confirm your instructor PIN — anyone with the class code and this PIN can open, close or reset the game.</li>"
+        + "<li>Set the class code and deadline in Class Settings, then click <strong>Open game</strong> — until you do, students land on a “hasn’t opened yet” holding screen and can’t join.</li>"
+        + "<li>Consider walking through one square live before you open it — find a volunteer example, show the class the request → confirm → classify sequence once, so nobody’s first attempt is also their first time seeing how it works.</li></ul>"
+      },
+      { title: "How a square actually gets filled", html:
+        "<ol style=\"padding-left:20px;line-height:1.7\">"
+        + "<li><strong>A student picks a square and a classmate.</strong> They choose anyone on the roster except themselves, and except a classmate already used for one of their other squares — the app enforces both.</li>"
+        + "<li><strong>That classmate confirms or declines.</strong> It shows up in their own Sign Requests tab; nothing happens to the square until they respond.</li>"
+        + "<li><strong>The finder classifies it.</strong> Once confirmed, the student who sent the request — not the one who signed — picks which of the four themes the behaviour illustrates, and is told immediately whether that’s right.</li>"
+        + "<li><strong>Only then does it count.</strong> A confirmed-but-unclassified square sits on the card but adds no points yet.</li></ol>"
+      },
+      { title: "Scoring, exactly", html:
+        "<p>10 points for a confirmed square, 5 more for correctly naming its theme, 50 for completing any full row, column or diagonal, 100 for blacking out all 24. The centre free space — “The Invisible Hand” — counts toward every line automatically, so it’s really a 24-square board wearing a 25-square grid.</p>"
+      },
+      { title: "What to watch on the dashboard", html:
+        "<ul><li>A live roster: every student’s squares filled, points, and last activity, refreshing on its own roughly every 8 seconds.</li>"
+        + "<li>An activity feed of requests sent, confirmed, declined and classified as they happen — useful for spotting a student who’s stalled early in the week.</li>"
+        + "<li>The leaderboard, sorted by total points — confirmed squares, correct themes, lines and blackout all feed the same number.</li>"
+        + "<li>A <strong>Run integrity check</strong> button that audits every signature for the one-classmate-one-box rule, self-signing, and orphaned records — run it once before you close the game, not just when something looks wrong.</li></ul>"
+      },
+      { title: "Closing it out", html:
+        "<p>The game closes automatically at the deadline, or you can close it earlier from Class Settings. Run the integrity check once before you do — it’s the last moment to catch a rule-bent square before the scores it produced become part of the debrief.</p>"
+      }
+    ])
+    + '<p style="margin-top:20px;max-width:70ch">Once the week is closed, move into the <a href="#/games/'+id+'/debrief-guide">debrief guide</a> — the board’s per-theme accuracy is the most useful thing the week produced, and it’s worth reading before the discussion, not during it.</p>'
+  ) + '</section>';
+}
+
+function renderTradingFloorDebriefGuide(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Debrief guide</span>'
+    + '<h1>Debriefing '+esc(g.title)+'</h1>'
+    + '<p class="lead">The board is full of real classmates’ lives — the debrief’s job is to make the four themes underneath it impossible to un-see.</p>'
+    + subNav(id, "debrief-guide")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "Start with the wrong classifications, not the right ones", open: true, html:
+        "<p>The dashboard already knows which theme every square was misclassified as, by whom, and how often. Pull that up before class and start the discussion with whichever theme the class actually got wrong most — not the one you assumed would be hardest. It usually isn’t the same one.</p>"
+      },
+      { title: "Same theme, opposite direction", html:
+        '<div class="qa-block"><div class="who">Put these side by side</div><ul>'
+        + "<li>“Volunteered somewhere mainly because it would look good on a college application” and “Started cleaning their room only after being threatened with a punishment” are both Incentives — one chases a reward, the other avoids a penalty. Ask the class why both still count as the same theme.</li>"
+        + "<li>“Left one job for another because it paid more” and “Studied noticeably harder after a grade came back lower than expected” are also both Incentives, at very different stakes. Did your class’s confidence in classifying a square track how big the incentive was, rather than whether it was actually an incentive?</li></ul></div>"
+      },
+      { title: "Same theme, different stakes", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>“Showed up late to school because whoever was driving them overslept” and “Had a group project suffer because one teammate didn’t finish their part” are both Interdependency — a ride and a grade. Which one felt more serious when your class hit it, and does economics actually care about that difference?</li>"
+        + "<li>“Gave up hanging out with friends some weeks because they needed the hours to pay their bills” and “Skipped a weekend hangout to catch up on sleep before a big week” are both Scarcity — money-scarce and time-scarce. Did students confuse either one for Incentives instead?</li></ul></div>"
+      },
+      { title: "The free space, revisited", html:
+        "<p>Every card’s centre square is already filled, worth nothing on its own, and named “The Invisible Hand.” It’s worth asking the class, once, why a free square gets Adam Smith’s most famous metaphor: none of the other twenty-four squares required anyone in the room to coordinate this week’s several hundred separate trades. Something did anyway — the class code, the roster, the rule that nobody could sign their own card. That coordination is exactly what the metaphor is describing, and the board just spent a week demonstrating it without saying so.</p>"
+      }
+    ])
+  ) + '</section>';
+}
+
+function renderTradingFloorStudentNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  var glossary = [
+    { term: "Scarcity", def: "Not enough of something — time, money, attention — to do everything you’d otherwise want, which forces an actual trade-off." },
+    { term: "Incentives", def: "A reward or penalty that changes what someone does — not just what they say they’d do." },
+    { term: "Gains from trade", def: "Both sides ending up better off after a voluntary exchange, even when one side is better at almost everything." },
+    { term: "Interdependency", def: "Your outcome depending, in part, on choices someone else made — not just your own." }
+  ].map(function(t){ return '<dt>'+esc(t.term)+'</dt><dd>'+esc(t.def)+'</dd>'; }).join("");
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Student note</span>'
+    + '<h1>Before you play</h1>'
+    + '<p class="lead">A plain-language recap, before or during your week of '+esc(g.title)+'.</p>'
+    + subNav(id, "student-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "What you are actually doing", open: true, html:
+        "<p>You get a 5×5 card: twenty-four real behaviours, plus one free space in the middle. Over about a week, you find a classmate for each square, send them a signature request, and — once they confirm it’s true — say which of four economic ideas (Scarcity, Incentives, Gains from Trade, Interdependency) it’s an example of.</p>"
+        + "<ul><li>A square only counts once you’ve classified it correctly or incorrectly — confirming alone isn’t enough.</li>"
+        + "<li>You can’t sign your own card, and once someone has signed one of your squares, they can’t sign a second.</li>"
+        + "<li>There’s no clock inside a day — come back whenever, right up until your instructor’s deadline.</li></ul>"
+      },
+      { title: "How points actually work", html:
+        "<ul><li>10 points the moment a classmate confirms a square.</li>"
+        + "<li>5 more if you name the right theme for it.</li>"
+        + "<li>50 for completing any row, column, or diagonal.</li>"
+        + "<li>100 more on top of that for blacking out all 24.</li></ul>"
+      },
+      { title: "A few honest tips", html:
+        "<ul><li>The theme guess is worth chasing as much as the person — a square confirmed but wrongly classified is only half the points.</li>"
+        + "<li>Only send a request for something actually true — the classmate on the other end can decline, and a declined request is real time you don’t get back.</li>"
+        + "<li>Save classmates only certain people can honestly confirm for later — you can’t reuse the same signer twice, so spend each one deliberately.</li></ul>"
+      },
+      { title: "Terms you will want to know", html: '<dl class="glossary">' + glossary + '</dl>' }
+    ])
+    + '<div class="editor-note" style="margin-top:20px"><strong>One thing this note will not tell you:</strong> which theme each square belongs to. Working that out, one classmate at a time, is the whole game.</div>'
+  ) + '</section>';
+}
+
 var RESOURCE_PAGES = {
   "trade-game": {
     "teaching-note": renderTeachingNote,
@@ -3891,6 +4038,11 @@ var RESOURCE_PAGES = {
     "teaching-note": renderCouncilOfKingdomsTeachingNote,
     "debrief-guide": renderCouncilOfKingdomsDebriefGuide,
     "student-note": renderCouncilOfKingdomsStudentNote
+  },
+  "trading-floor": {
+    "teaching-note": renderTradingFloorTeachingNote,
+    "debrief-guide": renderTradingFloorDebriefGuide,
+    "student-note": renderTradingFloorStudentNote
   }
 };
 
