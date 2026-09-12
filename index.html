@@ -52,6 +52,14 @@
   --violet-bg:  #E3E2F0;
   --violet-line:#605FA0;
 
+  --forest:     #2E6B3E;
+  --forest-bg:  #DCEEDC;
+  --forest-line:#3D8A4E;
+
+  --plum:       #6B2E63;
+  --plum-bg:    #EEDCEA;
+  --plum-line:  #8A3D80;
+
   --orange:      #E04E04;
   --orange-deep: #B33E03;
   --orange-soft: #FBDDCC;
@@ -100,6 +108,14 @@
     --violet-bg:  #201F3A;
     --violet-line:#ADACDE;
 
+    --forest:     #6FCB82;
+    --forest-bg:  #12301A;
+    --forest-line:#59C273;
+
+    --plum:       #CB82C0;
+    --plum-bg:    #301229;
+    --plum-line:  #C359B6;
+
     --orange:      #FF7A3D;
     --orange-deep: #FFA06B;
     --orange-soft: #3A1D0E;
@@ -135,6 +151,14 @@
   --violet:     #9B9AD1;
   --violet-bg:  #201F3A;
   --violet-line:#ADACDE;
+
+  --forest:     #6FCB82;
+  --forest-bg:  #12301A;
+  --forest-line:#59C273;
+
+  --plum:       #CB82C0;
+  --plum-bg:    #301229;
+  --plum-line:  #C359B6;
 
   --orange:      #FF7A3D;
   --orange-deep: #FFA06B;
@@ -924,17 +948,22 @@ var GAMES = {
    trade-game already joined it. */
 var TOPICS_ARCHIVE = [];
 
-/* LIVE. */
+/* LIVE. Row order here is also the subway map's row order (top to bottom),
+   so two topics that share a cross-cutting game — an interchange, not a
+   duplicate station — stay on adjacent rows and merge with a single 45°
+   bend instead of a long diagonal across unrelated lines. International
+   Trade and Scarcity and Rationing are adjacent for exactly this reason:
+   The Trading Floor sits at their interchange. */
 var TOPICS = [
   {
-    title: "Foundations of Economic Thinking",
-    description: "The handful of ideas every other topic on this site quietly assumes you already have — scarcity forcing a trade-off, incentives changing what people do at the margin, gains from trade even between unequal partners, and the ordinary interdependency of everyone else’s choices on your own. Explored hands-on through The Trading Floor.",
-    games: ["trading-floor"]
+    title: "International Trade",
+    description: "Comparative advantage, tariffs, production versus dependency, global value chains, factor endowments, and why the country that makes the most of something is often not the one that needs it most. Explored hands-on through The Paper Trade, World Market Watch, The Autarky Challenge, and Trade Ruler — and, stripped down to two people and no tariffs at all, The Trading Floor.",
+    games: ["trade-game", "world-market-watch", "autarky-challenge", "trade-ruler", "trading-floor"]
   },
   {
-    title: "International Trade",
-    description: "Comparative advantage, tariffs, production versus dependency, global value chains, factor endowments, and why the country that makes the most of something is often not the one that needs it most. Explored hands-on through The Paper Trade, World Market Watch, The Autarky Challenge, and Trade Ruler.",
-    games: ["trade-game", "world-market-watch", "autarky-challenge", "trade-ruler"]
+    title: "Scarcity and Rationing",
+    description: "The constraint every economic decision starts from — not enough of something for everyone who wants it — and the different ways a society (or one person, alone, on the clock) can decide who gets it anyway: price, lottery, queue, or discretion. Explored hands-on through Fifty Hours and The Trading Floor.",
+    games: ["fifty-hours", "trading-floor"]
   },
   {
     title: "Common-Pool Resources",
@@ -945,11 +974,6 @@ var TOPICS = [
     title: "Public Goods",
     description: "Free-riding, voluntary contribution, non-excludability and non-rivalry, and why a shared benefit that costs the giver alone tends to be under-supplied — until the incentives around it are redesigned, or until “the government provides it” turns out not to mean what people assumed. Explored hands-on through The Common Pot and The Public Verdict.",
     games: ["the-common-pot", "public-verdict"]
-  },
-  {
-    title: "Scarcity and Rationing",
-    description: "The constraint every economic decision starts from — not enough of something for everyone who wants it — and the different ways a society (or one person, alone, on the clock) can decide who gets it anyway: price, lottery, queue, or discretion. Explored hands-on through Fifty Hours.",
-    games: ["fifty-hours"]
   },
   {
     title: "Labor Markets",
@@ -1562,7 +1586,7 @@ function subwayMapArchive(){
    is the safer failure mode but not free forever. If it ever starts
    feeling too tall/scrolly, the fix is two hubs side by side (odd rows
    off one, even rows off the other) rather than shrinking row height. */
-var MAP_LINE_COLORS = ["blue-line","rise-line","violet-line","chalk-line","stamp-line"];
+var MAP_LINE_COLORS = ["blue-line","rise-line","violet-line","chalk-line","stamp-line","forest-line","plum-line"];
 
 /* The same coin + rising-line mark used in the hero illustration, reused
    as every card’s little icon badge — one recurring brand mark, in one
@@ -1584,6 +1608,16 @@ function mapTextWidth(str, font){
   return mapTextWidth._ctx.measureText(str).width;
 }
 
+/* A game that genuinely belongs to more than one topic (its id appears in
+   more than one TOPICS[].games array) is drawn ONCE, as a real interchange:
+   the topic that lists it FIRST (lowest row index) owns the physical
+   station; every later topic whose line also reaches that game bends off
+   its own row and merges into the SAME point, rather than duplicating a
+   second station off on its own. The owner's circle then grows an extra
+   ring per line that joins it — the more rings, the more lines interchange
+   there. This only draws a clean single bend when the joining topics sit
+   on adjacent rows (see the ordering note on TOPICS itself), so keep any
+   future cross-cutting topics next to each other in that array. */
 function subwayMap(){
   if(!TOPICS.length){
     return '<div class="empty-state">No lines laid yet — the map will fill in as topics and games are added.</div>';
@@ -1594,10 +1628,14 @@ function subwayMap(){
   var rowGap = 108;     // vertical distance between two topics' lines — fixed, not angular, so it can’t shrink as topics are added
   var bendMargin = 46;  // horizontal run after the 45° bend, before the topic station
   var nodeGap = 46;     // clearance between one label’s end and the next station on the same row
+  var joinGap = 30;     // shorter clearance before a line peels off into an interchange (no station drawn there, so it needs less room)
   var labelFont = "600 14px 'IBM Plex Sans', sans-serif";
   var labelDX = 14, labelDY = -16; // every label sits above its row’s line, just right of its station — same rule everywhere, no above/below branching
 
-  var lines = '', nodes = '';
+  var lines = '', topicNodes = '';
+  var stationPos = {};   // gameId -> { x, y, color, title }, set once by the owning topic
+  var stationJoins = {}; // gameId -> [colors of every later topic that interchanges onto it]
+  var gameOrder = [];    // insertion order, so stations render in the order they were first claimed
   var minX = hubX - 15, maxX = hubX + 15, minY = hubY - 15, maxY = hubY + 15;
   function grow(x0, x1, y0, y1){
     minX = Math.min(minX, x0); maxX = Math.max(maxX, x1);
@@ -1616,7 +1654,7 @@ function subwayMap(){
     var pathD = 'M'+hubX.toFixed(1)+' '+hubY.toFixed(1)+' L'+bendX.toFixed(1)+' '+rowY.toFixed(1)+' L'+topicX.toFixed(1)+' '+rowY.toFixed(1);
 
     var labelW = mapTextWidth(t.title, labelFont);
-    nodes += '<a href="#/topics"><circle class="station" cx="'+topicX.toFixed(1)+'" cy="'+rowY.toFixed(1)+'" r="11" fill="var(--panel)" stroke="var(--'+color+')" stroke-width="5"/>'
+    topicNodes += '<a href="#/topics"><circle class="station" cx="'+topicX.toFixed(1)+'" cy="'+rowY.toFixed(1)+'" r="11" fill="var(--panel)" stroke="var(--'+color+')" stroke-width="5"/>'
       + haloText(topicX+labelDX, rowY+labelDY, t.title, "start")
       + '</a>';
     grow(bendX, topicX + labelDX + labelW, rowY + labelDY - 15, rowY + 16);
@@ -1625,35 +1663,81 @@ function subwayMap(){
     (t.games || []).forEach(function(gid){
       var g = GAMES[gid];
       if(!g) return;
-      var gx = cursorX + nodeGap;
-      pathD += ' L'+gx.toFixed(1)+' '+rowY.toFixed(1);
-      var gLabelW = mapTextWidth(g.title, labelFont);
-      nodes += '<a href="#/games/'+gid+'"><circle class="station" cx="'+gx.toFixed(1)+'" cy="'+rowY.toFixed(1)+'" r="16" fill="var(--'+color+')" stroke="var(--panel)" stroke-width="4"/>'
-        + haloText(gx+labelDX+6, rowY+labelDY, g.title, "start")
-        + '</a>';
-      grow(gx - 16, gx + labelDX + 6 + gLabelW, rowY + labelDY - 15, rowY + 16);
-      cursorX = gx + labelDX + 6 + gLabelW;
+      if(!stationPos[gid]){
+        // First topic to reach this game owns its station.
+        var gx = cursorX + nodeGap;
+        pathD += ' L'+gx.toFixed(1)+' '+rowY.toFixed(1);
+        var gLabelW = mapTextWidth(g.title, labelFont);
+        stationPos[gid] = { x: gx, y: rowY, color: color, title: g.title };
+        stationJoins[gid] = [];
+        gameOrder.push(gid);
+        grow(gx - 16, gx + labelDX + 6 + gLabelW, rowY + labelDY - 15, rowY + 16);
+        cursorX = gx + labelDX + 6 + gLabelW;
+      } else {
+        // Already owned by an earlier topic — bend this line off its own
+        // row and merge into that exact point instead of a new station.
+        var owner = stationPos[gid];
+        var branchX = cursorX + joinGap;
+        var dy = owner.y - rowY;
+        var runX = branchX + dy; // one 45° bend covers the row-to-row gap exactly
+        pathD += ' L'+branchX.toFixed(1)+' '+rowY.toFixed(1)
+               + ' L'+runX.toFixed(1)+' '+owner.y.toFixed(1)
+               + ' L'+owner.x.toFixed(1)+' '+owner.y.toFixed(1);
+        stationJoins[gid].push(color);
+        grow(Math.min(branchX, runX, owner.x), Math.max(branchX, runX, owner.x),
+             Math.min(rowY, owner.y) - 15, Math.max(rowY, owner.y) + 16);
+        cursorX = branchX;
+      }
     });
 
-    lines += '<path class="map-line" d="'+pathD+'" fill="none" stroke="var(--'+color+')" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>';
+    lines += '<path class="map-line" id="map-line-'+i+'" d="'+pathD+'" fill="none" stroke="var(--'+color+')" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>';
   });
+
+  var gameNodes = gameOrder.map(function(gid){
+    var s = stationPos[gid], joins = stationJoins[gid];
+    var rings = joins.map(function(c, idx){
+      return '<circle class="station-ring" cx="'+s.x.toFixed(1)+'" cy="'+s.y.toFixed(1)+'" r="'+(16 + (idx+1)*6)+'" fill="none" stroke="var(--'+c+')" stroke-width="3"/>';
+    }).join('');
+    var dx = labelDX + 6 + joins.length * 6; // push the label clear of any extra interchange rings
+    return '<a href="#/games/'+gid+'">' + rings
+      + '<circle class="station" cx="'+s.x.toFixed(1)+'" cy="'+s.y.toFixed(1)+'" r="16" fill="var(--'+s.color+')" stroke="var(--panel)" stroke-width="4"/>'
+      + haloText(s.x+dx, s.y+labelDY, s.title, "start")
+      + '</a>';
+  }).join('');
 
   var hub = '<a href="#/topics"><circle cx="'+hubX+'" cy="'+hubY.toFixed(1)+'" r="15" fill="var(--ink)" stroke="var(--panel)" stroke-width="4"/></a>';
 
-  var pad = 20;
+  var trains = '';
+  if(!PREFERS_REDUCED_MOTION){
+    trains = TOPICS.map(function(t, i){
+      var color = MAP_LINE_COLORS[i % MAP_LINE_COLORS.length];
+      var dur = (10 + i * 1.7).toFixed(1);
+      var begin = (-(i * 1.9)).toFixed(1); // negative begin: each train starts mid-cycle, so they never move in lockstep
+      return '<g class="map-train">'
+        + '<rect x="-9" y="-5" width="17" height="10" rx="3" fill="var(--'+color+')" stroke="var(--panel)" stroke-width="1.5"/>'
+        + '<circle cx="8.5" cy="0" r="2" fill="var(--panel)"/>'
+        + '<animateMotion dur="'+dur+'s" begin="'+begin+'s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyTimes="0;0.5;1" keyPoints="0;1;0">'
+        +   '<mpath href="#map-line-'+i+'" xlink:href="#map-line-'+i+'"/>'
+        + '</animateMotion>'
+        + '</g>';
+    }).join('');
+  }
+
+  var pad = 40; // generous: absorbs interchange rings and the label shift they cause
   var vbX = (minX - pad).toFixed(1), vbY = (minY - pad).toFixed(1);
   var vbW = (maxX - minX + pad*2).toFixed(1), vbH = (maxY - minY + pad*2).toFixed(1);
 
   return '<figure class="subway-fig reveal-map">'
-    + '<svg viewBox="'+vbX+' '+vbY+' '+vbW+' '+vbH+'" role="img" aria-label="Subway-style map: a central hub with one line per topic, each running on through its game or games.">'
-    + lines + nodes + hub
+    + '<svg viewBox="'+vbX+' '+vbY+' '+vbW+' '+vbH+'" role="img" aria-label="Subway-style map: a central hub with one line per topic. Games that belong to more than one topic sit at an interchange where those lines physically meet.">'
+    + lines + topicNodes + gameNodes + trains + hub
     + '</svg>'
     + '<div class="map-legend">'
     +   '<span><span class="dot" style="background:var(--ink)"></span>Hub — every topic</span>'
     +   '<span><span class="dot" style="background:var(--panel);border:2px solid var(--ink-faint)"></span>Topic</span>'
     +   '<span><span class="dot" style="background:var(--ink-faint)"></span>Game</span>'
+    +   '<span><span class="dot" style="background:var(--panel);border:2px solid var(--ink-faint);box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--ink-faint)"></span>Interchange — shared by more than one topic</span>'
     + '</div>'
-    + '<figcaption>Every topic branches off one hub, then runs on to its game or games. Click any station to open it.</figcaption>'
+    + '<figcaption>Every topic branches off one hub, then runs on to its game or games — a game that belongs to more than one topic sits at the interchange where those lines meet, rather than getting a station of its own on each. Click any station to open it.</figcaption>'
     + '</figure>';
 }
 
