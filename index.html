@@ -948,32 +948,33 @@ var GAMES = {
    trade-game already joined it. */
 var TOPICS_ARCHIVE = [];
 
-/* LIVE. Row order here is also the subway map's row order (top to bottom),
-   so two topics that share a cross-cutting game — an interchange, not a
-   duplicate station — stay on adjacent rows and merge with a single 45°
-   bend instead of a long diagonal across unrelated lines. International
-   Trade and Scarcity and Rationing are adjacent for exactly this reason:
-   The Trading Floor sits at their interchange. */
+/* LIVE. Both the order and the `family` tag matter: this is the sequence
+   the topics are actually taught in (the constraint every choice starts
+   from, then exchange, then factor markets, then the two textbook
+   siblings of market failure, then how government pays for and finances
+   its response to that failure) — and it is also the subway map's row
+   order and branch structure, top to bottom. Consecutive topics sharing
+   a `family` string are drawn as ONE line: a single trunk off the hub
+   that splits into one branch per topic, the way a real metro line's
+   branches share track before diverging. A shared game — one that
+   genuinely belongs to more than one of a family's topics — is drawn
+   once, at the fork itself, so it reads as a real mid-route interchange
+   rather than a dead end on one branch. Topics with no family of their
+   own (Labor Markets, Common-Pool Resources) are one-branch lines, same
+   as before. Keep a family's topics adjacent in this array — the branch
+   geometry assumes it. */
 var TOPICS = [
   {
-    title: "International Trade",
-    description: "Comparative advantage, tariffs, production versus dependency, global value chains, factor endowments, and why the country that makes the most of something is often not the one that needs it most. Explored hands-on through The Paper Trade, World Market Watch, The Autarky Challenge, and Trade Ruler — and, stripped down to two people and no tariffs at all, The Trading Floor.",
-    games: ["trade-game", "world-market-watch", "autarky-challenge", "trade-ruler", "trading-floor"]
-  },
-  {
+    family: "trade",
     title: "Scarcity and Rationing",
     description: "The constraint every economic decision starts from — not enough of something for everyone who wants it — and the different ways a society (or one person, alone, on the clock) can decide who gets it anyway: price, lottery, queue, or discretion. Explored hands-on through Fifty Hours and The Trading Floor.",
     games: ["fifty-hours", "trading-floor"]
   },
   {
-    title: "Common-Pool Resources",
-    description: "Shared, rival resources nobody can be excluded from — the tragedy that follows, and the three repairs that can fix it: enforcement, prices, and property rights. Explored hands-on through The Lake.",
-    games: ["the-lake"]
-  },
-  {
-    title: "Public Goods",
-    description: "Free-riding, voluntary contribution, non-excludability and non-rivalry, and why a shared benefit that costs the giver alone tends to be under-supplied — until the incentives around it are redesigned, or until “the government provides it” turns out not to mean what people assumed. Explored hands-on through The Common Pot and The Public Verdict.",
-    games: ["the-common-pot", "public-verdict"]
+    family: "trade",
+    title: "International Trade",
+    description: "Comparative advantage, tariffs, production versus dependency, global value chains, factor endowments, and why the country that makes the most of something is often not the one that needs it most. Explored hands-on through The Paper Trade, World Market Watch, The Autarky Challenge, and Trade Ruler — and, stripped down to two people and no tariffs at all, The Trading Floor.",
+    games: ["trade-game", "world-market-watch", "autarky-challenge", "trade-ruler", "trading-floor"]
   },
   {
     title: "Labor Markets",
@@ -981,13 +982,26 @@ var TOPICS = [
     games: ["kite-market"]
   },
   {
+    title: "Common-Pool Resources",
+    description: "Shared, rival resources nobody can be excluded from — the tragedy that follows, and the three repairs that can fix it: enforcement, prices, and property rights. The textbook sibling of Public Goods, one row down: rival instead of non-rival, same non-excludability. Explored hands-on through The Lake.",
+    games: ["the-lake"]
+  },
+  {
+    family: "fiscal",
+    title: "Public Goods",
+    description: "Free-riding, voluntary contribution, non-excludability and non-rivalry, and why a shared benefit that costs the giver alone tends to be under-supplied — until the incentives around it are redesigned, or until “the government provides it” turns out not to mean what people assumed. Explored hands-on through The Common Pot and The Public Verdict.",
+    games: ["the-common-pot", "public-verdict"]
+  },
+  {
+    family: "fiscal",
     title: "Taxation and Public Finance",
-    description: "Progressive versus regressive taxes, who really bears a tax once incidence is traced through, the Laffer curve, and the genuine value trade-offs behind revenue, growth, equity, and competitiveness that no tax system escapes. Explored hands-on through Tax Policy Lab.",
+    description: "Once a government decides to act on the market failures upstream, it needs revenue: progressive versus regressive taxes, who really bears a tax once incidence is traced through, the Laffer curve, and the genuine value trade-offs behind revenue, growth, equity, and competitiveness that no tax system escapes. Explored hands-on through Tax Policy Lab.",
     games: ["tax-policy-lab"]
   },
   {
+    family: "fiscal",
     title: "Government Budgets and Public Debt",
-    description: "The opportunity cost baked into every line of a national budget, the difference between a fiscal deficit and the debt that finances it, and why borrowing from a bond market, the IMF, or another government are not the same choice wearing different names. Explored hands-on through The Budget Room and The Council of Kingdoms.",
+    description: "What that revenue then has to be spent on, and what happens when it isn't enough: the opportunity cost baked into every line of a national budget, the difference between a fiscal deficit and the debt that finances it, and why borrowing from a bond market, the IMF, or another government are not the same choice wearing different names. Explored hands-on through The Budget Room and The Council of Kingdoms.",
     games: ["the-budget-room", "the-council-of-kingdoms"]
   }
 ];
@@ -1608,16 +1622,18 @@ function mapTextWidth(str, font){
   return mapTextWidth._ctx.measureText(str).width;
 }
 
-/* A game that genuinely belongs to more than one topic (its id appears in
-   more than one TOPICS[].games array) is drawn ONCE, as a real interchange:
-   the topic that lists it FIRST (lowest row index) owns the physical
-   station; every later topic whose line also reaches that game bends off
-   its own row and merges into the SAME point, rather than duplicating a
-   second station off on its own. The owner's circle then grows an extra
-   ring per line that joins it — the more rings, the more lines interchange
-   there. This only draws a clean single bend when the joining topics sit
-   on adjacent rows (see the ordering note on TOPICS itself), so keep any
-   future cross-cutting topics next to each other in that array. */
+/* Consecutive TOPICS entries that share a `family` string are ONE metro
+   line: a single trunk peels off the hub, then splits at a fork into one
+   branch per member topic — the way a real line's branches share track
+   before diverging to their own terminus (Stockholm's blue line runs as
+   one track before splitting for Hjulsta and Akalla). A game genuinely
+   shared by two or more of a family's topics is drawn once, AT that
+   fork, so it reads as a real mid-route interchange — trains keep
+   running past it in both directions — rather than a dead end tacked
+   onto one branch. A topic with no `family` is simply a one-branch line,
+   same as before. The fork geometry assumes a family's topics are
+   adjacent in TOPICS and roughly centred on the trunk row, so keep them
+   grouped that way when this list changes. */
 function subwayMap(){
   if(!TOPICS.length){
     return '<div class="empty-state">No lines laid yet — the map will fill in as topics and games are added.</div>';
@@ -1625,17 +1641,20 @@ function subwayMap(){
 
   var hubX = 40, hubY = 0;
   var n = TOPICS.length;
-  var rowGap = 108;     // vertical distance between two topics' lines — fixed, not angular, so it can’t shrink as topics are added
-  var bendMargin = 46;  // horizontal run after the 45° bend, before the topic station
+  var rowGap = 108;     // vertical distance between two topics' rows — fixed, not angular, so it can’t shrink as topics are added
+  var bendMargin = 46;  // horizontal run after a 45° bend, before the next station
   var nodeGap = 46;     // clearance between one label’s end and the next station on the same row
-  var joinGap = 30;     // shorter clearance before a line peels off into an interchange (no station drawn there, so it needs less room)
   var labelFont = "600 14px 'IBM Plex Sans', sans-serif";
   var labelDX = 14, labelDY = -16; // every label sits above its row’s line, just right of its station — same rule everywhere, no above/below branching
 
-  var lines = '', topicNodes = '';
-  var stationPos = {};   // gameId -> { x, y, color, title }, set once by the owning topic
-  var stationJoins = {}; // gameId -> [colors of every later topic that interchanges onto it]
-  var gameOrder = [];    // insertion order, so stations render in the order they were first claimed
+  function rowYOf(i){ return (i - (n-1)/2) * rowGap; }
+  function bend(originX, originY, targetRowY){
+    var bx = originX + Math.abs(targetRowY - originY);
+    return { x: bx, seg: ' L'+bx.toFixed(1)+' '+targetRowY.toFixed(1) };
+  }
+
+  var lines = '', topicNodes = '', gameNodes = '';
+  var linePaths = []; // { id, color } for every drawn <path> — one train rides each
   var minX = hubX - 15, maxX = hubX + 15, minY = hubY - 15, maxY = hubY + 15;
   function grow(x0, x1, y0, y1){
     minX = Math.min(minX, x0); maxX = Math.max(maxX, x1);
@@ -1645,99 +1664,131 @@ function subwayMap(){
     return '<text x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" font-size="14" font-weight="600" text-anchor="'+anchor+'" '
       + 'stroke="var(--paper)" stroke-width="5" stroke-linejoin="round" paint-order="stroke">'+esc(str)+'</text>';
   }
+  function station(x, y, color){
+    return '<circle class="station" cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="16" fill="var(--'+color+')" stroke="var(--panel)" stroke-width="4"/>';
+  }
 
+  // Group consecutive topics that share a `family` string into one line.
+  var families = [];
   TOPICS.forEach(function(t, i){
-    var color = MAP_LINE_COLORS[i % MAP_LINE_COLORS.length];
-    var rowY = (i - (n-1)/2) * rowGap;
-    var bendX = hubX + Math.abs(rowY);
-    var topicX = bendX + bendMargin;
-    var pathD = 'M'+hubX.toFixed(1)+' '+hubY.toFixed(1)+' L'+bendX.toFixed(1)+' '+rowY.toFixed(1)+' L'+topicX.toFixed(1)+' '+rowY.toFixed(1);
-
-    var labelW = mapTextWidth(t.title, labelFont);
-    topicNodes += '<a href="#/topics"><circle class="station" cx="'+topicX.toFixed(1)+'" cy="'+rowY.toFixed(1)+'" r="11" fill="var(--panel)" stroke="var(--'+color+')" stroke-width="5"/>'
-      + haloText(topicX+labelDX, rowY+labelDY, t.title, "start")
-      + '</a>';
-    grow(bendX, topicX + labelDX + labelW, rowY + labelDY - 15, rowY + 16);
-
-    var cursorX = topicX + labelDX + labelW;
-    (t.games || []).forEach(function(gid){
-      var g = GAMES[gid];
-      if(!g) return;
-      if(!stationPos[gid]){
-        // First topic to reach this game owns its station.
-        var gx = cursorX + nodeGap;
-        pathD += ' L'+gx.toFixed(1)+' '+rowY.toFixed(1);
-        var gLabelW = mapTextWidth(g.title, labelFont);
-        stationPos[gid] = { x: gx, y: rowY, color: color, title: g.title };
-        stationJoins[gid] = [];
-        gameOrder.push(gid);
-        grow(gx - 16, gx + labelDX + 6 + gLabelW, rowY + labelDY - 15, rowY + 16);
-        cursorX = gx + labelDX + 6 + gLabelW;
-      } else {
-        // Already owned by an earlier topic — bend this line off its own
-        // row and merge into that exact point instead of a new station.
-        var owner = stationPos[gid];
-        var branchX = cursorX + joinGap;
-        var dy = owner.y - rowY;
-        var runX = branchX + dy; // one 45° bend covers the row-to-row gap exactly
-        pathD += ' L'+branchX.toFixed(1)+' '+rowY.toFixed(1)
-               + ' L'+runX.toFixed(1)+' '+owner.y.toFixed(1)
-               + ' L'+owner.x.toFixed(1)+' '+owner.y.toFixed(1);
-        stationJoins[gid].push(color);
-        grow(Math.min(branchX, runX, owner.x), Math.max(branchX, runX, owner.x),
-             Math.min(rowY, owner.y) - 15, Math.max(rowY, owner.y) + 16);
-        cursorX = branchX;
-      }
-    });
-
-    lines += '<path class="map-line" id="map-line-'+i+'" d="'+pathD+'" fill="none" stroke="var(--'+color+')" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>';
+    var key = t.family || null;
+    var last = families[families.length - 1];
+    if(key && last && last.key === key){ last.members.push(i); }
+    else { families.push({ key: key, members: [i] }); }
   });
 
-  var gameNodes = gameOrder.map(function(gid){
-    var s = stationPos[gid], joins = stationJoins[gid];
-    var rings = joins.map(function(c, idx){
-      return '<circle class="station-ring" cx="'+s.x.toFixed(1)+'" cy="'+s.y.toFixed(1)+'" r="'+(16 + (idx+1)*6)+'" fill="none" stroke="var(--'+c+')" stroke-width="3"/>';
-    }).join('');
-    var dx = labelDX + 6 + joins.length * 6; // push the label clear of any extra interchange rings
-    return '<a href="#/games/'+gid+'">' + rings
-      + '<circle class="station" cx="'+s.x.toFixed(1)+'" cy="'+s.y.toFixed(1)+'" r="16" fill="var(--'+s.color+')" stroke="var(--panel)" stroke-width="4"/>'
-      + haloText(s.x+dx, s.y+labelDY, s.title, "start")
-      + '</a>';
-  }).join('');
+  families.forEach(function(fam, famIdx){
+    var color = MAP_LINE_COLORS[famIdx % MAP_LINE_COLORS.length];
+    var trunkRowY = fam.members.reduce(function(sum, i){ return sum + rowYOf(i); }, 0) / fam.members.length;
+    var b0 = bend(hubX, hubY, trunkRowY);
+    var trunkX = b0.x + bendMargin;
+    var trunkPrefix = 'M'+hubX.toFixed(1)+' '+hubY.toFixed(1) + b0.seg + ' L'+trunkX.toFixed(1)+' '+trunkRowY.toFixed(1);
+    grow(b0.x, trunkX, trunkRowY - 15, trunkRowY + 16);
+
+    if(fam.members.length === 1){
+      // A plain one-branch line — identical to a family of one.
+      var t0 = TOPICS[fam.members[0]], rowY0 = trunkRowY;
+      var labelW0 = mapTextWidth(t0.title, labelFont);
+      topicNodes += '<a href="#/topics"><circle class="station" cx="'+trunkX.toFixed(1)+'" cy="'+rowY0.toFixed(1)+'" r="11" fill="var(--panel)" stroke="var(--'+color+')" stroke-width="5"/>'
+        + haloText(trunkX+labelDX, rowY0+labelDY, t0.title, "start") + '</a>';
+      grow(trunkX, trunkX + labelDX + labelW0, rowY0 + labelDY - 15, rowY0 + 16);
+
+      var cursor0 = trunkX + labelDX + labelW0, pathD0 = trunkPrefix;
+      (t0.games || []).forEach(function(gid){
+        var g = GAMES[gid]; if(!g) return;
+        var gx = cursor0 + nodeGap;
+        pathD0 += ' L'+gx.toFixed(1)+' '+rowY0.toFixed(1);
+        var gLabelW = mapTextWidth(g.title, labelFont);
+        gameNodes += '<a href="#/games/'+gid+'">' + station(gx, rowY0, color)
+          + haloText(gx+labelDX+6, rowY0+labelDY, g.title, "start") + '</a>';
+        grow(gx - 16, gx + labelDX + 6 + gLabelW, rowY0 + labelDY - 15, rowY0 + 16);
+        cursor0 = gx + labelDX + 6 + gLabelW;
+      });
+      lines += '<path class="map-line" id="map-line-'+famIdx+'" d="'+pathD0+'" fill="none" stroke="var(--'+color+')" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>';
+      linePaths.push({ id: 'map-line-'+famIdx, color: color });
+      return;
+    }
+
+    // A shared family: a game genuinely listed under 2+ of its topics
+    // belongs at the fork itself, not at the end of any one branch.
+    var counts = {};
+    fam.members.forEach(function(i){ (TOPICS[i].games || []).forEach(function(gid){ counts[gid] = (counts[gid]||0) + 1; }); });
+    var sharedGid = Object.keys(counts).filter(function(gid){ return counts[gid] > 1; })[0] || null;
+
+    var forkX;
+    if(sharedGid){
+      var sg = GAMES[sharedGid];
+      var sLabelW = mapTextWidth(sg.title, labelFont);
+      gameNodes += '<a href="#/games/'+sharedGid+'">' + station(trunkX, trunkRowY, color)
+        + haloText(trunkX+labelDX+6, trunkRowY+labelDY, sg.title, "start") + '</a>';
+      grow(trunkX - 16, trunkX + labelDX + 6 + sLabelW, trunkRowY + labelDY - 15, trunkRowY + 16);
+      forkX = trunkX + labelDX + 6 + sLabelW + nodeGap;
+    } else {
+      forkX = trunkX + nodeGap;
+    }
+
+    fam.members.forEach(function(i){
+      var t = TOPICS[i], rowY = rowYOf(i);
+      var b1 = bend(forkX, trunkRowY, rowY);
+      var topicX = b1.x + bendMargin;
+      var pathD = trunkPrefix + ' L'+forkX.toFixed(1)+' '+trunkRowY.toFixed(1) + b1.seg + ' L'+topicX.toFixed(1)+' '+rowY.toFixed(1);
+      grow(Math.min(forkX, b1.x), Math.max(forkX, b1.x, topicX), Math.min(trunkRowY, rowY) - 15, Math.max(trunkRowY, rowY) + 16);
+
+      var labelW = mapTextWidth(t.title, labelFont);
+      topicNodes += '<a href="#/topics"><circle class="station" cx="'+topicX.toFixed(1)+'" cy="'+rowY.toFixed(1)+'" r="11" fill="var(--panel)" stroke="var(--'+color+')" stroke-width="5"/>'
+        + haloText(topicX+labelDX, rowY+labelDY, t.title, "start") + '</a>';
+      grow(topicX, topicX + labelDX + labelW, rowY + labelDY - 15, rowY + 16);
+
+      var cursor = topicX + labelDX + labelW;
+      (t.games || []).forEach(function(gid){
+        if(gid === sharedGid) return; // already drawn at the fork, once
+        var g = GAMES[gid]; if(!g) return;
+        var gx = cursor + nodeGap;
+        pathD += ' L'+gx.toFixed(1)+' '+rowY.toFixed(1);
+        var gLabelW = mapTextWidth(g.title, labelFont);
+        gameNodes += '<a href="#/games/'+gid+'">' + station(gx, rowY, color)
+          + haloText(gx+labelDX+6, rowY+labelDY, g.title, "start") + '</a>';
+        grow(gx - 16, gx + labelDX + 6 + gLabelW, rowY + labelDY - 15, rowY + 16);
+        cursor = gx + labelDX + 6 + gLabelW;
+      });
+
+      var lineId = 'map-line-'+famIdx+'-'+i;
+      lines += '<path class="map-line" id="'+lineId+'" d="'+pathD+'" fill="none" stroke="var(--'+color+')" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>';
+      linePaths.push({ id: lineId, color: color });
+    });
+  });
 
   var hub = '<a href="#/topics"><circle cx="'+hubX+'" cy="'+hubY.toFixed(1)+'" r="15" fill="var(--ink)" stroke="var(--panel)" stroke-width="4"/></a>';
 
   var trains = '';
   if(!PREFERS_REDUCED_MOTION){
-    trains = TOPICS.map(function(t, i){
-      var color = MAP_LINE_COLORS[i % MAP_LINE_COLORS.length];
+    trains = linePaths.map(function(lp, i){
       var dur = (10 + i * 1.7).toFixed(1);
       var begin = (-(i * 1.9)).toFixed(1); // negative begin: each train starts mid-cycle, so they never move in lockstep
       return '<g class="map-train">'
-        + '<rect x="-9" y="-5" width="17" height="10" rx="3" fill="var(--'+color+')" stroke="var(--panel)" stroke-width="1.5"/>'
+        + '<rect x="-9" y="-5" width="17" height="10" rx="3" fill="var(--'+lp.color+')" stroke="var(--panel)" stroke-width="1.5"/>'
         + '<circle cx="8.5" cy="0" r="2" fill="var(--panel)"/>'
         + '<animateMotion dur="'+dur+'s" begin="'+begin+'s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyTimes="0;0.5;1" keyPoints="0;1;0">'
-        +   '<mpath href="#map-line-'+i+'" xlink:href="#map-line-'+i+'"/>'
+        +   '<mpath href="#'+lp.id+'" xlink:href="#'+lp.id+'"/>'
         + '</animateMotion>'
         + '</g>';
     }).join('');
   }
 
-  var pad = 40; // generous: absorbs interchange rings and the label shift they cause
+  var pad = 30;
   var vbX = (minX - pad).toFixed(1), vbY = (minY - pad).toFixed(1);
   var vbW = (maxX - minX + pad*2).toFixed(1), vbH = (maxY - minY + pad*2).toFixed(1);
 
   return '<figure class="subway-fig reveal-map">'
-    + '<svg viewBox="'+vbX+' '+vbY+' '+vbW+' '+vbH+'" role="img" aria-label="Subway-style map: a central hub with one line per topic. Games that belong to more than one topic sit at an interchange where those lines physically meet.">'
+    + '<svg viewBox="'+vbX+' '+vbY+' '+vbW+' '+vbH+'" role="img" aria-label="Subway-style map: related topics share one line and branch apart, the way a real metro line does. A game that belongs to more than one topic sits at the fork where its line splits.">'
     + lines + topicNodes + gameNodes + trains + hub
     + '</svg>'
     + '<div class="map-legend">'
     +   '<span><span class="dot" style="background:var(--ink)"></span>Hub — every topic</span>'
     +   '<span><span class="dot" style="background:var(--panel);border:2px solid var(--ink-faint)"></span>Topic</span>'
     +   '<span><span class="dot" style="background:var(--ink-faint)"></span>Game</span>'
-    +   '<span><span class="dot" style="background:var(--panel);border:2px solid var(--ink-faint);box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--ink-faint)"></span>Interchange — shared by more than one topic</span>'
     + '</div>'
-    + '<figcaption>Every topic branches off one hub, then runs on to its game or games — a game that belongs to more than one topic sits at the interchange where those lines meet, rather than getting a station of its own on each. Click any station to open it.</figcaption>'
+    + '<figcaption>Related topics share one line and split at a fork, the way a real metro line’s branches do — a game that belongs to more than one topic sits right at that fork, not at the end of either branch. Click any station to open it.</figcaption>'
     + '</figure>';
 }
 
