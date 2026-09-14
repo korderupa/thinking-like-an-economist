@@ -21,14 +21,14 @@
    to navy/cream/orange instead of reading as a bright rainbow.
    ============================================================ */
 :root{
-  --paper:      #FCF8F2;
-  --paper-2:    #F3ECDD;
+  --paper:      #EDF2F8;
+  --paper-2:    #E1E9F3;
   --panel:      #FFFFFF;
   --ink:        #071C32;
   --ink-soft:   #45536B;
   --ink-faint:  #75839C;
-  --rule:       #E7DFCF;
-  --rule-strong:#D2C6AA;
+  --rule:       #D7E1EC;
+  --rule-strong:#B7C7DD;
 
   --blue:       #002A60;
   --blue-deep:  #001B40;
@@ -712,6 +712,7 @@ var GAMES = {
     tagline: "Guess the world’s #1 producer for 14 real goods. Then guess who’d actually be hurt if demand for it vanished.",
     description: "For each of 14 real products, a student first guesses which country produces the most of it — then, before that answer is revealed, guesses which of the same five countries would be hit hardest, as a share of their own economy, if world demand collapsed. The two guesses are often different countries. A live class pulse, two power-ups, streak and speed bonuses, and a running leaderboard turn a 15-minute warm-up into a real lesson about the gap between who makes the most and who actually depends on it most.",
     format: "Live classroom · ~15 minutes · phones + projector, one instructor dashboard",
+    mode: "live",
     status: "dev",
     statusLabel: "Ready to pilot",
     tags: ["Trade dependency", "Comparative advantage", "Classroom simulation", "Live leaderboard"],
@@ -730,6 +731,7 @@ var GAMES = {
     tagline: "No good, company, or country is fully self-sufficient today — this makes a class prove it to themselves, twice.",
     description: "Part one asks the room to name one good that could be made entirely within a single country, then takes a pencil apart, piece by piece, to show why the honest answer is none. Part two follows one smartphone through a real supply chain — a lithium mine in Chile, a chip fab in Taiwan, a battery plant in China, final assembly in Vietnam — and fires five real disruptions at it one at a time: an earthquake, a tariff, a blocked shipping route, nationalised mines, a factory fire. Each time, students predict what breaks, see the real production/price/employment/GDP consequences, then choose how they would respond from four policy options judged on fit, not marked right or wrong.",
     format: "Live classroom · ~25 minutes · phones + projector, one instructor dashboard",
+    mode: "live",
     status: "dev",
     statusLabel: "Ready to pilot",
     tags: ["Global value chains", "Trade policy", "Supply chain risk", "Classroom simulation"],
@@ -748,6 +750,7 @@ var GAMES = {
     tagline: "Eight fishers, one shared lake, four rounds of pressure — then a fifth where it is finally yours alone.",
     description: "Eight students share a lake of 144 fish for four rounds, deciding privately each time how many to take while the price of a fish climbs from ₹10 toward ₹40. Between rounds the rules change — first nothing, then talk without enforcement, then a quota with a coin-toss inspector, then a certain price on overuse. In the fifth round the lake is divided into private ponds. The class discovers the tragedy of the commons by living it, then discovers why it is not inevitable.",
     format: "Live classroom · ~85 minutes · phones + projector, one instructor dashboard",
+    mode: "live",
     status: "live",
     statusLabel: "Field-tested",
     tags: ["Common-pool resources", "Externalities", "Property rights", "Market failure"],
@@ -766,6 +769,7 @@ var GAMES = {
     tagline: "Every round: keep your tokens, or add them to the shared pot. Twenty rounds to find out what your team actually does.",
     description: "Up to forty students split into four teams. Each round, every student divides a token endowment between keeping it — worth a fixed amount to them alone — and giving it to the team’s shared pot, which pays every teammate back, not just the giver. The same numbers that decide everything (the private payoff, the pot’s return rate, any minimum target) simply change from round to round, in four blocks: a fixed baseline, a falling private return, a rising outside match, and a closing run of tipping-point and uncertainty rounds. Nothing is ever labelled for students — no round count, no free-rider talk, no “public good” — they only ever see the numbers and decide what to do about them.",
     format: "Live classroom · ~60 minutes · phones + projector, one instructor dashboard",
+    mode: "live",
     status: "dev",
     statusLabel: "Ready to pilot",
     tags: ["Public goods", "Free-rider problem", "Behavioural economics", "Classroom simulation"],
@@ -784,6 +788,7 @@ var GAMES = {
     tagline: "A live classroom simulation of comparative advantage, tariffs, and trade policy.",
     description: "Students are split into six “countries” with unequal tools and starting cash, and must manufacture and trade paper shapes for profit while the instructor fires real-time conditions — tariffs, subsidies, embargoes, quotas, cartels — into the live market. Based on John Sloman’s International Trade Game (Economics Network, 2002).",
     format: "Live classroom · 45 minutes · phones + projector",
+    mode: "live",
     status: "live",
     statusLabel: "Field-tested",
     tags: ["Comparative advantage", "Trade policy", "Classroom simulation"],
@@ -802,6 +807,7 @@ var GAMES = {
     tagline: "One dialysis machine. Fifty hours a week. Fifteen patients who need more than that. You decide — alone, once, on the clock.",
     description: "Each student runs a district hospital with one dialysis machine — fifty hours a week, and fifteen patients on this morning’s list whose combined need is ninety-five. There is no team and no live market: they allocate the hours alone, submit once, then answer fifteen graded questions on the economics of the choice they just made — scarcity, opportunity cost, sunk cost, and the gap between what people say about fairness and what they actually do once the machine is theirs to run. The instructor dashboard turns the whole class’s decisions into the debrief in real time.",
     format: "Live classroom, individual & timed · ~12 minutes (instructor-adjustable) · any device, one instructor dashboard",
+    mode: "live",
     status: "live",
     statusLabel: "Field-tested",
     tags: ["Scarcity", "Opportunity cost", "Rationing", "Equity vs. efficiency"],
@@ -820,6 +826,7 @@ var GAMES = {
     tagline: "Ten statements about what government should — or shouldn’t — do. Agree, disagree, or say it depends, then see where the whole class landed.",
     description: "Students respond to ten statements about government action — five as individuals, five as a six-person team reaching one shared answer — then see the whole class’s split after each. A ten-question quiz follows, checking whether the underlying idea actually landed. The point isn’t obvious until the debrief: “the government does X” is not the same claim as “X is an economic public good.” Some of the ten statements are textbook public goods, some are paternalism, some are externality regulation, some are pure redistribution — the activity is built to force students to tell those apart, statement by statement, before anyone hands them the vocabulary.",
     format: "Live classroom · ~20–25 minutes · phones + projector, one instructor dashboard",
+    mode: "live",
     status: "dev",
     statusLabel: "Ready to pilot",
     tags: ["Public goods", "Externalities", "Collective choice", "Classroom simulation"],
@@ -838,6 +845,7 @@ var GAMES = {
     tagline: "Govern an island with nothing but labor and capital. Face an AI rival across four rounds of trade. Discover why endowments — not effort — decide who specialises in what.",
     description: "Each student governs a solo island economy with a randomised split of labor and capital, chooses one of five AI-controlled rival islands to trade with, and plays four rounds of produce → trade → outcome — allocating resources across three goods of different labor/capital intensity, then proposing shipments at whatever price the round’s market sets. The results screen doesn’t stop at who won: it computes each island’s wage and capital return before and after trade, side by side, to show Factor-Price Equalization in numbers, not just a name. Ten toggles — four trade-policy tools (transport costs, tariffs, subsidies, quotas) and six that deliberately break the theory’s textbook assumptions one at a time (volatile markets, currency drift, differing tastes, factor mobility, a technology gap, random world events) — let a student or instructor watch exactly which real-world complication changes the outcome and which don’t. An original build for this site, inspired by Nobel Prize Outreach’s The Trade Ruler Game; not affiliated with or endorsed by the Nobel Foundation.",
     format: "Self-paced · solo vs. an AI rival island · ~25–35 minutes · any device",
+    mode: "self-paced",
     status: "dev",
     statusLabel: "Ready to pilot",
     tags: ["Heckscher-Ohlin", "Factor endowments", "Factor-price equalization", "Comparative advantage"],
@@ -856,6 +864,7 @@ var GAMES = {
     tagline: "Workers look for the best wage they can find. Employers compete to hire whoever will make them the most money. Nobody on either side gets told the numbers behind the deal.",
     description: "A live labor market, played out for real: most of the class joins as workers, a handful run competing kite companies as employers. Wages are struck face-to-face in the room — the app is only the ledger, recording each deal the instant an employer enters it and paying public assistance to anyone still unemployed when a round closes. Employers see a marginal-product schedule for four skill tiers and a value-of-marginal-product ceiling on what they should pay; workers never see either number, only what gets offered to them. Between rounds, workers can pay to train up a tier, buy paid career guidance, or — if the instructor allows it — buy a license and become a new competing employer themselves. The instructor can fire any of eighteen live conditions (recessions, minimum wage, payroll tax, an automation shock that raises productivity at the top and cuts it at the bottom) at any point, and both sides feel it immediately.",
     format: "Live classroom · one continuous session, ~45–60 minutes · phones/laptops, one instructor dashboard",
+    mode: "live",
     status: "dev",
     statusLabel: "Ready to pilot",
     tags: ["Labor markets", "Marginal product of labor", "Human capital", "Wage determination"],
@@ -874,6 +883,7 @@ var GAMES = {
     tagline: "Five questions sort you onto a team with people who think differently from you. Then your team builds an entire tax system, twenty-five decisions at a time.",
     description: "Five individual questions place every student on a lean score from small- to big-government — then a snake draft deliberately spreads that whole spectrum across ten teams, so every team starts already disagreeing. Each team then answers twenty-five group policy questions across five blocks — personal income tax, corporate tax, consumption tax, payroll tax, and property/wealth tax — moving five real outcome meters (Revenue, Inequality, Growth Outlook, Competitiveness, Approval) with every choice. After every five answers, one of eight shock conditions fires automatically for that team alone — not randomly, but chosen to challenge whichever direction the team’s own choices have been leaning. At the end, each team’s final meter profile is matched to one of six archetypes, from Nordic-style high-tax to Growth-at-all-Costs to Fragile/High-Debt, and a fifteen-question quiz closes it out.",
     format: "Self-paced, team-based · ~30 minutes (instructor-adjustable) · any device, one instructor dashboard",
+    mode: "self-paced",
     status: "dev",
     statusLabel: "Ready to pilot",
     tags: ["Tax policy", "Public finance", "Progressive taxation", "Fiscal policy"],
@@ -892,6 +902,7 @@ var GAMES = {
     tagline: "Sixteen spending lines, one purse, and a €25bn fiscal-headroom cap. Raise one, cut another to pay for it — or borrow the room instead, on someone else’s terms.",
     description: "A solo, self-paced budget simulation with no backend at all: allocate the fictional country of Gondor’s national budget across sixteen spending lines in four sectors, each adjustable from −20% to +20% of its baseline in fixed steps. A €25bn fiscal headroom caps how much net spending a student can add without cutting something else to fund it — going further means issuing domestic bonds, drawing an IMF programme, or taking a bilateral loan, and each of the three carries a real, different price: a shrinking Business-confidence meter, conditionality that locks three subsidy lines at or below baseline for as long as the loan is drawn, or a straight fee that wastes part of every euro borrowed. Four live objectives track competing goals as a student plays. Locking in a budget classifies it into one of six archetypes by nearest-centroid match across four sentiment meters and the deficit, then reveals a newspaper-style headline, a breakdown of exactly which spending lines moved each group’s sentiment and by how much, a plain accounting of how the budget was financed, and a proportional bar-chart comparison against Gondor’s current budget.",
     format: "Self-paced, solo · ~15–20 minutes · any device, no login, no backend",
+    mode: "self-paced",
     status: "dev",
     statusLabel: "Ready to pilot",
     tags: ["Fiscal policy", "Opportunity cost", "Public debt", "Budget deficits"],
@@ -910,6 +921,7 @@ var GAMES = {
     tagline: "Eight Middle-earth kingdoms, one shared fiscal-headroom rule, and a round-by-round council that decides who ends the year on top.",
     description: "The live, team-based classroom sibling to The Budget Room: instead of one student building one budget alone, the whole class splits into kingdoms — Gondor, Rohan, Rivendell, Lothlórien, Erebor, the Shire, Dale and Mirkwood — each jointly governing one shared treasury on the same sixteen-line, fiscal-headroom-capped engine. Every round (the instructor picks 4–8) opens with an economic condition fired automatically and identically on every kingdom at once — a recession, a trade boom, an inflation shock that erodes unindexed transfers, a productivity dividend, a debt reckoning — so the final ranking measures judgement, not who got the easier draw; twelve further conditions can be fired by the instructor on demand, mid-round, for a curveball no rulebook announced in advance. Kingdoms can also lend to and borrow from each other directly in The Lending Hall, negotiating their own interest rate rather than accepting a fixed one, with the deal — principal and interest — settling up in the final score. Each kingdom's own GDP compounds or contracts round to round on its own choices, directly setting how much fiscal room it starts the next round with, charted live on its own screen. A live leaderboard, a genuine instructor analytics panel (who's cutting what, who's borrowing from whom, a running decision feed built for the debrief), and a per-kingdom results screen — printable to keep — close out the session.",
     format: "Live classroom · team-based · 4–8 rounds of ~10 minutes each · phones/laptops, one instructor dashboard, optional projector Wall",
+    mode: "live",
     status: "dev",
     statusLabel: "Ready to pilot",
     tags: ["Fiscal policy", "Macroeconomics", "Public debt", "Game theory"],
@@ -928,6 +940,7 @@ var GAMES = {
     tagline: "Twenty-four real things a classmate actually did. Four economic ideas they prove. One signature at a time, over about a week, until someone blacks out the board.",
     description: "Every student gets a 5×5 board — twenty-four real behaviours (swapped lunch with a classmate, quit one job for a better-paying one, gave up a hobby to make rent) around a single free space at the centre. To fill a square, a student picks a classmate from the roster and sends them a signature request for that behaviour; the classmate confirms it really happened, or declines it, from their own device. Only then does the finder — not the signer — choose which of four economic themes (Scarcity, Incentives, Gains from Trade, Interdependency) the behaviour actually illustrates, and is told immediately whether that’s right. Nobody can sign their own card, and once a classmate has signed one square for you, they can’t sign a second. Points come from four sources at once — 10 for a confirmed square, 5 more for the correct theme, 50 for completing any row, column or diagonal, 100 for blacking out all twenty-four — so the live leaderboard rewards getting the theme right as much as finding the person. The whole activity runs asynchronously over a window the instructor sets (a week by default, adjustable any time), with no accounts at all: a class code, a name, and a self-chosen PIN are all it takes to join, or to come back to an in-progress card later in the week.",
     format: "Self-paced, whole-class · about a week (instructor sets the deadline) · any device, no accounts",
+    mode: "self-paced",
     status: "dev",
     statusLabel: "Ready to pilot",
     tags: ["Scarcity", "Incentives", "Gains from trade", "Interdependency"],
@@ -1926,14 +1939,32 @@ function renderHome(){
 }
 
 /* ---- Games list ---- */
+var GAME_MODE_GROUPS = [
+  { key: "live", title: "Live classroom", blurb: "Instructor-run, in real time — open it with a class code and the whole room plays at once, together on one dashboard." },
+  { key: "self-paced", title: "Self-paced", blurb: "No live session to run — set it up once, or not at all, and students work through it on their own device, on their own clock." }
+];
 function renderGames(){
-  var cards = Object.keys(GAMES).map(function(id){ return gameCard(GAMES[id]); }).join("");
+  var ids = Object.keys(GAMES);
+  var sections = GAME_MODE_GROUPS.map(function(grp){
+    var groupIds = ids.filter(function(id){ return GAMES[id].mode === grp.key; });
+    if(!groupIds.length) return '';
+    var cards = groupIds.map(function(id){ return gameCard(GAMES[id]); }).join("");
+    return '<section' + (grp.key === "self-paced" ? ' class="alt"' : '') + '>' + pageChrome(''
+      + '<div class="section-head reveal">'
+      +   '<span class="eyebrow">'+groupIds.length+' game'+(groupIds.length===1?"":"s")+'</span>'
+      +   '<h2>'+esc(grp.title)+'</h2>'
+      +   '<p>'+esc(grp.blurb)+'</p>'
+      + '</div>'
+      + '<div class="grid">'+cards+'</div>'
+    ) + '</section>';
+  }).join("");
+
   return '<section class="hero" style="padding-bottom:20px">' + pageChrome(''
     + '<span class="eyebrow">The collection</span>'
     + '<h1>Games</h1>'
     + '<p class="lead">Every game is field-tested in a real classroom first, then documented here — overview, teaching note, debrief note, quiz and student note, together.</p>'
   ) + '</section>'
-  + '<section>' + pageChrome(cards ? '<div class="grid">' + cards + '</div>' : '<div class="empty-state">No games listed right now — check back soon.</div>') + '</section>';
+  + (ids.length ? sections : '<section>' + pageChrome('<div class="empty-state">No games listed right now — check back soon.</div>') + '</section>');
 }
 
 /* ---- Topics ---- */
