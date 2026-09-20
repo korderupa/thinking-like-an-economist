@@ -226,15 +226,37 @@
   .chart-label{ font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-faint); margin-bottom:6px; }
   .budget-bar{ display:flex; height:40px; border-radius:5px; overflow:hidden; border:1px solid var(--rule); margin-bottom:4px; background:var(--paper-2); }
   .budget-bar-wrap{ margin-bottom:20px; }
-  .seg{ height:100%; display:flex; align-items:center; justify-content:center; overflow:hidden; white-space:nowrap; font-family:var(--font-mono); font-size:11px; color:#fff; border-right:1px solid rgba(255,255,255,.25); transition:width .4s ease; }
+  .seg{ height:100%; display:flex; align-items:center; justify-content:center; overflow:hidden; white-space:nowrap; font-family:var(--font-mono); font-size:11px; color:#fff; border-right:1px solid rgba(255,255,255,.25); transition:width .4s ease,filter .15s ease; cursor:pointer; }
   .seg:last-child{ border-right:none; }
+  .seg:hover{ filter:brightness(1.12); }
+  .seg.flash{ animation:segFlash 1.1s ease; }
+  @keyframes segFlash{ 0%,100%{ filter:brightness(1); } 25%{ filter:brightness(1.5); } }
 
-  .legend-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:8px 18px; margin-top:8px; }
-  .legend-row{ display:flex; align-items:center; gap:8px; font-size:12.5px; padding:4px 0; border-bottom:1px solid var(--rule); }
-  .legend-row .swatch{ width:10px; height:10px; }
+  .legend-grid{ margin-top:8px; max-width:640px; }
+  .legend-row{ display:flex; align-items:center; gap:8px; font-size:13px; padding:6px 2px; border-bottom:1px solid var(--rule); border-radius:4px; transition:background-color .3s ease; }
+  .legend-row .swatch{ width:10px; height:10px; flex-shrink:0; border-radius:2px; }
   .legend-row .name{ flex:1; color:var(--ink-soft); }
   .legend-row .delta{ font-family:var(--font-mono); font-weight:600; font-size:12px; }
   .legend-row .delta.up{ color:var(--rise); } .legend-row .delta.down{ color:var(--stamp); }
+  .legend-row.flash{ animation:legendFlash 1.1s ease; }
+  @keyframes legendFlash{ 0%,100%{ background:transparent; } 25%{ background:var(--blue-soft); } }
+
+  .legend-section-head{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin:18px 0 6px; padding-bottom:5px; border-bottom:1.5px solid var(--rule-strong); }
+  .legend-section-head:first-of-type{ margin-top:0; }
+  .legend-section-head .lsh-name{ font-weight:700; font-size:14px; display:flex; align-items:center; gap:8px; }
+  .legend-section-head .lsh-name .swatch{ width:11px; height:11px; border-radius:3px; }
+  .legend-section-head .lsh-totals{ font-family:var(--font-mono); font-size:12px; color:var(--ink-soft); white-space:nowrap; }
+  .legend-section-head.clickable{ cursor:pointer; }
+  .legend-section-head.clickable:hover .lsh-name{ color:var(--blue); }
+  .legend-back{ font-size:13px; color:var(--blue); cursor:pointer; display:inline-block; margin-bottom:12px; font-weight:600; }
+  .legend-back:hover{ text-decoration:underline; }
+
+  .sector-filter{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+  .sector-filter button{ font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.05em; padding:8px 13px; border-radius:20px; border:1.5px solid var(--rule); background:var(--panel); color:var(--ink-soft); cursor:pointer; display:inline-flex; align-items:center; gap:7px; transition:border-color .15s ease,color .15s ease,background-color .15s ease; }
+  .sector-filter button .dot{ width:8px; height:8px; border-radius:50%; display:inline-block; flex-shrink:0; }
+  .sector-filter button:hover{ border-color:var(--rule-strong); color:var(--ink); }
+  .sector-filter button.active{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .chart-hint{ font-size:12.5px; color:var(--ink-faint); margin:-8px 0 14px; }
 
   .share-box{ background:var(--paper-2); border:1px solid var(--rule); border-radius:6px; padding:12px 14px; font-size:12px; color:var(--ink-soft); white-space:pre-wrap; font-family:var(--font-mono); margin:20px 0; }
 
@@ -494,6 +516,9 @@
     <div class="chart-section">
       <h2 style="font-size:1.4rem;">Where the money goes</h2>
       <p class="chart-lede" id="chartLede"></p>
+      <p class="chart-hint" id="chartHint">Click a sector below — or a slice of either bar — to see its individual programmes.</p>
+
+      <div class="sector-filter" id="sectorFilter"></div>
 
       <div class="budget-bar-wrap">
         <div class="chart-label">Gondor's current budget</div>
@@ -543,10 +568,10 @@
   document.getElementById('year').textContent = new Date().getFullYear();
 
   var SECTORS = [
-    {name:"Social Welfare", key:"social"},
-    {name:"Human Capital", key:"human"},
-    {name:"Economic Support", key:"economic"},
-    {name:"Core State", key:"core"}
+    {name:"Social Welfare", key:"social", short:"Welfare"},
+    {name:"Human Capital", key:"human", short:"Human Cap."},
+    {name:"Economic Support", key:"economic", short:"Economic"},
+    {name:"Core State", key:"core", short:"Core State"}
   ];
 
   var ICONS = {
@@ -940,29 +965,160 @@
   var CHART_ORDER = CATEGORIES.slice().sort(function(a,b){ return b.baseline - a.baseline; });
   var CHART_TOTAL = CHART_ORDER.reduce(function(s,c){ return s + c.baseline; }, 0);
 
-  function buildBar(containerEl, amounts, barTotal, scaleDenominator){
+  // ---- "Where the money goes": a two-level drill-down chart -------------
+  // Level 1 (default): 4 sector-sized slices — always legible, never more
+  // than 4 segments in a bar. Clicking a slice (or its filter button, or its
+  // legend heading) drills into level 2: that sector's own 3-5 programmes,
+  // each still large enough to read on their own. This replaces the old
+  // single 16-segment bar, whose smallest slivers were only readable via a
+  // native title tooltip that renders inconsistently and can visually
+  // overlap neighbouring content (reported directly by a user screenshot).
+  var chartDrill = null; // null = sector level; else a SECTORS[].key
+
+  function buildBar(containerEl, items, barTotal, scaleDenominator, onSegClick){
     containerEl.innerHTML = '';
     // scaleDenominator is the larger of the two bars' totals, so neither bar
     // ever exceeds 100% width (a bar wider than its own wrapper caused the
     // whole page to scroll sideways — the fix scales both bars against
     // whichever total is bigger, so the larger one always fills exactly 100%).
     containerEl.style.width = clamp(barTotal / scaleDenominator * 100, 0, 100) + '%';
-    CHART_ORDER.forEach(function(c){
-      var amt = amounts[c.id];
-      var frac = amt / barTotal;
+    items.forEach(function(item){
+      var frac = barTotal > 0 ? item.amount / barTotal : 0;
       var seg = document.createElement('div');
       seg.className = 'seg';
+      seg.id = 'seg-' + containerEl.id + '-' + item.key;
       seg.style.width = (frac*100) + '%';
-      seg.style.background = 'var(' + SECTOR_VAR[c.sector] + ')';
-      seg.title = c.name + ': €' + Math.round(amt) + 'bn';
-      seg.textContent = c.short + ' €' + Math.round(amt);
+      seg.style.background = 'var(' + item.colorVar + ')';
+      seg.title = item.name + ': €' + Math.round(item.amount) + 'bn (click for detail)';
+      seg.dataset.full = item.short + ' €' + Math.round(item.amount);
+      seg.dataset.short = item.short;
+      seg.textContent = seg.dataset.full;
+      if (onSegClick) seg.onclick = function(){ onSegClick(item.key); };
       containerEl.appendChild(seg);
     });
-    // Only keep the inline label where it actually fits — measured after
-    // layout, so it adapts to any screen width instead of a guessed fraction.
+    // A segment tries its full "name €amount" label first; if that overflows
+    // (measured after layout, so it adapts to any screen width rather than a
+    // guessed fraction), it falls back to just the name; if even that
+    // overflows, it shows no label at all and relies on colour + the legend
+    // below + a click to identify it — never an awkwardly-clipped label.
     Array.prototype.forEach.call(containerEl.children, function(seg){
-      if (seg.scrollWidth > seg.clientWidth) seg.textContent = '';
+      if (seg.scrollWidth > seg.clientWidth) {
+        seg.textContent = seg.dataset.short;
+        if (seg.scrollWidth > seg.clientWidth) seg.textContent = '';
+      }
     });
+  }
+
+  function sectorAmounts(amountsByCatId){
+    var out = {}; SECTORS.forEach(function(s){ out[s.key] = 0; });
+    CATEGORIES.forEach(function(c){ out[c.sector] += amountsByCatId[c.id]; });
+    return out;
+  }
+
+  function flashEl(el){
+    if (!el) return;
+    el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
+  }
+  function flashCategory(catId){
+    flashEl(document.getElementById('legendRow-' + catId));
+    flashEl(document.getElementById('seg-barBaseline-' + catId));
+    flashEl(document.getElementById('seg-barYours-' + catId));
+    var row = document.getElementById('legendRow-' + catId);
+    if (row) row.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }
+
+  function drillInto(sectorKey){ chartDrill = sectorKey; renderChart(lastChartResult); }
+  function drillOut(){ chartDrill = null; renderChart(lastChartResult); }
+
+  function renderSectorFilter(){
+    var wrap = document.getElementById('sectorFilter');
+    wrap.innerHTML = '';
+    var allBtn = document.createElement('button');
+    allBtn.textContent = 'All sectors';
+    if (chartDrill === null) allBtn.className = 'active';
+    allBtn.onclick = drillOut;
+    wrap.appendChild(allBtn);
+    SECTORS.forEach(function(s){
+      var btn = document.createElement('button');
+      btn.innerHTML = '<span class="dot" style="background:var('+SECTOR_VAR[s.key]+')"></span>' + s.name;
+      if (chartDrill === s.key) btn.className = 'active';
+      btn.onclick = function(){ drillInto(s.key); };
+      wrap.appendChild(btn);
+    });
+  }
+
+  function renderLegend(r){
+    var legend = document.getElementById('legendGrid');
+    legend.innerHTML = '';
+    var sectorsToShow = chartDrill === null ? SECTORS : SECTORS.filter(function(s){ return s.key === chartDrill; });
+
+    if (chartDrill !== null) {
+      var back = document.createElement('div');
+      back.className = 'legend-back';
+      back.textContent = '← All sectors';
+      back.onclick = drillOut;
+      legend.appendChild(back);
+    }
+
+    sectorsToShow.forEach(function(s){
+      var catsInSector = CHART_ORDER.filter(function(c){ return c.sector === s.key; });
+      var baseTotal = catsInSector.reduce(function(sum,c){ return sum + c.baseline; }, 0);
+      var yourTotal = catsInSector.reduce(function(sum,c){ return sum + r.perCat[c.id]; }, 0);
+
+      var head = document.createElement('div');
+      head.className = 'legend-section-head' + (chartDrill === null ? ' clickable' : '');
+      head.innerHTML = '<span class="lsh-name"><span class="swatch" style="background:var('+SECTOR_VAR[s.key]+')"></span>'+s.name+'</span>' +
+        '<span class="lsh-totals">€'+Math.round(baseTotal)+'bn → €'+Math.round(yourTotal)+'bn</span>';
+      if (chartDrill === null) head.onclick = function(){ drillInto(s.key); };
+      legend.appendChild(head);
+
+      catsInSector.forEach(function(c){
+        var delta = r.perCat[c.id] - c.baseline;
+        var row = document.createElement('div');
+        row.className = 'legend-row';
+        row.id = 'legendRow-' + c.id;
+        row.innerHTML = '<span class="swatch" style="background:var('+SECTOR_VAR[c.sector]+')"></span>' +
+          '<span class="name">'+c.name+'</span>' +
+          '<span class="delta '+(delta>0?'up':delta<0?'down':'')+'">'+(delta>=0?'+':'−')+'€'+Math.abs(Math.round(delta))+'bn</span>';
+        row.onclick = function(){ flashCategory(c.id); };
+        row.style.cursor = 'pointer';
+        legend.appendChild(row);
+      });
+    });
+  }
+
+  var lastChartResult = null;
+
+  function renderChart(r){
+    lastChartResult = r;
+    var baselineAmounts = {}; CATEGORIES.forEach(function(c){ baselineAmounts[c.id] = c.baseline; });
+    var barBaselineEl = document.getElementById('barBaseline');
+    var barYoursEl = document.getElementById('barYours');
+
+    if (chartDrill === null) {
+      var baseSector = sectorAmounts(baselineAmounts), yourSector = sectorAmounts(r.perCat);
+      var baseTotal = CHART_TOTAL, yourTotal = r.totalAdj;
+      var scaleDenom = Math.max(baseTotal, yourTotal);
+      var baseItems = SECTORS.map(function(s){ return { key:s.key, name:s.name, short:s.short, colorVar:SECTOR_VAR[s.key], amount:baseSector[s.key] }; });
+      var yourItems = SECTORS.map(function(s){ return { key:s.key, name:s.name, short:s.short, colorVar:SECTOR_VAR[s.key], amount:yourSector[s.key] }; });
+      buildBar(barBaselineEl, baseItems, baseTotal, scaleDenom, drillInto);
+      buildBar(barYoursEl, yourItems, yourTotal, scaleDenom, drillInto);
+      document.getElementById('chartHint').textContent = 'Click a sector below — or a slice of either bar — to see its individual programmes.';
+    } else {
+      var catsInSector = CHART_ORDER.filter(function(c){ return c.sector === chartDrill; });
+      var baseSectorTotal = catsInSector.reduce(function(s,c){ return s+c.baseline; }, 0);
+      var yourSectorTotal = catsInSector.reduce(function(s,c){ return s+r.perCat[c.id]; }, 0);
+      var scaleDenom2 = Math.max(baseSectorTotal, yourSectorTotal);
+      var baseItems2 = catsInSector.map(function(c){ return { key:c.id, name:c.name, short:c.short, colorVar:SECTOR_VAR[c.sector], amount:c.baseline }; });
+      var yourItems2 = catsInSector.map(function(c){ return { key:c.id, name:c.name, short:c.short, colorVar:SECTOR_VAR[c.sector], amount:r.perCat[c.id] }; });
+      buildBar(barBaselineEl, baseItems2, baseSectorTotal, scaleDenom2, flashCategory);
+      buildBar(barYoursEl, yourItems2, yourSectorTotal, scaleDenom2, flashCategory);
+      var sectorMeta = SECTORS.filter(function(s){ return s.key === chartDrill; })[0];
+      document.getElementById('chartHint').textContent = 'Showing ' + sectorMeta.name + ' only — click "All sectors" to zoom back out.';
+    }
+
+    renderSectorFilter();
+    renderLegend(r);
   }
 
   var METER_INFO = {
@@ -1093,27 +1249,13 @@
       document.getElementById('recap'+recap[k]+'Val').textContent = v;
     });
 
-    var baselineAmounts = {}; CATEGORIES.forEach(function(c){ baselineAmounts[c.id] = c.baseline; });
-    var scaleDenominator = Math.max(CHART_TOTAL, r.totalAdj);
-    buildBar(document.getElementById('barBaseline'), baselineAmounts, CHART_TOTAL, scaleDenominator);
-    buildBar(document.getElementById('barYours'), r.perCat, r.totalAdj, scaleDenominator);
+    chartDrill = null; // fresh reveal starts zoomed out, every time
+    renderChart(r);
 
     var deltaTotal = r.totalAdj - CHART_TOTAL;
     document.getElementById('chartLede').innerHTML = 'Baseline adjustable spending is <b>€'+CHART_TOTAL+'bn</b>. Your budget spends <b>€'+Math.round(r.totalAdj)+'bn</b> on the same sixteen programmes — '+(deltaTotal>=0?'€'+Math.round(deltaTotal)+'bn more':'€'+Math.round(-deltaTotal)+'bn less')+'.';
 
     buildInsights(r, arch, result.objMet);
-
-    var legend = document.getElementById('legendGrid');
-    legend.innerHTML = '';
-    CHART_ORDER.forEach(function(c){
-      var delta = r.perCat[c.id] - c.baseline;
-      var row = document.createElement('div');
-      row.className = 'legend-row';
-      row.innerHTML = '<span class="swatch" style="background:var('+SECTOR_VAR[c.sector]+')"></span>' +
-        '<span class="name">'+c.name+'</span>' +
-        '<span class="delta '+(delta>0?'up':delta<0?'down':'')+'">'+(delta>=0?'+':'−')+'€'+Math.abs(Math.round(delta))+'bn</span>';
-      legend.appendChild(row);
-    });
 
     var lines = ["My Gondor budget: " + arch.name,
       "Deficit: " + fmtBn(r.deficit) + " (" + r.deficitPctGDP.toFixed(1) + "% of GDP)",
