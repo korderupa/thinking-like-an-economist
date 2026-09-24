@@ -952,6 +952,25 @@ var GAMES = {
       { k: "Board", v: "5×5 · 24 real-behaviour squares across 4 themes, plus one free space" },
       { k: "Class size", v: "Up to ~40 · first to join with the class code are the roster, same as Kahoot or Blooket" }
     ]
+  },
+  "bubble-chart-detective": {
+    id: "bubble-chart-detective",
+    title: "Bubble Chart Detective",
+    tagline: "Pop your assumptions. Chase down the real numbers.",
+    description: "Pairs share one device and get a hard thirty-minute clock to do real empirical research on gapminder.org’s own bubble chart: write their own question about the world, guess an answer, set up the chart to test it, log four real data points, then defend a claim with evidence and a stated limitation. Six steps, a hundred points, graded the instant each one is complete — the page lists exactly what is still missing, using the same code that produces the final grade, so nothing about the score is hidden logic revealed only at the end. A wildcard bonus rewards actually using a randomly assigned variable somewhere on the chart; a speed bonus rewards finishing early, but only once the base score already clears 60. At zero every box locks and the page submits what is on screen; a two-minute grace window still counts a late-arriving submission as on time, and a team that never got that far is graded from its last autosave instead of losing the round outright.",
+    format: "Live classroom, pairs · 30 minutes fixed · one device per pair, live leaderboard",
+    mode: "live",
+    status: "dev",
+    statusLabel: "Ready to pilot",
+    tags: ["Data analysis", "Empirical evidence", "Global development", "Classroom simulation"],
+    link: "https://script.google.com/macros/s/AKfycbx__3Dww6-_tbUYTxyVvsbAtPhNgcnvs2w2_361FsmwiYr-ifRI6kHpcSvW61wT0Vwk/exec",
+    linkLabel: null,
+    minutes: 30,
+    glance: [
+      { k: "Format", v: "Live classroom, pairs · 30 minutes fixed · one device per pair, live leaderboard" },
+      { k: "Scoring", v: "100 points across 6 steps, plus a +5 wildcard bonus and a +8/+4 speed bonus" },
+      { k: "Data source", v: "Real gapminder.org bubble chart — each pair picks its own question and variables" }
+    ]
   }
 };
 
@@ -962,21 +981,27 @@ var GAMES = {
 var TOPICS_ARCHIVE = [];
 
 /* LIVE. Both the order and the `family` tag matter: this is the sequence
-   the topics are actually taught in (the constraint every choice starts
-   from, then exchange, then factor markets, then the two textbook
-   siblings of market failure, then how government pays for and finances
-   its response to that failure) — and it is also the subway map's row
-   order and branch structure, top to bottom. Consecutive topics sharing
-   a `family` string are drawn as ONE line: a single trunk off the hub
-   that splits into one branch per topic, the way a real metro line's
-   branches share track before diverging. A shared game — one that
-   genuinely belongs to more than one of a family's topics — is drawn
-   once, at the fork itself, so it reads as a real mid-route interchange
-   rather than a dead end on one branch. Topics with no family of their
-   own (Labor Markets, Common-Pool Resources) are one-branch lines, same
-   as before. Keep a family's topics adjacent in this array — the branch
-   geometry assumes it. */
+   the topics are actually taught in (how economists reason from evidence
+   at all, then the constraint every choice starts from, then exchange,
+   then factor markets, then the two textbook siblings of market failure,
+   then how government pays for and finances its response to that
+   failure) — and it is also the subway map's row order and branch
+   structure, top to bottom. Consecutive topics sharing a `family` string
+   are drawn as ONE line: a single trunk off the hub that splits into one
+   branch per topic, the way a real metro line's branches share track
+   before diverging. A shared game — one that genuinely belongs to more
+   than one of a family's topics — is drawn once, at the fork itself, so
+   it reads as a real mid-route interchange rather than a dead end on one
+   branch. Topics with no family of their own (Empirical Reasoning, Labor
+   Markets, Common-Pool Resources) are one-branch lines, same as before.
+   Keep a family's topics adjacent in this array — the branch geometry
+   assumes it. */
 var TOPICS = [
+  {
+    title: "Empirical Reasoning",
+    description: "Asking your own question about the world, checking your instinct against real numbers before trusting it, and building a claim that actually cites the data you found rather than the story you started with — the line between an opinion and an empirical claim, and the discipline of naming what you still don't know. Explored hands-on through Bubble Chart Detective.",
+    games: ["bubble-chart-detective"]
+  },
   {
     family: "trade",
     title: "Scarcity and Rationing",
@@ -1419,7 +1444,8 @@ var RESOURCE_NAV = {
   "tax-policy-lab": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
   "the-budget-room": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
   "the-council-of-kingdoms": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
-  "trading-floor": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
+  "trading-floor": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
+  "bubble-chart-detective": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
 };
 
 /* The Common Pot — the four blocks of its default 20-round schedule,
@@ -4142,6 +4168,135 @@ function renderTradingFloorStudentNote(id){
   ) + '</section>';
 }
 
+/* ---- Bubble Chart Detective ---- */
+function renderBubbleChartDetectiveTeachingNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Teaching note</span>'
+    + '<h1>Running '+esc(g.title)+'</h1>'
+    + '<p class="lead">A pair activity on gapminder.org’s own bubble chart — thirty minutes, one device per team, graded automatically as they go.</p>'
+    + subNav(id, "teaching-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + '<div class="at-a-glance">'
+    +   '<div class="item"><div class="k">Session length</div><div class="v">30 minutes fixed, per team — each pair’s own clock starts when they press Start, so you don’t need to start everyone at once</div></div>'
+    +   '<div class="item"><div class="k">Students need</div><div class="v">One device per pair, gapminder.org open in a second tab, and a team name — no account</div></div>'
+    +   '<div class="item"><div class="k">Instructor needs</div><div class="v">The results spreadsheet’s own menu (appears a few seconds after opening it) to clear the leaderboard before class and to project the live view</div></div>'
+    +   '<div class="item"><div class="k">Class size</div><div class="v">Any number of pairs, each working independently on one shared device</div></div>'
+    + '</div>'
+    + accordionHtml([
+      { title: "Learning objectives", open: true, html:
+        "<ul><li>Write a real, testable question that names what is being measured and what is being compared — not a restatement of a topic.</li>"
+        + "<li>Tell a prediction apart from a data-backed claim, and notice when the two disagree.</li>"
+        + "<li>Set a chart up correctly: distinct variables doing distinct jobs, matched to the question actually being asked.</li>"
+        + "<li>Read real numbers off a live chart accurately, and write a claim that cites them rather than the impression the chart gives.</li>"
+        + "<li>State a real limitation — sample size, correlation vs. causation, a missing year — as part of the answer, not an afterthought.</li></ul>"
+      },
+      { title: "Before class", html:
+        "<ul><li>Open the results spreadsheet → menu <strong>Bubble Chart Detective → Clear leaderboard &amp; sessions</strong> (start a new class).</li>"
+        + "<li>Put the projector view (the student link plus <code>?present=1</code>) on the screen — it refreshes itself every few seconds.</li>"
+        + "<li>Share the student link with the whole class at once. Pairs read the instructions together, tick that they’ve read it, name their team, and press Start whenever they’re ready — not necessarily all at the same moment.</li></ul>"
+      },
+      { title: "The six graded steps", html:
+        '<div class="at-a-glance">'
+        + '<div class="item"><div class="k">1 · Look around — 10 pts</div><div class="v">Three different observations, written as real sentences</div></div>'
+        + '<div class="item"><div class="k">2 · Pick a question — 20 pts</div><div class="v">A real question ending in “?”, naming what the chart measures and comparing something — an unedited starter question scores 0</div></div>'
+        + '<div class="item"><div class="k">3 · Guess — 10 pts</div><div class="v">A prediction (which way, and why) that is not just a copy of the question</div></div>'
+        + '<div class="item"><div class="k">4 · Set up the chart — 15 pts</div><div class="v">X, Y, colour and size each a different variable; the question’s own variables on X or Y; a focus line naming real places or years</div></div>'
+        + '<div class="item"><div class="k">5 · Get your numbers — 20 pts</div><div class="v">Four rows, each a real country/region, one year (1800–2100), plausible X and Y values, and a note</div></div>'
+        + '<div class="item"><div class="k">6 · Answer — 25 pts</div><div class="v">Claim tied to their own data, evidence quoting their table’s values, reasoning, and a limitation — none of the four copied from another box</div></div>'
+        + '<div class="item"><div class="k">Wildcard — +5</div><div class="v">Their randomly assigned variable used anywhere on the chart</div></div>'
+        + '<div class="item"><div class="k">Speed — +8 / +4</div><div class="v">Submitted with ⅓ or ⅙ of the time left, only if the base score is already 60+</div></div>'
+        + '</div>'
+        + "<p style=\"margin-top:14px\">A step only “pops” at full marks — until then, both the live page and the results screen list exactly what’s missing, from the same code that produces the final grade.</p>"
+      },
+      { title: "How the clock and grading actually work", html:
+        "<ul><li>At 0:00 every box locks for good and the page submits what’s on screen automatically, spread over about 20 seconds so the class doesn’t hit the server at once.</li>"
+        + "<li>Answers autosave to the server as students type — about every 1.5 seconds in the final minute.</li>"
+        + "<li>A submission that reaches the server within <strong>2 minutes</strong> of 0:00 is graded as on time. After that, the team is graded from its last autosave instead — so waiting past the buzzer buys nothing.</li>"
+        + "<li>A team that never gets that far is graded from autosave once the grace window passes; a team that never typed anything is simply left off. <strong>Grade expired sessions now</strong> in the spreadsheet menu forces this immediately.</li></ul>"
+      },
+      { title: "The integrity checks, briefly", html:
+        "<p>Repeating the same variable across chart boxes scores the repeats as zero; charting variables unrelated to the stated question caps that step at 6 of 15; unknown countries, impossible values, duplicate rows, and text copied between boxes all lose the matching points. Real, honestly messy formatting — “6,4”, “93.5k”, “Côte d’Ivoire”, “Congo, Dem. Rep.” — still earns full marks; this isn’t a formatting test.</p>"
+      },
+      { title: "If something breaks mid-class", html:
+        "<ul><li>A reload recovers the team, its timer, and its answers in the same browser.</li>"
+        + "<li>The same team opened in a second tab: the older tab steps aside with a “use this tab instead” prompt, so the two can’t overwrite each other.</li>"
+        + "<li>Sharing one device between pairs: once a team finishes, <strong>Start a new team on this device</strong> (a two-tap confirm) clears it for the next pair without touching the finished score.</li></ul>"
+      }
+    ])
+    + '<p style="margin-top:20px;max-width:70ch">Once a class has run, move into the <a href="#/games/'+id+'/debrief-guide">debrief guide</a> — every team’s question, guess, chart, data and final claim are already sitting in the Leaderboard tab, ready to put side by side.</p>'
+  ) + '</section>';
+}
+
+function renderBubbleChartDetectiveDebriefGuide(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Debrief guide</span>'
+    + '<h1>Debriefing '+esc(g.title)+'</h1>'
+    + '<p class="lead">Every pair’s full working is already on the Leaderboard tab — the debrief is mostly about putting a few of those side by side.</p>'
+    + subNav(id, "debrief-guide")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "Start with the guesses, not the answers", open: true, html:
+        "<p>Before revealing anything, ask two or three teams to read out their Step 3 guess — the prediction, and why. Then reveal their Step 6 claim. How often did the real numbers agree with the instinct that came before them? That gap is the actual point of the activity.</p>"
+      },
+      { title: "Put genuinely different questions side by side", html:
+        "<p>Since every pair wrote its own question, pull up two or three that are actually different and compare what each pair used as evidence for its claim. Two pairs asking similar questions but reaching different conclusions is an even better prompt: what in their setup — the variables, the years, the countries — explains the difference?</p>"
+      },
+      { title: "Ask about the wildcard variable", html:
+        "<p>Every team was handed a random variable to work in somewhere for the +5 bonus. Ask a couple of teams what theirs was, and whether using it felt forced, or actually changed the story their chart told. It’s a good, low-stakes way to talk about how adding one more variable to an analysis can complicate a clean-looking result.</p>"
+      },
+      { title: "Where the integrity checks caught something worth discussing", html:
+        "<p>A chart with the same variable in all four boxes, or one whose variables don’t actually relate to the stated question, aren’t just point deductions — they’re real reasoning errors, worth naming out loud in front of the class: “the chart didn’t actually test the question it was supposed to.” The dashboard shows you which teams tripped which check.</p>"
+      },
+      { title: "Read a few limitations aloud", html:
+        "<p>A good limitation is its own research skill — small sample, correlation mistaken for causation, a cherry-picked year or country, a variable that doesn’t quite measure what the question asked. Reading three or four aloud, best to weakest, is often the fastest way to raise the bar on what the whole class writes next time.</p>"
+      }
+    ])
+  ) + '</section>';
+}
+
+function renderBubbleChartDetectiveStudentNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  var glossary = [
+    { term: "Variable", def: "One thing being measured — life expectancy, income, population — that can be plotted on an axis, or shown as a bubble’s colour or size." },
+    { term: "Bubble chart", def: "A chart where each dot (bubble) is a country: its position shows two variables at once, and its colour and size can each show a third and fourth." },
+    { term: "Claim", def: "Your actual answer to your question — a specific statement the data either does or doesn’t support." },
+    { term: "Evidence", def: "The real values from your own data table, quoted to back up your claim — not a general impression of the chart." },
+    { term: "Limitation", def: "A real reason your claim might not be the whole story — too few data points, a confusing year, correlation that isn’t causation." },
+    { term: "Wildcard variable", def: "One variable assigned to your team at random, worth a bonus if you actually work it into your chart somewhere." }
+  ].map(function(t){ return '<dt>'+esc(t.term)+'</dt><dd>'+esc(t.def)+'</dd>'; }).join("");
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Student note</span>'
+    + '<h1>Before you play</h1>'
+    + '<p class="lead">A plain-language recap, before or during your round of '+esc(g.title)+'.</p>'
+    + subNav(id, "student-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "What you are actually doing", open: true, html:
+        "<p>You and your partner get thirty minutes on one device to ask your own question about the world, test it on gapminder.org’s real bubble chart, log real data, and defend a claim with actual numbers.</p>"
+        + "<ul><li>Your clock starts the moment you press Start, and it does not pause.</li>"
+        + "<li>Six steps, each needing to be fully complete for full marks — the page always tells you exactly what’s still missing.</li>"
+        + "<li>At 0:00 every box locks and the page submits automatically, whatever is on screen at that instant.</li></ul>"
+      },
+      { title: "A few honest tips", html:
+        "<ul><li>Don’t put the same variable in more than one chart box — the repeats earn nothing, even if the chart still looks fine.</li>"
+        + "<li>Actually use your assigned wildcard variable somewhere on the chart for the +5 — it doesn’t count just for being mentioned.</li>"
+        + "<li>The speed bonus only pays out on top of a base score of 60 or more — rushing your answer to beat the clock can cost you more than the bonus is worth.</li>"
+        + "<li>Real messy formatting is fine — “6,4”, “93.5k”, “Côte d’Ivoire” all grade the same as the tidiest version.</li></ul>"
+      },
+      { title: "Terms you will want to know", html: '<dl class="glossary">' + glossary + '</dl>' }
+    ])
+    + '<div class="editor-note" style="margin-top:20px"><strong>One thing this note will not tell you:</strong> what your wildcard variable will be, or what the data will actually show. Both only show up once you start.</div>'
+  ) + '</section>';
+}
+
 var RESOURCE_PAGES = {
   "trade-game": {
     "teaching-note": renderTeachingNote,
@@ -4209,6 +4364,11 @@ var RESOURCE_PAGES = {
     "teaching-note": renderTradingFloorTeachingNote,
     "debrief-guide": renderTradingFloorDebriefGuide,
     "student-note": renderTradingFloorStudentNote
+  },
+  "bubble-chart-detective": {
+    "teaching-note": renderBubbleChartDetectiveTeachingNote,
+    "debrief-guide": renderBubbleChartDetectiveDebriefGuide,
+    "student-note": renderBubbleChartDetectiveStudentNote
   }
 };
 
