@@ -971,6 +971,25 @@ var GAMES = {
       { k: "Scoring", v: "100 points across 6 steps, plus a +5 wildcard bonus and a +8/+4 speed bonus" },
       { k: "Data source", v: "Real gapminder.org bubble chart — each pair picks its own question and variables" }
     ]
+  },
+  "the-auction-house": {
+    id: "the-auction-house",
+    title: "The Auction House",
+    tagline: "Real bidding, real stakes, real economics. Each round is a different lot, a different clock, a different set of rules — the price never comes out the same way twice.",
+    description: "Eight auction formats share one settlement engine — English, an Ascending Clock that drops students automatically the instant the rising price passes their private value, Procurement (English run in reverse), Escalation (Shubik’s dollar auction), Dutch, first-price sealed, second-price sealed (generalised to sell several identical units at once), and All-pay — plus a winner’s-curse modifier that can be layered onto any sealed round. Every round runs in two parts: an untimed briefing where students learn that lot’s rules and draw their own private value, then a 90-second bidding window (120 for winner’s-curse), and it settles itself the moment the clock hits zero. A teaching brief writes itself afterward from that round’s own bids and values — price against theory, whether the lot went to whoever valued it most, bid shading, money burned — and the projected Gavel Board tracks every sale and every student’s running profit between rounds. The closing whole-session debrief compares formats on the class’s own numbers: revenue equivalence, Dutch versus first-price, the winner’s curse. An Integrity tab flags students who have never bid at all or who bid more than 1.75× their own private value, with per-round or permanent disqualification either way; a master reset lets the same nine-round lineup run again for a second section without losing a single round’s settings.",
+    format: "Live classroom · ~90-minute suggested session · phones + projector, one instructor dashboard",
+    mode: "live",
+    status: "dev",
+    statusLabel: "Ready to pilot",
+    tags: ["Auction theory", "Market design", "Price discovery", "Classroom simulation"],
+    link: "https://script.google.com/macros/s/AKfycbwyVJcsHXbRp8336pliXNKVddwkph8nfGps8F1aOSIxnpihZM-sASKYkD07Xi0Xx1ov/exec",
+    linkLabel: null,
+    minutes: 90,
+    glance: [
+      { k: "Format", v: "Live classroom · ~90-minute suggested session · phones + projector, one instructor dashboard" },
+      { k: "Formats in the room", v: "8 auction types plus a winner’s-curse modifier, one shared settlement engine" },
+      { k: "Class size", v: "Up to ~40 students, solo or in pairs · one wall display, one instructor dashboard" }
+    ]
   }
 };
 
@@ -1013,6 +1032,11 @@ var TOPICS = [
     title: "International Trade",
     description: "Comparative advantage, tariffs, production versus dependency, global value chains, factor endowments, and why the country that makes the most of something is often not the one that needs it most. Explored hands-on through The Paper Trade, World Market Watch, The Autarky Challenge, and Trade Ruler — and, stripped down to two people and no tariffs at all, The Trading Floor.",
     games: ["trade-game", "world-market-watch", "autarky-challenge", "trade-ruler", "trading-floor"]
+  },
+  {
+    title: "Auctions and Price Discovery",
+    description: "How the exact same right to buy or sell something can settle at a completely different price depending only on the rules of the exchange — open outcry against sealed bids, ascending against descending, the strategic bid-shading a Vickrey auction is built to remove, and the real money a dollar auction or an all-pay round can burn before anyone actually wins anything. Explored hands-on through The Auction House.",
+    games: ["the-auction-house"]
   },
   {
     title: "Labor Markets",
@@ -1445,7 +1469,8 @@ var RESOURCE_NAV = {
   "the-budget-room": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
   "the-council-of-kingdoms": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
   "trading-floor": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
-  "bubble-chart-detective": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
+  "bubble-chart-detective": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
+  "the-auction-house": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]]
 };
 
 /* The Common Pot — the four blocks of its default 20-round schedule,
@@ -4297,6 +4322,145 @@ function renderBubbleChartDetectiveStudentNote(id){
   ) + '</section>';
 }
 
+/* ---- The Auction House ---- */
+function renderTheAuctionHouseTeachingNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Teaching note</span>'
+    + '<h1>Running '+esc(g.title)+'</h1>'
+    + '<p class="lead">Eight auction formats, one settlement engine, and a nine-round suggested lineup that tells a complete story in about ninety minutes.</p>'
+    + subNav(id, "teaching-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + '<div class="at-a-glance">'
+    +   '<div class="item"><div class="k">Session length</div><div class="v">~90 minutes suggested (9 rounds plus a bonus Ascending Clock round) — each round’s own timing is fixed, but you choose how many rounds to run</div></div>'
+    +   '<div class="item"><div class="k">Students need</div><div class="v">One device, solo or in pairs, a class code, their name and roll number — no account</div></div>'
+    +   '<div class="item"><div class="k">Instructor needs</div><div class="v">The instructor PIN (default changeme123 — change it immediately) and a separate Wall PIN for whoever runs the projector</div></div>'
+    +   '<div class="item"><div class="k">Class size</div><div class="v">Up to ~40 students · one instructor dashboard, one projected Wall display</div></div>'
+    + '</div>'
+    + accordionHtml([
+      { title: "Learning objectives", open: true, html:
+        "<ul><li>Predict how the exact same lot sells for a different price depending only on the rules of the round — English against Dutch, sealed against open outcry.</li>"
+        + "<li>See revenue equivalence tested against the class’s own numbers, and notice when it doesn’t hold.</li>"
+        + "<li>Tell bid shading in a first-price sealed round apart from the honest bidding a second-price (Vickrey) round is built to reward.</li>"
+        + "<li>Feel the winner’s curse firsthand — bidding against a private signal rather than the true value.</li>"
+        + "<li>Watch real Tokens get destroyed with no winner at all in Escalation and All-pay, and ask why bidding continued anyway.</li></ul>"
+      },
+      { title: "Before class", html:
+        "<ul><li>Deploy per the README; log in as instructor with the default PIN <code>changeme123</code> and change it immediately, then set a separate Wall PIN for the projector.</li>"
+        + "<li>Set the class code and Starting Tokens (default 1000).</li>"
+        + "<li>Rounds tab → <strong>Load suggested session</strong> pre-fills the whole nine-round lineup (plus a bonus Ascending Clock round) in one click — edit, reorder, or delete any round before class.</li>"
+        + "<li><strong>Open the floor</strong> when you’re ready for students to join — nobody can join before this, so it’s also your real start-of-class moment.</li></ul>"
+      },
+      { title: "How a round actually runs", html:
+        "<ol style=\"padding-left:20px;line-height:1.7\">"
+        + "<li><strong>Open briefing</strong> (untimed, ~1.5 minutes). Applies that round’s funding and draws every student’s private value (or winner’s-curse estimate). Phones show the rules in a few short lines plus their value; the projector shows the same rules in large type. Nobody can bid yet.</li>"
+        + "<li><strong>Read the script, ask the check question, wait for “I’m ready.”</strong> Your dashboard counts how many students have tapped it — start once most of the room has, not necessarily everyone.</li>"
+        + "<li><strong>Start bidding</strong> (90 seconds; 120 for winner’s-curse). Watch every sealed bid arrive live — a view no student gets — fire a condition (Phantom Bidder, Time Crunch, Grace Extension, Budget Reveal), or Force close early if you need to.</li>"
+        + "<li><strong>It settles itself.</strong> A 5-second grace period after the clock hits zero means a bid clicked at the buzzer still counts. Nothing to click.</li>"
+        + "<li><strong>A teaching brief writes itself</strong> under the result: the concept in a few sentences, “what happened in your room” computed from that round’s actual bids and values, and three questions to ask the class.</li></ol>"
+      },
+      { title: "The eight formats, plus winner’s curse", html:
+        '<div class="at-a-glance">'
+        + '<div class="item"><div class="k">English</div><div class="v">Open ascending bids; the highest bidder wins and pays what they bid</div></div>'
+        + '<div class="item"><div class="k">Ascending Clock</div><div class="v">The price rises on its own; you’re dropped automatically the instant it passes your value</div></div>'
+        + '<div class="item"><div class="k">Procurement</div><div class="v">English run in reverse — the lowest bid (cost) wins the contract</div></div>'
+        + '<div class="item"><div class="k">Escalation</div><div class="v">Shubik’s dollar auction — both of the top two bidders pay, but only the winner gets the lot</div></div>'
+        + '<div class="item"><div class="k">Dutch</div><div class="v">The price falls until someone buys</div></div>'
+        + '<div class="item"><div class="k">First-price sealed</div><div class="v">Highest hidden bid wins, and pays exactly what they bid</div></div>'
+        + '<div class="item"><div class="k">Second-price sealed</div><div class="v">Vickrey, generalised to sell several identical units at once — winners pay the next-highest bid, not their own</div></div>'
+        + '<div class="item"><div class="k">All-pay</div><div class="v">Every bidder pays their bid, win or lose</div></div>'
+        + '<div class="item"><div class="k">Winner’s-curse modifier</div><div class="v">Layered onto any sealed round — bidders see a private estimate, never the true value</div></div>'
+        + '</div>'
+      },
+      { title: "The Gavel Board and the debrief", html:
+        "<ul><li>After each round, click <strong>Show the Gavel Board on the wall</strong> — every lot sold so far (who won it, what they paid, their profit or loss) beside a running richest-bidders ranking across all rounds, so a budget reset never wipes it out.</li>"
+        + "<li>After the last round the same button becomes <strong>Reveal The Final Gavel</strong>: confetti, a top-three podium, two awards (Shrewdest deal, The Collector), every student’s total profit, and a full who-won-what recap, rotating every 12 seconds.</li>"
+        + "<li>The <strong>Debrief</strong> tab builds up live as rounds finish: a results table (price against the theory benchmark, efficiency, seller revenue, winner profit, participation), format-comparison insights computed from your own class’s numbers, and a closing set of whole-session questions.</li></ul>"
+      },
+      { title: "Integrity and disqualification", html:
+        "<p>The <strong>Integrity</strong> tab runs only on demand (“Run check”), not continuously, and flags two things worth a human look, never an automatic verdict: a student who has never placed a single bid, drop or buy, and a bid more than 1.75× a student’s own private value — excluded during winner’s-curse rounds, where a wide gap against the private signal is the point of the exercise, not a red flag.</p>"
+        + "<p>Two tools on the Roster tab either way: <strong>DQ this round</strong> voids a student’s current-round actions and blocks them until the next round starts (a lead correctly falls back to the runner-up); <strong>Permanently disqualify</strong> bars all future bidding and is reversible any time via the same button, now labelled Reinstate.</p>"
+      },
+      { title: "Running the same lineup again", html:
+        "<p>Teaching the same nine rounds back to back across sections? <strong>Settings tab → Master reset</strong> wipes every student, bid, private value and activity log and puts every round back to “setup” — but keeps each round’s own settings (lot name, format, timing, funding, value ranges) and the class’s config (class code, PINs, Starting Tokens), so you’re not rebuilding the queue between periods. It’s behind a modal that requires typing <code>RESET</code>, and it can’t be undone.</p>"
+      }
+    ])
+    + '<p style="margin-top:20px;max-width:70ch">Once a section has run, move into the <a href="#/games/'+id+'/debrief-guide">debrief guide</a> — the Debrief tab already writes most of the analysis from your class’s own numbers; this page is for the synthesis across rounds that no single result screen can give you.</p>'
+  ) + '</section>';
+}
+
+function renderTheAuctionHouseDebriefGuide(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Debrief guide</span>'
+    + '<h1>Debriefing '+esc(g.title)+'</h1>'
+    + '<p class="lead">The Debrief tab already writes most of this from your class’s own numbers — this page is for the synthesis across rounds that no single result screen can give you.</p>'
+    + subNav(id, "debrief-guide")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "Start from the tab that’s already built", open: true, html:
+        "<p>The results table, the format comparison, and the whole-session insights are already sitting on the Debrief tab once the last round settles — read from it rather than re-deriving any of this live in front of the class.</p>"
+      },
+      { title: "Test revenue equivalence against your own room", html:
+        "<p>In theory, English, Dutch, first-price sealed and second-price sealed all raise about the same expected revenue for a similar lot and similar valuations. Pull up your class’s actual numbers for two formats used on comparable lots — did it roughly hold? If not, ask what broke it: too few bidders, correlated values, or bidders who simply behave differently once the price is falling live in front of the room versus hidden in a sealed envelope.</p>"
+      },
+      { title: "Dutch versus first-price sealed", html:
+        "<p>The two are strategically equivalent on paper — in both, you decide in advance the one price you’re willing to stop at. But Dutch happens live, with the whole room watching the price fall. Compare what your class’s Dutch winners actually paid against your first-price sealed winners on a similar lot: did the pressure of a visibly falling clock change what people were willing to pay?</p>"
+      },
+      { title: "The winner’s curse, with real numbers", html:
+        "<p>Pull up a winner’s-curse round: the private estimates, the actual bids, and the true value, side by side. Ask who won — and whether they came out ahead or paid more than the lot was actually worth. The point isn’t that the winner bid badly; it’s that bidding your own honest estimate is already, on average, a losing strategy in this format.</p>"
+      },
+      { title: "Where the Tokens actually went", html:
+        "<p>In Escalation and All-pay rounds, add up how many Tokens left the room with nobody gaining anything from them. Ask why bidding continued even after a student realised they were going to lose money either way — that’s sunk-cost reasoning happening in real time, not a hypothetical.</p>"
+      },
+      { title: "Winning a lot isn’t the same as profiting from one", html:
+        "<p>Pull up the final Gavel Board ranking. Did the student who won the most lots (The Collector) also finish with the highest total profit — or did a single Shrewdest-deal round change the entire leaderboard? It’s a fast, concrete way to separate “won the most auctions” from “made the most money,” which students otherwise tend to treat as the same thing.</p>"
+      }
+    ])
+  ) + '</section>';
+}
+
+function renderTheAuctionHouseStudentNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  var glossary = [
+    { term: "Private value", def: "What a lot is genuinely worth to you specifically, drawn fresh each round — nobody else can see it." },
+    { term: "Bid shading", def: "Bidding below your true value on purpose, because in some formats bidding your honest value would guarantee you overpay if you win." },
+    { term: "Winner’s curse", def: "Winning a bid based on an estimate that was, on average, too optimistic — common whenever bidders can only guess at a lot’s true value." },
+    { term: "Revenue equivalence", def: "The theory that several different auction formats should raise about the same money for a similar lot, on average." },
+    { term: "All-pay auction", def: "Every bidder pays their own bid, whether they win the lot or not." },
+    { term: "Escalation (dollar auction)", def: "Both of the top two bidders pay at the end, but only the highest bidder actually gets the lot." }
+  ].map(function(t){ return '<dt>'+esc(t.term)+'</dt><dd>'+esc(t.def)+'</dd>'; }).join("");
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Student note</span>'
+    + '<h1>Before you play</h1>'
+    + '<p class="lead">A plain-language recap, before or during your session of '+esc(g.title)+'.</p>'
+    + subNav(id, "student-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "What you are actually doing", open: true, html:
+        "<p>You’ll bid Tokens across several rounds. Each round is a different lot with a different set of rules — you won’t know either until the briefing opens.</p>"
+        + "<ul><li>An untimed briefing first, to learn that round’s rules and see your own private value or estimate.</li>"
+        + "<li>Then a timed bidding window — 90 seconds, or 120 for a winner’s-curse round.</li>"
+        + "<li>Your Tokens carry across the whole session — each round adds its own funding, and whatever you win or lose stays with you into the next one.</li></ul>"
+      },
+      { title: "A few honest tips", html:
+        "<ul><li>Never bid more than a lot is actually worth to you — bidding above your own value guarantees a loss if you win, and it’s exactly what the Integrity tab is watching for.</li>"
+        + "<li>In a second-price sealed round, just bid your honest value — there’s no benefit to guessing what anyone else will bid.</li>"
+        + "<li>Notice what “winning” actually costs before you commit in Escalation or All-pay — in Escalation the second-highest bidder still pays; in All-pay, everyone does, win or lose.</li>"
+        + "<li>If your screen freezes or you switch devices, reopen the link and rejoin with the same name and roll number — nothing is lost.</li></ul>"
+      },
+      { title: "Terms you will want to know", html: '<dl class="glossary">' + glossary + '</dl>' }
+    ])
+    + '<div class="editor-note" style="margin-top:20px"><strong>One thing this note will not tell you:</strong> which format actually favours the bidder, and which favours the seller. That argument is the entire point of playing more than one.</div>'
+  ) + '</section>';
+}
+
 var RESOURCE_PAGES = {
   "trade-game": {
     "teaching-note": renderTeachingNote,
@@ -4369,6 +4533,11 @@ var RESOURCE_PAGES = {
     "teaching-note": renderBubbleChartDetectiveTeachingNote,
     "debrief-guide": renderBubbleChartDetectiveDebriefGuide,
     "student-note": renderBubbleChartDetectiveStudentNote
+  },
+  "the-auction-house": {
+    "teaching-note": renderTheAuctionHouseTeachingNote,
+    "debrief-guide": renderTheAuctionHouseDebriefGuide,
+    "student-note": renderTheAuctionHouseStudentNote
   }
 };
 
