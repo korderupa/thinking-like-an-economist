@@ -964,13 +964,13 @@ var GAMES = {
     status: "dev",
     statusLabel: "Ready to pilot",
     tags: ["Scarcity", "Incentives", "Gains from trade", "Interdependency"],
-    link: "https://script.google.com/macros/s/AKfycbx321Jmzy-56ptOtDok43dPG89o-jy7UNDAQkuhwq9pvCVSmRftaSnFY7M0gEd_w8H5xA/exec",
+    link: "https://script.google.com/macros/s/AKfycbznmvkLCJh2pOi-LcwVkBH37QCvMfNEzcIOjXW1dh3f4edcIAXburcOl2Wy1uB2mdFC/exec",
     linkLabel: null,
     minutes: 30,
     glance: [
       { k: "Format", v: "Self-paced, whole-class · ~1 week window (instructor sets the deadline) · any device, no accounts" },
       { k: "Board", v: "5×5 · 24 real-behaviour squares across 4 themes, plus one free space" },
-      { k: "Class size", v: "Up to ~40 · first to join with the class code are the roster, same as Kahoot or Blooket" }
+      { k: "Class size", v: "Up to ~45 · whoever joins is the roster (name, student number and a PIN they choose), same as Kahoot or Blooket" }
     ]
   },
   "bubble-chart-detective": {
@@ -4254,9 +4254,9 @@ function renderTradingFloorTeachingNote(id){
   + '<section style="padding-top:0">' + pageChrome(''
     + '<div class="at-a-glance">'
     +   '<div class="item"><div class="k">Window</div><div class="v">You open the game, set a deadline (7 days by default, adjustable any time), and close it</div></div>'
-    +   '<div class="item"><div class="k">Students need</div><div class="v">The class code, their name, and a PIN they choose themselves — no account, no roster to pre-type</div></div>'
+    +   '<div class="item"><div class="k">Students need</div><div class="v">Their name, student number, and a PIN they choose themselves — no account, no roster to pre-type. Their login stays active on their device for days, and they can pick up exactly where they left off if the page reloads</div></div>'
     +   '<div class="item"><div class="k">Instructor needs</div><div class="v">The instructor PIN you set on first login, and the Dashboard checked in on over the week</div></div>'
-    +   '<div class="item"><div class="k">Class size</div><div class="v">Up to ~40 — the first people to join with the class code are the class, same as Kahoot or Blooket</div></div>'
+    +   '<div class="item"><div class="k">Class size</div><div class="v">Up to ~45 acting at once — whoever joins is the class, same as Kahoot or Blooket. Every tap is saved on the student’s own device first and retried automatically, so a slow connection never loses a signature</div></div>'
     + '</div>'
     + accordionHtml([
       { title: "Learning objectives", open: true, html:
@@ -4265,8 +4265,8 @@ function renderTradingFloorTeachingNote(id){
         + "<li>See the same theme show up at very different stakes (a ride to school, a grade on a group project) and still recognise it as the same underlying idea.</li></ul>"
       },
       { title: "Before the week starts", html:
-        "<ul><li>Log into the Dashboard as instructor and confirm your instructor PIN — anyone with the class code and this PIN can open, close or reset the game.</li>"
-        + "<li>Set the class code and deadline in Class Settings, then click <strong>Open game</strong> — until you do, students land on a “hasn’t opened yet” holding screen and can’t join.</li>"
+        "<ul><li>Log into the Dashboard as instructor and confirm your instructor PIN — anyone with this PIN can open, close or reset the game, and it also lets you look up any student’s login if they forget it.</li>"
+        + "<li>Set the deadline in Class Settings, then click <strong>Open game</strong> — until you do, students land on a “hasn’t opened yet” holding screen and can’t join.</li>"
         + "<li>Consider walking through one square live before you open it — find a volunteer example, show the class the request → confirm → classify sequence once, so nobody’s first attempt is also their first time seeing how it works.</li></ul>"
       },
       { title: "How a square actually gets filled", html:
