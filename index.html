@@ -820,6 +820,26 @@ var GAMES = {
       { k: "The shortfall", v: "15 patients ask for 95 hours against a 50-hour machine" }
     ]
   },
+  "fifty-hours-district": {
+    id: "fifty-hours-district",
+    title: "Fifty Hours: District Edition",
+    tagline: "One dialysis machine, fifty hours a week, three weeks — and two neighbouring hospitals who want your spare hours and the same donor kidney.",
+    description: "The live, multi-week version of Fifty Hours. Each student runs a hospital in a district of three, with one dialysis machine and a list that always needs more than fifty hours. Over three instructor-paced weeks the list keeps changing: refused patients may die (each card states the odds), ticking certain patients unlocks new options and situations, and power cuts, a private clinic’s offer, a contamination scare, a transplant and a wealthy patient’s pledge are rolled when each week closes. Neighbours trade spare hours at prices they set and bid against each other for one donor kidney. Every hospital gets a full profit-and-loss and health ledger each week, and a class leaderboard ranks score (health points plus profit), lives lost, profit and idle hours. A 15-question locked quiz follows, and the instructor dashboard writes the debrief from the class’s own choices.",
+    format: "Live classroom · ~25 minutes of play + 10-minute quiz · phones or laptops, one instructor dashboard",
+    mode: "live",
+    status: "live",
+    statusLabel: "Ready to pilot",
+    tags: ["Scarcity", "Opportunity cost", "Uncertainty", "Gains from trade"],
+    link: "https://script.google.com/macros/s/AKfycbx285iK1iUFGPusTzMtdrl7JgxZ7yxFivdgXOtM0rtgt7vUDZKfIzNWAGULOt5khxlz/exec",
+    linkLabel: null,
+    minutes: 35,
+    glance: [
+      { k: "Format", v: "Live · 3 timed weeks (8/7/7 min, adjustable) + 10-minute quiz" },
+      { k: "Class size", v: "Built and load-tested for 45 · districts of three hospitals" },
+      { k: "Interconnection", v: "Spare-hour trading between neighbours · sealed-bid district kidney auction" },
+      { k: "Scoring", v: "Health points + 1 per $1,000 profit · lives lost, profit and idle hours ranked separately" }
+    ]
+  },
   "public-verdict": {
     id: "public-verdict",
     title: "The Public Verdict",
@@ -1024,8 +1044,8 @@ var TOPICS = [
   {
     family: "trade",
     title: "Scarcity and Rationing",
-    description: "The constraint every economic decision starts from — not enough of something for everyone who wants it — and the different ways a society (or one person, alone, on the clock) can decide who gets it anyway: price, lottery, queue, or discretion. Explored hands-on through Fifty Hours and The Trading Floor.",
-    games: ["fifty-hours", "trading-floor"]
+    description: "The constraint every economic decision starts from — not enough of something for everyone who wants it — and the different ways a society (or one person, alone, on the clock) can decide who gets it anyway: price, lottery, queue, or discretion. Explored hands-on through Fifty Hours, its three-week District Edition, and The Trading Floor.",
+    games: ["fifty-hours", "fifty-hours-district", "trading-floor"]
   },
   {
     family: "trade",
@@ -1462,6 +1482,7 @@ var RESOURCE_NAV = {
   "trade-game": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-note","Debrief Note"],["quiz","Quiz"],["student-note","Student Note"]],
   "the-common-pot": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
   "fifty-hours": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
+  "fifty-hours-district": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
   "public-verdict": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
   "trade-ruler": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
   "kite-market": [["overview","Overview"],["teaching-note","Teaching Note"],["debrief-guide","Debrief Guide"],["student-note","Student Note"]],
@@ -3069,6 +3090,156 @@ function renderFiftyHoursStudentNote(id){
   ) + '</section>';
 }
 
+/* ---- Fifty Hours: District Edition ---- */
+function renderFHDTeachingNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Teaching note</span>'
+    + '<h1>Running '+esc(g.title)+'</h1>'
+    + '<p class="lead">Three short weeks on the clock, a district of neighbours, and a ledger that shows every student what their choices cost — then a ten-minute quiz.</p>'
+    + subNav(id, "teaching-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + '<div class="at-a-glance">'
+    +   '<div class="item"><div class="k">Session length</div><div class="v">~25 min of play (weeks of 8, 7, 7 minutes plus results) + 10-minute quiz, leaving ~20 minutes to debrief in an hour</div></div>'
+    +   '<div class="item"><div class="k">Students need</div><div class="v">A phone or laptop, a name and roll number — no account</div></div>'
+    +   '<div class="item"><div class="k">Instructor needs</div><div class="v">The dashboard open and projected; it runs the clock and closes each week</div></div>'
+    +   '<div class="item"><div class="k">Class size</div><div class="v">Built and tested for 45 at once; districts of three form automatically</div></div>'
+    + '</div>'
+    + accordionHtml([
+      { title: "Learning objectives", open: true, html:
+        "<ul><li>Feel scarcity and indivisibility as binding constraints: a patient gets all of their hours or none, and idle hours expire.</li>"
+        + "<li>Price opportunity cost in real units — every hour sold, bought, or left empty shows up in a health ledger and a profit-and-loss statement.</li>"
+        + "<li>Decide under uncertainty: refusal risk, a 60% pledge, an 80% transplant, a 50% contamination gamble, a test that reveals information for a price.</li>"
+        + "<li>Experience rationing by price twice — a patient who pays ten times the slot, and a sealed-bid auction for a donor kidney — and separate the efficiency objection from the equity one.</li>"
+        + "<li>See gains from trade between neighbours, and question the scoring rule itself: who decided $1,000 equals one health point?</li></ul>"
+      },
+      { title: "Before class", html:
+        "<ul><li>Open the game’s Sheet and use the <em>Fifty Hours</em> menu to set an instructor passcode.</li>"
+        + "<li>Open the instructor link, sign in, and project the lobby — it shows a QR code and the student link.</li>"
+        + "<li>Students join with a name and roll number and land in a district of three. A lone last joiner is folded into the previous district when week 1 starts.</li></ul>"
+      },
+      { title: "How a week runs", html:
+        "<ol style=\"padding-left:20px;line-height:1.7\">"
+        + "<li><strong>Start the week</strong> from the dashboard (default 8, 7 and 7 minutes). Every student sees the same patients, and each card states hours, health points, payment per hour and the risk of death if refused.</li>"
+        + "<li><strong>Choices unlock situations.</strong> Ticking two patients brings a walk-in emergency; four brings a Children’s Trust grant; ticking Kabir triggers a 50% donor-backlash risk; ticking Jaya starts her pledge. Week 2 opens with power cuts and a private clinic offering $2,400 for five hours; week 3 opens with a contamination scare and a Ministry bonus for using every hour.</li>"
+        + "<li><strong>Neighbours trade.</strong> Any hospital can offer spare hours to its district at its own price; a neighbour can buy them. In week 2 the district bids, sealed, for one donor kidney.</li>"
+        + "<li><strong>The week closes</strong> when the clock runs out (or you end it). Deaths, transplants, the pledge, the backlash and the contamination are rolled — seeded per student, so reloading cannot re-roll them — and each student gets a P&amp;L, a health ledger, their district table and the class leaderboard.</li></ol>"
+      },
+      { title: "What carries from week to week", html:
+        "<p>Dead patients leave the list. Ismail’s transplant only happens if he is treated in week 2 (80% success; a $500 crossmatch test reveals the outcome early). Leela needs half the hours in week 3 if treated in weeks 1 and 2. Jaya’s trust funds a portable unit (+15 hours in week 3) 60% of the time — but only if she was treated in both earlier weeks. The kidney winner’s patient leaves the list for good. New patients arrive in weeks 2 and 3.</p>"
+      },
+      { title: "Scoring and the leaderboard", html:
+        "<p>Score = health points + 1 point per $1,000 of profit. A treated patient earns their health points; a death costs 8. Profit is treatment income (government scheme $200/hr, insurer $300/hr, Jaya $500/hr, Kabir $800/hr) minus $80 per hour run, a $3,000 fixed weekly cost and whatever was spent on generators, tests, referrals, filters, neighbours’ hours and the kidney bid. The leaderboard also ranks lives lost, profit, machine utilisation and idle hours, and has a separate <em>Idle hours</em> view naming the hospitals that left the machine unused.</p>"
+      },
+      { title: "What the dashboard gives you", html:
+        "<ul><li><strong>This week:</strong> live share of the class treating each patient, decision splits, and who has saved a list or marked themselves done.</li>"
+        + "<li><strong>Week results, Leaderboard, Idle hours, Districts</strong> (every trade, every bid) and <strong>Quiz</strong> (per-question % correct).</li>"
+        + "<li><strong>Debrief prompts</strong> computed from the class: price versus need (Kabir versus Eshan), referral as a substitute, the externality from treating the anaesthetist, pledge uptake, generator and clinic choices, kidney auction winners, insurance against contamination, the most-profitable versus the healthiest hospital, total idle hours, and the weakest quiz question.</li>"
+        + "<li>A <strong>phase stepper</strong> and a <strong>“Say this”</strong> card with the exact words to read out at each stage, and a <strong>What students see</strong> tab showing the week’s full list and every situation with when it unlocks.</li>"
+        + "<li>Results are written to the Sheet (Weeks, Leaderboard, Quiz tabs) whenever the dashboard is open.</li></ul>"
+      },
+      { title: "The quiz, and its safety nets", html:
+        "<ul><li>One question per screen; an answer locks when tapped. Answers are kept on the phone first and saved in the background, so a dropped connection loses nothing.</li>"
+        + "<li>A student who loses the page rejoins with the same roll number and gets every answer back. At 0:00 answers send themselves; marks are released when everyone is in.</li>"
+        + "<li>If a phone cannot reach the server at all, it shows an <strong>answer code</strong> (15 letters plus a check tied to the roll number) that the instructor types into the dashboard.</li>"
+        + "<li>A backup version of the quiz runs with no server: upload it to Moodle as a <strong>SCORM package</strong> (progress saved by Moodle, score in the gradebook), or open the plain HTML file in a browser. Moodle shows an uploaded HTML <em>File</em> without its scripts, so use the SCORM package there.</li></ul>"
+      }
+    ])
+    + '<p style="margin-top:20px;max-width:70ch">Then move to the <a href="#/games/'+id+'/debrief-guide">debrief guide</a>.</p>'
+  ) + '</section>';
+}
+
+function renderFHDDebriefGuide(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Debrief guide</span>'
+    + '<h1>Debriefing '+esc(g.title)+'</h1>'
+    + '<p class="lead">Twenty minutes. Open with the dashboard’s debrief prompts, then work through the questions below in whatever order the room’s numbers make interesting.</p>'
+    + subNav(id, "debrief-guide")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "Start with the leaderboard — then attack it", open: true, html:
+        "<p>Project the leaderboard, then re-sort it by profit, by lives lost and by idle hours. The top hospital rarely tops all four.</p>"
+        + '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>The score says $1,000 of profit equals one health point. Who decided that, and would you run the hospital differently at $100 or $10,000?</li>"
+        + "<li>The healthiest hospital and the most profitable hospital are named on the dashboard. Which one would you want running yours?</li></ul></div>"
+      },
+      { title: "Opportunity cost and idle hours", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>The private clinic paid $480 an hour. What were your five hours worth in health points, given who you would have put in them?</li>"
+        + "<li>The class left a total number of hours idle (it’s on the dashboard). How much of that was indivisibility, how much was offers that never sold, and how much was the contamination shock?</li>"
+        + "<li>The $3,000 fixed cost never changed who you should treat. Why not?</li></ul></div>"
+      },
+      { title: "Price, need and substitutes", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>Kabir paid $800 an hour and had a 5% risk if refused; Eshan paid $200 and had 60%. Compare the share of the class that treated each — is that efficiency, equity, or neither?</li>"
+        + "<li>Farida could be referred to the city for $400 and zero hours. Did the room treat her here anyway? What does a substitute do to the strength of a claim?</li>"
+        + "<li>The kidney went to the highest bidder in each district. Was that the patient who would gain most? What would a lottery or a need ranking have done instead?</li></ul></div>"
+      },
+      { title: "Uncertainty, information and insurance", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>Jaya’s pledge: 20 hours given up across two weeks for a 60% chance of 15. Expected value says 9 hours back. Who took the bet, and who regretted it?</li>"
+        + "<li>The crossmatch test cost $500. For whom was the information worth it — and for whom would it have changed nothing?</li>"
+        + "<li>Half the class bought the $1,000 filter. If you bought it and the water was clean, was it a mistake?</li></ul></div>"
+      },
+      { title: "Externalities and trade", html:
+        '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>Treating Bhaskar let surgeries run for patients who never touched the machine. Did you count them?</li>"
+        + "<li>Why would a hospital sell hours it could use? Look at the district trades on the dashboard — who gained, and by how much?</li></ul></div>"
+      },
+      { title: "Close", html:
+        "<p>Every hospital faced the same constraint; the lists still differed, and many of them were defensible. The arithmetic was shared — the values were not, including the ones built into the scoring rule. That gap is what the subject is for.</p>"
+      }
+    ])
+  ) + '</section>';
+}
+
+function renderFHDStudentNote(id){
+  var g = GAMES[id];
+  if(!g) return renderNotFound();
+  var glossary = [
+    { term: "Scarcity", def: "Not enough of something for everyone who wants it — here, fifty machine hours against a list that always needs more." },
+    { term: "Opportunity cost", def: "The best alternative you give up. Every hour you sell, buy or leave idle has one." },
+    { term: "Indivisibility", def: "A patient gets all of their hours or none — half a treatment is not half a cure." },
+    { term: "Fixed cost", def: "A cost that is the same whatever you decide — so it should not change which patient you choose." },
+    { term: "Expected value", def: "Probability times outcome. A 60% chance of 15 hours is worth 9 hours on average." },
+    { term: "Value of information", def: "What knowing something in advance is worth — only as much as it would change your decision." },
+    { term: "Insurance", def: "Paying a certain cost to remove a risky loss." },
+    { term: "Externality", def: "A cost or benefit that lands on someone outside the decision — the surgical patients who depend on the anaesthetist." },
+    { term: "Gains from trade", def: "A voluntary exchange happens when the hours are worth more to the buyer than to the seller — both end up better off." },
+    { term: "Rationing by price", def: "Letting willingness and ability to pay decide who gets a scarce good." }
+  ].map(function(t){ return '<dt>'+esc(t.term)+'</dt><dd>'+esc(t.def)+'</dd>'; }).join("");
+  return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
+    + '<span class="eyebrow">Student note</span>'
+    + '<h1>Before you play</h1>'
+    + '<p class="lead">A plain-language guide to '+esc(g.title)+'.</p>'
+    + subNav(id, "student-note")
+  ) + '</section>'
+  + '<section style="padding-top:0">' + pageChrome(''
+    + accordionHtml([
+      { title: "What you are actually doing", open: true, html:
+        "<p>You run a hospital with one dialysis machine and fifty hours a week, for three weeks. Two classmates run the neighbouring hospitals in your district. Each week you tick who gets treated; when the clock runs out, whatever is ticked is what happens.</p>"
+        + "<ul><li>A patient gets all of their hours or none. Idle hours can’t be saved.</li>"
+        + "<li>Refused patients may die — each card says how likely. A death costs 8 points.</li>"
+        + "<li>Ticking certain patients unlocks new options; after a few picks, new situations arrive.</li>"
+        + "<li>You can sell spare hours to your neighbours or buy theirs, and in week 2 bid for the district’s donor kidney.</li>"
+        + "<li>Score = health points + 1 point per $1,000 of profit. After week 3 there is a 15-question quiz; answers lock when clicked.</li></ul>"
+      },
+      { title: "A few honest tips", html:
+        "<ul><li>Read the risk on every card. The projection at the top counts it at its average — your real week may be luckier or unluckier.</li>"
+        + "<li>Watch the strip at the top of the screen: red cells mean you’ve booked more hours than you have, and the last-ticked patients will be bumped.</li>"
+        + "<li>An unsold offer comes back to you only when the week closes — too late to use. Price it to sell, or don’t post it.</li>"
+        + "<li>There is no single right list. There are better and worse reasons, and the debrief is about those.</li></ul>"
+      },
+      { title: "Terms you will want to know", html: '<dl class="glossary">' + glossary + '</dl>' }
+    ])
+  ) + '</section>';
+}
+
 /* ---- The Public Verdict ---- */
 var PUBLIC_VERDICT_STATEMENTS = [
   { n: 1, mode: "Individual", text: "The government should use the police to stop reckless driving.", category: "Classic public good — protection from harm" },
@@ -4493,6 +4664,11 @@ var RESOURCE_PAGES = {
     "teaching-note": renderFiftyHoursTeachingNote,
     "debrief-guide": renderFiftyHoursDebriefGuide,
     "student-note": renderFiftyHoursStudentNote
+  },
+  "fifty-hours-district": {
+    "teaching-note": renderFHDTeachingNote,
+    "debrief-guide": renderFHDDebriefGuide,
+    "student-note": renderFHDStudentNote
   },
   "public-verdict": {
     "teaching-note": renderPublicVerdictTeachingNote,
