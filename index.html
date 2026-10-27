@@ -710,37 +710,39 @@ var GAMES = {
     id: "world-market-watch",
     title: "World Market Watch",
     tagline: "Guess the world’s #1 producer for 14 real goods. Then guess who’d actually be hurt if demand for it vanished.",
-    description: "For each of 14 real products, a student first guesses which country produces the most of it — then, before that answer is revealed, guesses which of the same five countries would be hit hardest, as a share of their own economy, if world demand collapsed. The two guesses are often different countries. A live class pulse, two power-ups, streak and speed bonuses, and a running leaderboard turn a 15-minute warm-up into a real lesson about the gap between who makes the most and who actually depends on it most.",
+    description: "For each of 14 real products, a student first guesses which country produces the most of it — then, before that answer is revealed, guesses which of the same five countries would be hit hardest, as a share of their own economy, if world demand collapsed. In 10 of the 14 the answers are different countries, and the reveal calls out each of those plot twists with world share and %GDP side by side. A draining speed bonus, streaks, two power-ups, a live “what the class picked” breakdown, a running rank and a projector leaderboard turn a 15-minute warm-up into a real lesson about the gap between who makes the most and who actually depends on it most. The instructor dashboard writes its own debrief prompts from the class’s most common wrong answers.",
     format: "Live classroom · ~15 minutes · phones + projector, one instructor dashboard",
     mode: "live",
     status: "dev",
     statusLabel: "Ready to pilot",
     tags: ["Trade dependency", "Comparative advantage", "Classroom simulation", "Live leaderboard"],
-    link: "https://script.google.com/macros/s/AKfycbwE36cyudETUuSW6-pPmJTRHIuBAJpczHX8y0ii49EJ5aJaUndZ50wwt-ejW1ttkMBcrg/exec",
+    link: "https://script.google.com/macros/s/AKfycbyFEdmiBxWgVYG_WgF-zQADHUMhh5rfUVbw0gebcxt0hRF7Fn0mSdqnXRPao1UU0oDBDg/exec",
     linkLabel: null,
     minutes: 15,
     glance: [
       { k: "Format", v: "Live classroom · ~15 minutes · phones + projector" },
       { k: "Products", v: "14 real goods, order shuffled per student" },
-      { k: "Mechanics", v: "Streak & speed bonuses, two power-ups, a live class pulse, a leaderboard" }
+      { k: "Mechanics", v: "Speed & streak bonuses, two power-ups, plot-twist reveals, live class picks, a running rank" },
+      { k: "Load-tested", v: "45 students joining in the same second and playing the whole game, on the live deployment" }
     ]
   },
   "autarky-challenge": {
     id: "autarky-challenge",
     title: "The Autarky Challenge",
-    tagline: "No good, company, or country is fully self-sufficient today — this makes a class prove it to themselves, twice.",
-    description: "Part one asks the room to name one good that could be made entirely within a single country, then takes a pencil apart, piece by piece, to show why the honest answer is none. Part two follows one smartphone through a real supply chain — a lithium mine in Chile, a chip fab in Taiwan, a battery plant in China, final assembly in Vietnam — and fires five real disruptions at it one at a time: an earthquake, a tariff, a blocked shipping route, nationalised mines, a factory fire. Each time, students predict what breaks, see the real production/price/employment/GDP consequences, then choose how they would respond from four policy options judged on fit, not marked right or wrong.",
-    format: "Live classroom · ~25 minutes · phones + projector, one instructor dashboard",
+    tagline: "Can a country really go it alone? Take charge of an economy, survive five shocks to a global supply chain, and find out how resilient you are.",
+    description: "Three quick rounds first: name one good a country could make entirely on its own (the honest answer is none), tap a pencil apart to find the eight-plus countries behind it, and rank what would run short first if imports stopped tonight. Then each student becomes their country’s Chief Economic Adviser and spends ten shield points across four defences — diversify, stockpile, build at home, or keep a flex fund. Five shocks then hit one smartphone supply chain, a lithium mine in Chile to a chip fab in Taiwan to a battery plant in China to final assembly in Vietnam, and every shock is played a different way: an emergency call, a tariff estimate, a route choice, tracing the damage, and picking two actions. A Resilience Score starts at 100 and carries through every round, and each student ends with a personal Resilience Report — a play-style type, badges, a round-by-round breakdown, and how they compared with the class.",
+    format: "Live classroom · ~45 minutes · phones + projector, one instructor dashboard",
     mode: "live",
     status: "dev",
     statusLabel: "Ready to pilot",
-    tags: ["Global value chains", "Trade policy", "Supply chain risk", "Classroom simulation"],
-    link: "https://script.google.com/macros/s/AKfycbysshexD8FlxGHGT36y5RApIt67KMyE-6PlAaPYPDUVXkHAo0CT85xgFpGbocljjbbVvw/exec",
+    tags: ["Global value chains", "Resilience", "Trade policy", "Supply chain risk", "Classroom simulation"],
+    link: "https://script.google.com/macros/s/AKfycbzUPUyY6pl3LzBWtG7ajCnEWsQSqwuIiVukp4QjWFE-jDG9W_ySOUqvpzwZhX0F68Cb/exec",
     linkLabel: null,
-    minutes: 25,
+    minutes: 45,
     glance: [
-      { k: "Format", v: "Live classroom · ~25 minutes · phones + projector" },
-      { k: "Structure", v: "12 instructor-paced steps, in two parts" },
+      { k: "Format", v: "Live classroom · ~45 minutes · phones + projector" },
+      { k: "Structure", v: "10 instructor-paced rounds, in two parts" },
+      { k: "Mechanics", v: "A Resilience Score, a 10-point shield, five different shock rounds, a personal report with badges" },
       { k: "Case product", v: "One smartphone, a real four-country supply chain" }
     ]
   },
@@ -767,8 +769,8 @@ var GAMES = {
     id: "the-common-pot",
     title: "The Common Pot",
     tagline: "Every round: keep your tokens, or add them to the shared pot. Twenty rounds to find out what your team actually does.",
-    description: "Up to forty students split into four teams. Each round, every student divides a token endowment between keeping it — worth a fixed amount to them alone — and giving it to the team’s shared pot, which pays every teammate back, not just the giver. The same numbers that decide everything (the private payoff, the pot’s return rate, any minimum target) simply change from round to round, in four blocks: a fixed baseline, a falling private return, a rising outside match, and a closing run of tipping-point and uncertainty rounds. Nothing is ever labelled for students — no round count, no free-rider talk, no “public good” — they only ever see the numbers and decide what to do about them.",
-    format: "Live classroom · ~60 minutes · phones + projector, one instructor dashboard",
+    description: "Up to forty students split into four teams. Each round, every student divides a token endowment between keeping it — worth a fixed amount to them alone — and giving it to the team’s shared pot, which pays every teammate back, not just the giver. The same numbers that decide everything (the private payoff, the pot’s return rate, any minimum target) simply change from round to round, in four blocks: a fixed baseline, a falling private return, a rising outside match, and a closing run of tipping-point and uncertainty rounds. Nothing is ever labelled for students — no round count, no free-rider talk, no “public good” — they only ever see the numbers and decide what to do about them. After each round students see their own earnings against their team’s and the whole class’s averages — never a name — and when the game ends, a 15-question, 10-minute quiz the instructor opens from the same dashboard closes the loop, with one combined PDF of the game and quiz results for each student.",
+    format: "Live classroom · ~60 minutes of play + 10-minute quiz · phones + projector, one instructor dashboard",
     mode: "live",
     status: "dev",
     statusLabel: "Ready to pilot",
@@ -777,9 +779,11 @@ var GAMES = {
     linkLabel: null,
     minutes: 60,
     glance: [
-      { k: "Format", v: "Live classroom · ~60 minutes · phones + projector" },
+      { k: "Format", v: "Live classroom · ~60 minutes + 10-minute quiz · phones + projector" },
       { k: "Structure", v: "20 rounds in 4 blocks, with 3 built-in discussion breaks" },
-      { k: "Teams", v: "4 teams (A–D), up to ~40 students, self-balancing" }
+      { k: "Teams", v: "4 teams (A–D), up to ~40 students, self-balancing" },
+      { k: "Dashboard", v: "Five tabs — Live, Round Setup, Teams, Debrief, Quiz — with one next-step button always in view" },
+      { k: "Closing quiz", v: "15 questions, 10 minutes, opened by the instructor; game + quiz results print to one PDF" }
     ]
   },
   "trade-game": {
@@ -1521,66 +1525,76 @@ var COMMON_POT_BLOCKS = [
     ask: "In the rounds with a minimum target, did your team discuss a number before deciding, or did everyone just guess what the others would do?" }
 ];
 
-/* The Autarky Challenge — the five Part 2 supply-chain disruption
-   scenarios, used by the Debrief Guide’s scenario selector. Every
-   number and quote here is taken directly from the deployed game’s own
-   data (autarky-game-src/Code.js), not invented. */
+/* The Autarky Challenge — the five Part 2 shocks, used by the Debrief
+   Guide’s scenario selector. Every number and quote here is taken from
+   the deployed game’s own data (autarky-challenge-src/Content.js), not
+   invented. "hit" is the raw damage before any shield, out of 100. */
 var AUTARKY_SCENARIOS = [
-  { key: "chip-quake", label: "Chip Fab Earthquake", concept: "Single Point of Failure",
-    banner: "A major earthquake forces the Taiwan chip fab offline for six weeks.",
+  { key: "chip-quake", label: "The Earthquake", concept: "Single Point of Failure",
+    banner: "A major earthquake knocks the Taiwan chip fab offline for six weeks.",
+    mechanic: "Emergency call — pick one of four responses.",
+    hit: "52", defence: "Stockpile (Flex fund helps too)",
     affected: "The chip fab, final assembly, and the retail shelf — no chip, no phone, wherever you’re standing in the chain.",
     effects: [
-      { k: "Production", dir: "Falls", note: "Assembly can’t build a phone with no chip to put in it." },
-      { k: "Prices", dir: "Rises", note: "Scarce finished phones get bid up wherever stock remains." },
-      { k: "Employment", dir: "Falls", note: "Assembly-line workers are idled downstream, not just fab workers upstream." },
-      { k: "GDP", dir: "Falls", note: "Both the chip-exporting and the phone-assembling economies take a hit." }
+      { k: "Production", dir: "Falls", note: "No chip, no phone: assembly stalls." },
+      { k: "Prices", dir: "Rises", note: "Scarce finished phones get bid up." },
+      { k: "Employment", dir: "Falls", note: "Assembly workers are idled, not just fab workers." },
+      { k: "GDP", dir: "Falls", note: "Both the exporter and the assembler economies shrink." }
     ],
-    insight: "One missing part halts an entire finished product, no matter how many other parts are ready.",
-    best: "Absorb the shock — ration output, let prices rise, and wait for the fab to reopen. In the short run supply is inelastic, so the market clears through higher prices and rationed stock, not new production." },
-  { key: "magnet-tariff", label: "Tariff on Rare-Earth Magnets", concept: "Tariff Pass-Through",
-    banner: "A 40% tariff is placed on imported rare-earth magnets.",
+    insight: "One missing part halts the whole product — however many other parts are ready.",
+    best: "Ride it out. In the short run supply is inelastic, so the market clears through higher prices and rationed stock, not new production. Drawing down the stockpile only half-works (most firms hold four to eight weeks of chips), and a second supplier or a domestic fab takes years." },
+  { key: "magnet-tariff", label: "The Tariff", concept: "Tariff Pass-Through",
+    banner: "A 40% tariff is slapped on imported rare-earth magnets.",
+    mechanic: "Estimate — a slider: out of every 100 of tariff cost, how much is paid by your own buyers?",
+    hit: "36", defence: "Flex fund",
     affected: "The magnet supplier, final assembly, and the retail price tag.",
     effects: [
-      { k: "Production", dir: "Little change", note: "Magnets still arrive — just at a much higher cost, so output barely dips." },
-      { k: "Prices", dir: "Rises", note: "The tariff is a direct added cost that flows into the final price." },
-      { k: "Employment", dir: "Mixed", note: "Assembly may trim costs elsewhere to absorb the shock." },
-      { k: "GDP", dir: "Falls", note: "A small, cheap part can still tax an entire billion-dollar product line." }
+      { k: "Production", dir: "Little change", note: "Magnets still arrive — just much dearer." },
+      { k: "Prices", dir: "Rises", note: "The tariff flows straight into the final price." },
+      { k: "Employment", dir: "Mixed", note: "Assemblers trim costs elsewhere to cope." },
+      { k: "GDP", dir: "Falls", note: "A tiny part can tax a whole product line." }
     ],
-    insight: "Even a tiny, inexpensive component can hold up an entire assembly line if there’s no substitute.",
-    best: "Pass the cost through — raise the final price by roughly the tariff amount. Since this is a cost increase rather than a supply cutoff, passing it straight into price is often the fastest workable response." },
-  { key: "canal-block", label: "Shipping Route Blocked", concept: "Logistics Chokepoint",
-    banner: "The main shipping route from the assembly plant to your country is blocked for three weeks.",
+    insight: "A tariff is a tax on your own buyers first.",
+    best: "A guess of 70–100% is scored as spot on; studies of recent tariffs often find most of the cost lands on domestic buyers. Guesses of 55–69 are close, 35–54 optimistic, and below 35 wishful." },
+  { key: "canal-block", label: "The Blocked Route", concept: "Logistics Chokepoint",
+    banner: "The main sea lane from the assembly plant to your country is blocked for three weeks.",
+    mechanic: "Pick the route — each option shows its cost, delay and the gap it leaves on shelves.",
+    hit: "44", defence: "Stockpile",
     affected: "Just the retail shelf — production upstream never stops.",
     effects: [
-      { k: "Production", dir: "Little change", note: "The factory keeps making phones — it just can’t get them out." },
-      { k: "Prices", dir: "Rises", note: "Retailers running low raise prices on the stock they have left." },
-      { k: "Employment", dir: "Falls", note: "Retail and local logistics jobs feel the shortage first." },
-      { k: "GDP", dir: "Falls", note: "Import-dependent retail economies see the hit even though nothing broke upstream." }
+      { k: "Production", dir: "Little change", note: "The factory keeps making phones…" },
+      { k: "Prices", dir: "Rises", note: "…but retailers raise prices on what is left." },
+      { k: "Employment", dir: "Falls", note: "Retail and logistics jobs feel it first." },
+      { k: "GDP", dir: "Falls", note: "Nothing broke upstream, yet the economy still pays." }
     ],
-    insight: "A working factory means nothing if the product can’t reach the store.",
-    best: "Reroute shipments or draw down inventory — either is a strong fit for a temporary three-week block, at moderate extra cost, without overreacting to a short-run disruption." },
-  { key: "lithium-nationalized", label: "Lithium Mines Nationalised", concept: "Resource Nationalism",
-    banner: "The lithium-exporting country nationalises its mines and halts all exports.",
-    affected: "The lithium mine, the battery plant, final assembly, and the retail shelf.",
+    insight: "A working factory means nothing if the product cannot reach the store.",
+    best: "Reroute the long way: slower and costlier per shipment, but it avoids the block entirely for a temporary disruption. Air freight is fast but ruinous at scale. “Wait it out” is normally a poor choice, but it is upgraded to a good one for any student who put three or more shield points into Stockpile, because their stock covers the gap." },
+  { key: "lithium-nationalized", label: "The Export Ban", concept: "Resource Nationalism",
+    banner: "The lithium-exporting country nationalises its mines and halts all exports — for good.",
+    mechanic: "Trace the damage — tap every link in the chain that will feel this.",
+    hit: "60", defence: "Build at home (Diversify helps too)",
+    affected: "The battery plant, final assembly, and the retail shelf. The lithium mine itself is the source of the shock, so it is not one of the links students are asked to find.",
     effects: [
-      { k: "Production", dir: "Falls", note: "No lithium in, no batteries out — and no batteries, no finished phones." },
-      { k: "Prices", dir: "Rises", note: "Every stage of the chain that depended on lithium gets more expensive." },
-      { k: "Employment", dir: "Falls", note: "Battery and assembly-country jobs are squeezed by a shock they don’t control." },
-      { k: "GDP", dir: "Mixed", note: "Importers lose; the lithium country may gain short-term but risks losing buyers for good." }
+      { k: "Production", dir: "Falls", note: "No lithium, no batteries — and no phones." },
+      { k: "Prices", dir: "Rises", note: "Every stage that used lithium gets dearer." },
+      { k: "Employment", dir: "Falls", note: "Battery and assembly jobs squeezed." },
+      { k: "GDP", dir: "Mixed", note: "Importers lose; the exporter gains now, risks buyers later." }
     ],
-    insight: "Controlling a critical raw material gives short-term leverage but long-term risk of losing customers who diversify.",
-    best: "Diversify sourcing toward Australian or Argentine lithium. Costlier and slower to scale, but this is the structurally correct response to what is a permanent halt, not a temporary shock." },
-  { key: "assembly-fire", label: "Fire at the Assembly Plant", concept: "Concentration Risk",
-    banner: "A fire shuts the Vietnam assembly plant down for a full month.",
+    insight: "Control of a critical raw material is short-term leverage and long-term risk: buyers diversify.",
+    best: "Tracing the three downstream links correctly is the skill being tested; tapping links that are actually fine costs accuracy. The strongest shield is Build at home, because a permanent halt rewards lasting capacity, not stock that runs out." },
+  { key: "assembly-fire", label: "The Factory Fire", concept: "Concentration Risk",
+    banner: "A fire shuts the Vietnam assembly plant for a full month.",
+    mechanic: "Pick two — the class has exactly two actions to fund.",
+    hit: "48", defence: "Diversify (Flex fund helps too)",
     affected: "Final assembly and the retail shelf.",
     effects: [
-      { k: "Production", dir: "Falls", note: "Zero finished phones leave the plant until it reopens." },
-      { k: "Prices", dir: "Rises", note: "Retailers ration dwindling stock at higher prices." },
-      { k: "Employment", dir: "Falls", note: "Assembly-country job losses are steep and immediate." },
-      { k: "GDP", dir: "Falls", note: "The assembly country’s exports and the retail country’s tech sector both shrink." }
+      { k: "Production", dir: "Falls", note: "Zero finished phones leave the plant." },
+      { k: "Prices", dir: "Rises", note: "Retailers ration dwindling stock." },
+      { k: "Employment", dir: "Falls", note: "Job losses are steep and immediate." },
+      { k: "GDP", dir: "Falls", note: "Exports and the tech sector both shrink." }
     ],
-    insight: "When the final assembly link breaks, every upstream part becomes stuck inventory with nowhere to go.",
-    best: "Shift to a backup contract manufacturer. Large electronics firms maintain exactly this kind of contingency arrangement — the fastest credible fix, if the relationship already exists." }
+    insight: "When the final link breaks, every upstream part becomes stuck inventory.",
+    best: "Shift to a backup contractor is the fastest credible fix — if the relationship already exists, which is exactly what diversifying in advance buys. The strongest second pick is selling from finished-goods stock or riding it out; building a new plant is wildly disproportionate for a one-month outage." }
 ];
 
 /* The Heckscher-Ohlin Trade Game — round-by-round reference used by its
@@ -2671,22 +2685,22 @@ var RESOURCE_PAGES_ARCHIVE = {
    own data (market-watch-src/Code.js), not invented. */
 var MW_GAP_PRODUCTS = [
   { key: "oil", label: "Crude Oil", producer: "United States", exposed: "Iraq", pct: "42%",
-    insight: "Saudi Arabia pumps roughly half as much oil as the U.S. — but oil funds a far bigger share of its economy.",
+    insight: "Saudi Arabia pumps roughly half as much oil as the U.S. — but oil funds a far bigger share of its economy, and Iraq’s even more.",
     ask: "The US produces the most oil by far. Why might Iraq feel a price collapse more sharply than the US would?" },
   { key: "copper", label: "Copper", producer: "Chile", exposed: "DR Congo", pct: "15%",
-    insight: "Chile alone produces roughly one in every four pounds of copper mined worldwide.",
+    insight: "Chile mines about one in every four tonnes of the world’s copper, but for DR Congo copper is an even bigger slice of the whole economy.",
     ask: "Chile mines several times more copper than DR Congo. Why is DR Congo the more exposed economy anyway?" },
   { key: "gas", label: "Natural Gas", producer: "United States", exposed: "Iran", pct: "8.0%",
-    insight: "For Iran, natural gas is 8% of the entire economy — more than fifteen times its share of world GDP.",
+    insight: "Russia produces more than twice as much gas as Iran — but gas weighs almost twice as heavily on Iran’s economy.",
     ask: "The US and Iran export very different shares of their own GDP in gas. What does that gap tell you about the size and diversity of each economy?" },
   { key: "autos", label: "Automobiles", producer: "China", exposed: "Japan", pct: "4.3%",
-    insight: "Nearly 1 in 3 cars built worldwide rolls off a factory line in China.",
+    insight: "Nearly 1 in 3 cars built worldwide comes from China, but carmaking is a bigger slice of Japan’s economy.",
     ask: "China builds the most cars by far. Why might a slump in demand cut deeper into Japan’s economy?" },
   { key: "lithium", label: "Lithium", producer: "Australia", exposed: "Chile", pct: "1.2%",
-    insight: "Australia mines almost half the world’s lithium — the metal at the heart of every EV battery.",
+    insight: "Australia mines almost half the world’s lithium — the metal at the heart of every EV battery — yet it matters more to Chile’s smaller economy.",
     ask: "Australia mines the most lithium, but Chile is more exposed. What’s different about how each economy is built?" },
   { key: "cotton", label: "Cotton", producer: "India", exposed: "Pakistan", pct: "0.6%",
-    insight: "India and China together grow over 40% of the world’s cotton — but India exports the raw fiber, while China turns it into clothes.",
+    insight: "India and China grow over 40% of the world’s cotton, but Pakistan — whose textile industry runs on it — has the most at stake.",
     ask: "India and Pakistan both grow a lot of cotton, but Pakistan is far more exposed. Why might that be?" }
 ];
 
@@ -2711,7 +2725,7 @@ function renderMWTeachingNote(id){
   + '<section style="padding-top:0">' + pageChrome(''
     + '<div class="at-a-glance">'
     +   '<div class="item"><div class="k">Session length</div><div class="v">~15 minutes, self-paced (not clock-enforced)</div></div>'
-    +   '<div class="item"><div class="k">Students need</div><div class="v">Just a first and last name — no roll number, no account</div></div>'
+    +   '<div class="item"><div class="k">Students need</div><div class="v">Just a first and last name — no roll number, no account. Two students with the same name are asked to add an initial.</div></div>'
     +   '<div class="item"><div class="k">Instructor needs</div><div class="v">The shared instructor passcode and the dashboard link, projected</div></div>'
     +   '<div class="item"><div class="k">Products</div><div class="v">14, order shuffled per student</div></div>'
     + '</div>'
@@ -2723,29 +2737,32 @@ function renderMWTeachingNote(id){
       },
       { title: "Before class", html:
         "<ul><li>Open the Sheet’s <em>World Market Watch</em> menu and confirm the instructor passcode is set.</li>"
-        + "<li>Start a fresh session with a label (e.g. “Section A, 27 Aug”) so this run doesn’t mix with an old one.</li>"
-        + "<li>Copy the student link from the dashboard and put it on the board — students only need to tap “I’m a student” and type their name.</li>"
-        + "<li>Project the instructor dashboard yourself; nothing about it needs to be hidden from the class.</li></ul>"
+        + "<li>Log in to the dashboard and press <strong>New session</strong> with a label (e.g. “Section A, 27 Aug”) so this run doesn’t mix with an old one.</li>"
+        + "<li>Press <strong>📽️ Big screen</strong> and project it: the student link is shown at the top, and students only need to open it, tap “I’m a student” and type their name.</li>"
+        + "<li>Nothing on the dashboard needs to be hidden from the class — the full student table is hidden in Big screen mode anyway.</li></ul>"
       },
       { title: "Run of show (~15 minutes)", html:
         '<div class="at-a-glance">'
         + '<div class="item"><div class="k">0–2 min</div><div class="v">Students open the link, tap “I’m a student,” enter their name</div></div>'
-        + '<div class="item"><div class="k">2–11 min</div><div class="v">Everyone plays through all 14 products at their own pace — producer guess, then exposure guess, instant reveal. Project the dashboard.</div></div>'
-        + '<div class="item"><div class="k">11–13 min</div><div class="v">Once most finish, pause on “Toughest categories” and discuss why those countries dominate — and who’d actually feel it most</div></div>'
-        + '<div class="item"><div class="k">13–15 min</div><div class="v">Reveal the podium, celebrate the top 3, ask someone who used Leverage or earned the “Economist” badge to explain their reasoning</div></div>'
+        + '<div class="item"><div class="k">2–11 min</div><div class="v">Everyone plays through all 14 products at their own pace — producer guess, then exposure guess, instant reveal. Keep the dashboard projected: the leaderboard and class progress update live.</div></div>'
+        + '<div class="item"><div class="k">11–13 min</div><div class="v">Once most finish, read out the dashboard’s “Debrief prompts” — they quote your class’s most common wrong exposure picks — and ask why the smaller producer is the more exposed one</div></div>'
+        + '<div class="item"><div class="k">13–15 min</div><div class="v">Celebrate the top 3 on the leaderboard, ask someone who used Leverage or earned the “Twist Spotter” or “Economist” badge to explain their reasoning, then press “Save results to sheet”</div></div>'
         + '</div>'
       },
       { title: "How the scoring actually works", html:
-        "<ul><li>A correct producer guess is worth 70 points, plus up to 100 more for a consecutive-correct streak, plus 30 for answering inside 14 seconds.</li>"
+        "<ul><li>A correct producer guess is worth 70 points, plus 20 for each previous correct producer guess in an unbroken streak (up to 100 more), plus a speed bonus that a bar on screen drains in real time: 30 points within 4 seconds, sliding to nothing at 20 seconds.</li>"
         + "<li>A correct exposure guess is a flat 50 points — no streak or speed bonus applies to it.</li>"
         + "<li>Lithium and Semiconductors are worth double everything, on both questions.</li>"
-        + "<li><strong>Market Intel</strong> (free, twice per session) removes two of the four wrong producer countries before a student answers.</li>"
-        + "<li><strong>Leverage</strong> (once per session) doubles the whole question if the producer guess is right — and costs a flat 30 points if it’s wrong.</li></ul>"
+        + "<li><strong>Market Intel</strong> (free, twice per game) removes two of the four wrong producer countries before a student answers.</li>"
+        + "<li><strong>Leverage</strong> (once per game) doubles the whole question if the producer guess is right — and replaces it with a flat −30 if it’s wrong, exposure points included.</li>"
+        + "<li>Every reveal shows the student exactly where their points came from, so none of this needs explaining up front.</li></ul>"
       },
       { title: "What to watch on the dashboard", html:
-        "<ul><li>The <strong>Toughest categories</strong> panel — every product sorted by how often the class got the producer wrong. That panel <em>is</em> the debrief agenda.</li>"
-        + "<li>The live class pulse each student sees after answering (“X% of traders who’ve answered so far got this right”) keeps the room engaged even mid-game — no need to narrate it yourself.</li>"
-        + "<li>Streaks of 3+ shown on the ticker — a nice moment to call out a name mid-session.</li></ul>"
+        "<ul><li>The <strong>Product by product</strong> panel — every product, hardest first, with the share of the class that got each question right and the single most common wrong answer. That panel <em>is</em> the debrief agenda.</li>"
+        + "<li>The <strong>Debrief prompts</strong> it builds from those answers (they appear once three or more students have answered a product).</li>"
+        + "<li>What students see after each answer: a breakdown of “what the class picked” for both questions and their own rank going up or down — it keeps the room engaged mid-game without you narrating it.</li>"
+        + "<li>Streaks of 3+ and the current leader on the scrolling ticker — a nice moment to call out a name mid-session.</li>"
+        + "<li>In the full student table, anyone who hasn’t answered for two minutes is greyed out, so you can spot who is stuck.</li></ul>"
       }
     ])
     + '<p style="margin-top:20px;max-width:70ch">When most of the class has finished, move into the <a href="#/games/'+id+'/debrief-guide">debrief guide</a>.</p>'
@@ -2758,20 +2775,20 @@ function renderMWDebriefGuide(id){
   return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
     + '<span class="eyebrow">Debrief guide</span>'
     + '<h1>Debriefing '+esc(g.title)+'</h1>'
-    + '<p class="lead">The app itself carries only one line of debrief guidance — discuss why the toughest categories dominate, and who would actually feel it most. Everything below extends that single line; none of it is scripted in the app, so adapt it freely.</p>'
+    + '<p class="lead">The dashboard writes a few debrief prompts for you from your own class’s answers. Everything below extends those prompts; none of it is scripted in the app, so adapt it freely.</p>'
     + subNav(id, "debrief-guide")
   ) + '</section>'
   + '<section style="padding-top:0">' + pageChrome(''
     + accordionHtml([
       { title: "Start from the dashboard’s own data", open: true, html:
-        "<p>Open <strong>Toughest categories</strong> on the instructor dashboard — it is already sorted by how often your specific class got the producer question wrong. Debrief those products first; they are, by definition, where the room’s intuition and reality diverged most.</p>"
+        "<p>Open <strong>Product by product</strong> on the instructor dashboard — it is already sorted hardest first for your specific class, and shows each question’s most common wrong answer. Below it, <strong>Debrief prompts</strong> turns the biggest misses into questions (e.g. “36% of the class thought the United States would be hit hardest by a gold crash. It’s Australia. Why does it weigh more on Australia’s economy?”). Debrief those products first; they are, by definition, where the room’s intuition and reality diverged most.</p>"
       }
     ])
     + '<div style="margin:28px 0 6px"><h2 style="margin-bottom:6px">Six products where the gap is clearest</h2><p class="muted">Pick one to see the numbers and a question for the room. These are drawn from the game’s own reveal data — not every session will have hit all six.</p></div>'
     + tabsHtml("mw-gap", MW_GAP_PRODUCTS, function(p){return p.key;}, function(p){return p.label;}, mwGapPanel, MW_GAP_PRODUCTS[0].key, null)
     + accordionHtml([
       { title: "Close on two kinds of excellence", html:
-        "<p>The podium (Gold / Silver / Bronze Trader) rewards knowing who produces the most. The <strong>Economist</strong> badge — earned by getting eight or more exposure questions right — rewards understanding who is actually at risk. They rarely go to the same students. Ask the room: which of those two skills is closer to what an economist is actually paid to know?</p>"
+        "<p>The leaderboard mostly rewards knowing who produces the most — that is where streaks and speed bonuses pile up. The <strong>Economist</strong> badge (nine or more exposure questions right) and the <strong>Twist Spotter</strong> badge (correctly naming the most-exposed country on four or more plot-twist products) reward understanding who is actually at risk. They rarely go to the same students. Ask the room: which of those two skills is closer to what an economist is actually paid to know?</p>"
       },
       { title: "Why the gap exists at all", html:
         "<p>A country’s exposure to a product depends on how large and diversified its whole economy is, not just on how much of the product it makes. A huge, diversified economy can lead the world in output and barely notice if that one market vanished; a smaller, more concentrated economy can be a modest producer and still have an outsized share of its livelihood riding on it. That’s the same idea behind why a diversified investment portfolio is safer than a concentrated one, applied to a country’s whole economy instead of a portfolio.</p>"
@@ -2802,22 +2819,25 @@ function renderMWStudentNote(id){
         "<p>For each of 14 real products, you’ll answer two questions in order, with nothing revealed between them:</p>"
         + "<ul><li>Which of five countries produces the most of it, worldwide?</li>"
         + "<li>Which of the same five would be hurt hardest, as a share of their own economy, if demand for it vanished?</li></ul>"
-        + "<p>The two answers are often different countries. That gap is the entire point of the game.</p>"
+        + "<p>The two answers are often different countries — the reveal flags each of those as a <strong>plot twist</strong> and shows world share next to share of GDP, so you can see why. That gap is the entire point of the game.</p>"
+        + "<p>After every answer you also see what the rest of the class picked and where you now rank. If your page reloads or your phone locks, open the link again on the same device and you carry on where you left off.</p>"
       },
       { title: "Scoring and power-ups, honestly", html:
-        "<ul><li>A correct producer guess is worth 70 points, plus a streak bonus (up to 100 more) and a speed bonus (30, if you answer within 14 seconds).</li>"
+        "<ul><li>A correct producer guess is worth 70 points, plus a streak bonus (20 for each correct producer guess before it in a row, up to 100) and a speed bonus — the green bar on screen: 30 points if you answer within 4 seconds, shrinking to nothing at 20 seconds.</li>"
         + "<li>A correct exposure guess is a flat 50 points.</li>"
         + "<li>Two products — Lithium and Semiconductors — are worth double.</li>"
-        + "<li><strong>Market Intel</strong>: free, twice a session, removes two wrong producer options before you answer.</li>"
-        + "<li><strong>Leverage</strong>: once a session, doubles the question if you’re right on the producer — and costs you 30 points if you’re wrong. Use it when you’re actually confident, not just when you’re stuck.</li></ul>"
+        + "<li><strong>Market Intel</strong>: free, twice a game, removes two wrong producer options before you answer.</li>"
+        + "<li><strong>Leverage</strong>: once a game, doubles the question if you’re right on the producer — and if you’re wrong, the whole question scores −30 instead. Use it when you’re actually confident, not just when you’re stuck.</li></ul>"
       },
       { title: "Badges worth chasing", html:
         "<ul><li>🔥 <strong>Streak Master</strong> — a streak of 5 or more correct producer guesses in a row.</li>"
-        + "<li>⚡ <strong>Speed Demon</strong> — five or more answers inside the 14-second window.</li>"
-        + "<li>🎯 <strong>Perfectionist</strong> — 100% correct on every producer guess.</li>"
-        + "<li>💪 <strong>Comeback Kid</strong> — a run of three or more correct answers right after a wrong one.</li>"
+        + "<li>⚡ <strong>Speed Trader</strong> — fast, correct producer guesses (roughly 10 seconds or less) on six or more products.</li>"
+        + "<li>🎯 <strong>Perfectionist</strong> — every producer guess correct.</li>"
+        + "<li>💪 <strong>Comeback Kid</strong> — three correct producer guesses in a row after a miss.</li>"
         + "<li>🎲 <strong>High Roller</strong> — use Leverage and get the producer right.</li>"
-        + "<li>📊 <strong>Economist</strong> — eight or more correct exposure guesses across the session.</li></ul>"
+        + "<li>🕵️ <strong>Twist Spotter</strong> — correctly name the most-exposed country on four or more plot-twist products.</li>"
+        + "<li>📊 <strong>Economist</strong> — nine or more correct exposure guesses across the game.</li></ul>"
+        + "<p>Your final title depends on how many of all 28 questions you got right: Market Oracle (75%+), Senior Analyst (55%+), Junior Analyst (35%+) or Market Rookie.</p>"
       },
       { title: "Terms you will want to know", html: '<dl class="glossary">' + glossary + '</dl>' }
     ])
@@ -2832,11 +2852,16 @@ function autarkyScenarioPanel(s){
   }).join("");
   return '<span class="eyebrow">'+esc(s.concept)+'</span>'
     + '<div class="epigraph">'+esc(s.banner)+'</div>'
+    + '<div class="at-a-glance">'
+    +   '<div class="item"><div class="k">How students play it</div><div class="v">'+esc(s.mechanic)+'</div></div>'
+    +   '<div class="item"><div class="k">Raw hit (out of 100)</div><div class="v">'+esc(s.hit)+', before any shield</div></div>'
+    +   '<div class="item"><div class="k">Strongest shield</div><div class="v">'+esc(s.defence)+'</div></div>'
+    + '</div>'
     + '<p class="muted" style="margin-bottom:6px">What gets hit</p>'
     + '<p>'+esc(s.affected)+'</p>'
     + '<div class="at-a-glance">'+effects+'</div>'
     + '<div class="worked-box" style="font-family:var(--font-body)">'+esc(s.insight)+'</div>'
-    + '<div class="discussion-q"><strong>Best-fit response:</strong> '+esc(s.best)+'</div>';
+    + '<div class="discussion-q"><strong>What scores best:</strong> '+esc(s.best)+'</div>';
 }
 
 function renderAutarkyTeachingNote(id){
@@ -2845,48 +2870,57 @@ function renderAutarkyTeachingNote(id){
   return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
     + '<span class="eyebrow">Teaching note</span>'
     + '<h1>Running '+esc(g.title)+'</h1>'
-    + '<p class="lead">Twelve steps, opened one at a time — nothing advances until you tap it.</p>'
+    + '<p class="lead">Ten rounds, opened one at a time — nothing advances until you tap it.</p>'
     + subNav(id, "teaching-note")
   ) + '</section>'
   + '<section style="padding-top:0">' + pageChrome(''
     + '<div class="at-a-glance">'
-    +   '<div class="item"><div class="k">Session length</div><div class="v">~25 minutes, entirely instructor-paced — no in-game timer</div></div>'
-    +   '<div class="item"><div class="k">Students need</div><div class="v">Just a full name — no roll number, no account</div></div>'
-    +   '<div class="item"><div class="k">Instructor needs</div><div class="v">The passcode set from the Sheet menu, and the dashboard projected</div></div>'
-    +   '<div class="item"><div class="k">Structure</div><div class="v">12 steps in 2 parts, opened top to bottom, one at a time</div></div>'
+    +   '<div class="item"><div class="k">Session length</div><div class="v">~45 minutes including a short debrief, entirely instructor-paced — no in-game timer</div></div>'
+    +   '<div class="item"><div class="k">Students need</div><div class="v">A phone and a name — no roll number, no account</div></div>'
+    +   '<div class="item"><div class="k">Instructor needs</div><div class="v">The passcode, and the instructor page projected and left open</div></div>'
+    +   '<div class="item"><div class="k">Structure</div><div class="v">10 rounds in 2 parts, opened top to bottom, one at a time</div></div>'
     + '</div>'
     + accordionHtml([
       { title: "Learning objectives", open: true, html:
         "<ul><li>Discover that no good — not even a pencil — is made in one country, before being told so.</li>"
-        + "<li>Follow one real product’s supply chain, and predict what a specific disruption actually breaks.</li>"
-        + "<li>Distinguish a good policy response from a lucky one — each response is graded on fit, not right or wrong.</li>"
-        + "<li>See the same shock produce different effects on production, prices, employment and GDP, and why.</li></ul>"
+        + "<li>See that resilience is insurance: it costs something up front, and no single defence covers every kind of shock.</li>"
+        + "<li>Match a response to the kind of shock — temporary or permanent, upstream or at the shelf — rather than reaching for one favourite fix.</li>"
+        + "<li>See the same shock produce different effects on production, prices, employment and GDP, and why.</li>"
+        + "<li>Reflect on their own style under risk, using the personal Resilience Report as the starting point.</li></ul>"
       },
       { title: "Before class", html:
-        "<ul><li>Open the Sheet’s <em>Autarky Challenge</em> menu and set the instructor passcode.</li>"
-        + "<li>Join as a test student on your own phone to confirm the link works, then reset the game so the roster is clean.</li>"
-        + "<li>Decide whether to run both parts in one sitting or split at the Part 1/Part 2 boundary (after step 5) across two sessions.</li></ul>"
+        "<ul><li>Set the instructor passcode (see the setup guide that comes with the game), then open the instructor page and confirm you can log in.</li>"
+        + "<li>Join as a test student on your own phone to confirm the link works, then use <em>Reset for a new class</em> so the roster is clean.</li>"
+        + "<li>Plan to leave the instructor page open for the whole session. The class results students see (&ldquo;Your class&rdquo;) only refresh while it is open.</li>"
+        + "<li>Run it in a single sitting. Live state is held in a cache that lasts about six hours, so a session left half-finished overnight cannot be reliably resumed.</li></ul>"
       },
-      { title: "Part 1 — Globalisation (steps 1–5)", html:
+      { title: "Part 1 — The Illusion (rounds 1–3)", html:
         '<div class="at-a-glance">'
-        + '<div class="item"><div class="k">1 · Pick the one</div><div class="v">Guess the one good made 100% domestically — the honest answer is none</div></div>'
-        + '<div class="item"><div class="k">2 · Take the pencil apart</div><div class="v">Wood, graphite, ferrule, eraser — each traced to a different country</div></div>'
-        + '<div class="item"><div class="k">3 · A day without imports</div><div class="v">Rate five everyday items as domestic or imported</div></div>'
-        + '<div class="item"><div class="k">4 · Your verdict</div><div class="v">Ask again whether self-sufficiency is realistic — compare to step 1</div></div>'
-        + '<div class="item"><div class="k">5 · Debrief</div><div class="v">Two discussion questions, plus the live swing between steps 1 and 4</div></div>'
+        + '<div class="item"><div class="k">1 · Made Here?</div><div class="v">Pick the one good a country could make entirely alone — the honest answer is “none of them”</div></div>'
+        + '<div class="item"><div class="k">2 · One Humble Pencil</div><div class="v">Tap each part to see its origin, then guess how many countries touch one pencil — the answer is at least eight</div></div>'
+        + '<div class="item"><div class="k">3 · Imports Stop Tonight</div><div class="v">Rank five items in the order they would start running short — fuel and medicines first, staple grains last</div></div>'
         + '</div>'
       },
-      { title: "Part 2 — Supply Chain Challenge (steps 6–12)", html:
-        "<p>One case product throughout: a smartphone, built from a lithium mine in Chile, a chip fab in Taiwan, a battery plant in China, and final assembly in Vietnam, sold wherever your class is. Step 6 shows the intact chain; steps 7–11 each break one link and ask students to predict what’s affected before revealing the real consequences; step 12 debriefs the whole part.</p>"
-        + "<p>After each prediction, students choose one of four policy responses to the same disruption — this is judgment, not a right-or-wrong question, and the reveal shows all four side by side with the student’s own pick marked.</p>"
+      { title: "Part 2 — The Crisis Room (rounds 4–10)", html:
+        "<p><strong>Round 4 — Chief Economic Adviser.</strong> Each student spends ten shield points across four defences: <em>Diversify</em> (a second supplier), <em>Stockpile</em> (buffer stock), <em>Build</em> (domestic capacity) and <em>Flex fund</em> (cash and options). A real defence needs at least three points in it, and each defence is strong against some shocks and weak against others, so there is no all-purpose answer. Students are told only the <em>kinds</em> of shock coming, not the order or details.</p>"
+        + "<p><strong>Rounds 5–9 — the five shocks,</strong> all hitting one smartphone chain: a lithium mine in Chile, a chip fab in Taiwan, a battery plant in China, final assembly in Vietnam, retail in the student’s own country. Each shock is played a different way — an emergency call, a tariff estimate, a route choice, tracing the damage, and picking two actions — so the rounds do not feel repetitive. The debrief guide has a tab for each.</p>"
+        + "<p><strong>Round 10 — Your Resilience Report.</strong> Opening it gives every student their personal report and gives you the class results screen.</p>"
+      },
+      { title: "How the Resilience Score works", html:
+        "<p>Everyone starts at 100. Each shock has a raw hit out of 100. Damage is that hit, cut first by the student’s <em>shield</em> from round 4 (layered protection with diminishing returns, so spreading points across two or three defences usually beats piling them into one), and then by the quality of their <em>call</em> in that round. Students see a four-step breakdown after every shock: raw hit, shield, call, damage.</p>"
+        + "<ul><li>Students who miss a round take the damage with no call, using their shield. If they answer late, it is recomputed, so a missed round is not permanent.</li>"
+        + "<li>A student who joins after round 4 gets a default shield, flagged on screen as automatic.</li>"
+        + "<li>In our own simulations a class choosing at random lands roughly between 50 and 75, and strong play reaches the high 80s to 90. Treat those as a rough guide, not a field-tested norm.</li></ul>"
       },
       { title: "What to watch on the dashboard", html:
-        "<ul><li>Each step’s live response tally and per-student table — nothing is hidden from you, even mid-step.</li>"
-        + "<li>The step-5 and step-12 debrief screens auto-compute aggregate stats (e.g. the swing between step 1 and step 4) — project these directly, they’re built to be read aloud.</li>"
-        + "<li>The “Solve It” tally under each Part 2 scenario — who picked the best-fit response, and who picked a popular but weaker one.</li></ul>"
+        "<ul><li>The row of rounds with a live &ldquo;answered&rdquo; count, so you know when to open the next one.</li>"
+        + "<li>Who is still answering — useful for a gentle nudge before moving on. <em>Previous</em> reopens an earlier round for latecomers without rewinding anyone’s score.</li>"
+        + "<li>The answer key, the affected links on the diagram, and the teaching point for each round, ready to say aloud.</li>"
+        + "<li>A live class pulse for each round, and a leaderboard strip during Part 2.</li>"
+        + "<li>On round 10: a score histogram, the mix of play styles, the average shield, the hardest-hitting shock, the top five and four discussion prompts.</li></ul>"
       }
     ])
-    + '<p style="margin-top:20px;max-width:70ch">When step 12 is scored, move into the <a href="#/games/'+id+'/debrief-guide">debrief guide</a>.</p>'
+    + '<p style="margin-top:20px;max-width:70ch">When round 10 is open, move into the <a href="#/games/'+id+'/debrief-guide">debrief guide</a>.</p>'
   ) + '</section>';
 }
 
@@ -2896,29 +2930,41 @@ function renderAutarkyDebriefGuide(id){
   return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
     + '<span class="eyebrow">Debrief guide</span>'
     + '<h1>Debriefing '+esc(g.title)+'</h1>'
-    + '<p class="lead">The game carries its own two discussion questions per part — everything else here extends them.</p>'
+    + '<p class="lead">The game ends on a class results screen with four discussion prompts — everything else here extends them.</p>'
     + subNav(id, "debrief-guide")
   ) + '</section>'
   + '<section style="padding-top:0">' + pageChrome(''
     + accordionHtml([
       { title: "Part 1 debrief — what the room actually thinks", open: true, html:
-        "<p>The dashboard shows the live swing between step 1 (who picked “none are fully domestic”) and step 4 (who said self-sufficiency is unrealistic) — read both numbers aloud before asking anything.</p>"
+        "<p>Each Part 1 round shows a live class pulse. Read the round 1 numbers aloud before asking anything: how many students said one of the goods could be made entirely at home, and how many saw through it?</p>"
         + '<div class="qa-block"><div class="who">Ask the room</div><ul>'
+        + "<li>Compare the class’s guesses for the pencil with the truth (at least eight countries). Why is it so hard to see the supply chain behind an everyday object?</li>"
         + "<li>If no one can make anything alone, who benefits most from trade — and who is most exposed when it stops (sanctions, war, pandemic)?</li>"
         + "<li>Is total self-sufficiency ever worth pursuing for one specific good — defence hardware, staple food, vaccines?</li></ul></div>"
       }
     ])
-    + '<div style="margin:28px 0 6px"><h2 style="margin-bottom:6px">Part 2 — the five disruptions</h2><p class="muted">Pick one to see what broke, the real consequences, and the best-fit response.</p></div>'
+    + '<div style="margin:28px 0 6px"><h2 style="margin-bottom:6px">Part 2 — the five shocks</h2><p class="muted">Pick one to see how it is played, what broke, the real consequences, and what scores best.</p></div>'
     + tabsHtml("autarky-scenarios", AUTARKY_SCENARIOS, function(s){return s.key;}, function(s){return s.label;}, autarkyScenarioPanel, AUTARKY_SCENARIOS[0].key, null)
     + accordionHtml([
-      { title: "Part 2 debrief — interdependence, not blame", html:
-        "<p>The dashboard shows the class’s average accuracy predicting the cascade across all five disruptions — read it aloud before these two.</p>"
+      { title: "Round 10 — the class results screen", html:
+        "<p>Project the instructor page. It shows the class average, a histogram of Resilience Scores, the mix of play styles (Diversifier, Stockpiler, Home Builder, Agile Dealmaker, Balanced Strategist), the average shield, which shock hurt most on average, the top five, and these four prompts:</p>"
         + '<div class="qa-block"><div class="who">Ask the room</div><ul>'
-        + "<li>Does interdependence make countries safer (mutual benefit) or more fragile (supply shocks)? Give a real example.</li>"
-        + "<li>If a single fire or earthquake can freeze a global product, should companies keep backup suppliers even if it costs more — and who pays for that insurance?</li></ul></div>"
+        + "<li>Which defence did most of the class buy — and which shock exposed it?</li>"
+        + "<li>If every country chose autarky, would the world be more or less resilient?</li>"
+        + "<li>Who should pay for resilience: firms, consumers or governments?</li>"
+        + "<li>Which real shock does each round echo: the 2011 Thai floods, the 2021 chip shortage, the 2021 Suez blockage, rare-earth export controls?</li></ul></div>"
       },
-      { title: "Why a “best-fit” response, not a right answer", html:
-        "<p>Every Part 2 scenario has one clearly best-fit response among four, but none of them are free — even the best one has a real cost or a real delay attached. The point isn’t that one response is costless; it’s that the other three are worse fits for that specific disruption’s timescale and cause. A quick way to spot the mismatch: ask whether a student’s chosen response actually matches whether the shock is temporary (three weeks) or permanent (nationalised mines) — most of the popular wrong picks solve the wrong kind of disruption.</p>"
+      { title: "Four takeaways to land", html:
+        "<ul><li>Nothing is made alone. Even a 20-cent pencil crosses eight borders.</li>"
+        + "<li>The danger is not trade — it is concentration. One fab, one mine, one plant.</li>"
+        + "<li>Resilience is insurance: it costs something every single day, and somebody always pays.</li>"
+        + "<li>Closing the borders just makes your own country the single point of failure.</li></ul>"
+      },
+      { title: "Why there is no single best shield", html:
+        "<p>Each defence is the strongest answer to one shock and a weaker one to the others: stockpiling covers the earthquake and the blocked route, flex funds cover the tariff, building at home covers the permanent export ban, and diversifying covers the factory fire. A student who piles everything into one defence is brilliant against one shock and exposed to the rest. That is the point to make when students compare scores: the shield does most of the work, and the real lesson is that you cannot know in advance which shock comes.</p>"
+      },
+      { title: "Using the personal reports", html:
+        "<p>Every student can print their report or copy their result. It names a play style, awards badges (such as Myth Buster, Sharp Eye, Chain Whisperer, Cool Head, Shield Master and Fortress), shows how each shock went and how their score moved over time, and lists their own eye-openers from Part 1. A good closing task is to ask students to look at their style’s blind spot and name one real-world shock that would exploit it.</p>"
       }
     ])
   ) + '</section>';
@@ -2929,8 +2975,12 @@ function renderAutarkyStudentNote(id){
   if(!g) return renderNotFound();
   var glossary = [
     { term: "Global value chain", def: "The full path a good travels — raw material to finished product — usually through several countries, not one." },
+    { term: "Autarky", def: "Producing and consuming entirely on your own, with no trade." },
     { term: "Import dependence", def: "Relying on another country for a good, or for the machine that makes it." },
     { term: "Chokepoint", def: "A single link in a chain that, if it breaks, stops everything downstream of it." },
+    { term: "Resilience", def: "How well an economy absorbs a shock and keeps going. In the game it is your score out of 100." },
+    { term: "Diversification", def: "Having more than one supplier, plant or route, so one failure does not stop you." },
+    { term: "Buffer stock", def: "Goods or parts held in reserve to bridge a short gap in supply." },
     { term: "Tariff pass-through", def: "How much of a tariff’s cost ends up in the price you pay, rather than absorbed elsewhere." },
     { term: "Resource nationalism", def: "A country restricting or nationalising exports of a resource it controls." },
     { term: "Concentration risk", def: "Depending on one supplier, one plant, or one route for something with no backup." }
@@ -2944,19 +2994,22 @@ function renderAutarkyStudentNote(id){
   + '<section style="padding-top:0">' + pageChrome(''
     + accordionHtml([
       { title: "What you are actually doing", open: true, html:
-        "<p>Part one: guess whether any everyday good is truly made in one country, then watch a pencil get taken apart to find out. Part two: follow one smartphone through a real supply chain, predict what breaks when a disruption hits one link, then choose how you would respond.</p>"
-        + "<ul><li>Nothing advances until your instructor opens the next step — there is no clock to beat.</li>"
+        "<p>You take charge of a country’s economy. First, a few quick rounds: guess whether any everyday good is truly made in one country, watch a pencil get taken apart, and rank what would run short first if imports stopped. Then you become the Chief Economic Adviser: you spend ten shield points on four defences, and five shocks hit a smartphone supply chain one at a time. Your Resilience Score starts at 100 and carries through every round.</p>"
+        + "<ul><li>Nothing advances until your instructor opens the next round — there is no clock to beat.</li>"
         + "<li>Your answer is scored and explained the moment you submit it — you are never waiting on anyone else.</li>"
-        + "<li>In Part 2, your policy response is not marked right or wrong — it is judged on how well it fits the disruption.</li></ul>"
+        + "<li>After each shock you see the damage worked out in four steps: the raw hit, what your shield absorbed, what your call saved, and what you actually lost.</li>"
+        + "<li>At the end you get a personal Resilience Report with a play style, badges and a comparison with the class.</li></ul>"
       },
       { title: "A few honest tips", html:
-        "<ul><li>Before predicting what a disruption breaks, trace the chain from raw material to your own hands — the break is always upstream of where you feel it.</li>"
-        + "<li>When picking a policy response, ask whether the disruption is temporary or permanent — the best fix for a three-week problem is usually the wrong fix for a permanent one.</li>"
-        + "<li>Cost and speed are both listed before you choose — a response that is theoretically best but takes five years is not actually available to you this quarter.</li></ul>"
+        "<ul><li>No defence covers everything. Spreading your ten points across two or three defences usually protects you better than putting them all in one.</li>"
+        + "<li>Before predicting what a disruption breaks, trace the chain from raw material to your own hands — the break is always upstream of where you feel it.</li>"
+        + "<li>Ask whether a shock is temporary or permanent: the best fix for a three-week problem is usually the wrong fix for a permanent one.</li>"
+        + "<li>Cost and speed are listed before you choose — a response that is theoretically best but takes five years is not actually available to you this quarter.</li>"
+        + "<li>If you refresh your phone, you pick up where you left off.</li></ul>"
       },
       { title: "Terms you will want to know", html: '<dl class="glossary">' + glossary + '</dl>' }
     ])
-    + '<div class="editor-note" style="margin-top:20px"><strong>One thing this note will not tell you:</strong> which good, if any, turns out to be fully domestic. Play Part 1 first.</div>'
+    + '<div class="editor-note" style="margin-top:20px"><strong>One thing this note will not tell you:</strong> which good, if any, turns out to be fully domestic. Play the first round first.</div>'
   ) + '</section>';
 }
 
@@ -3846,9 +3899,9 @@ function renderCommonPotTeachingNote(id){
   ) + '</section>'
   + '<section style="padding-top:0">' + pageChrome(''
     + '<div class="at-a-glance">'
-    +   '<div class="item"><div class="k">Session length</div><div class="v">~60 minutes, entirely instructor-paced</div></div>'
+    +   '<div class="item"><div class="k">Session length</div><div class="v">~60 minutes of play, plus a 10-minute quiz, entirely instructor-paced</div></div>'
     +   '<div class="item"><div class="k">Students need</div><div class="v">A full name and roll number — no account</div></div>'
-    +   '<div class="item"><div class="k">Instructor needs</div><div class="v">The passcode set from the Sheet menu, and the dashboard projected</div></div>'
+    +   '<div class="item"><div class="k">Instructor needs</div><div class="v">The passcode set from the Sheet menu, and the dashboard’s Live tab projected</div></div>'
     +   '<div class="item"><div class="k">Teams</div><div class="v">4 (A–D), self-balancing as students join, up to ~40 total</div></div>'
     + '</div>'
     + accordionHtml([
@@ -3860,7 +3913,22 @@ function renderCommonPotTeachingNote(id){
       { title: "Before class", html:
         "<ul><li>Set the instructor passcode from the Sheet’s <em>The Common Pot</em> menu.</li>"
         + "<li>Join as a test student to confirm the link works, then start a new session so the roster is clean.</li>"
-        + "<li>Decide whether to run the full 20-round default schedule or edit it down — every round is editable live, individually or by block, from the dashboard’s round editor.</li></ul>"
+        + "<li>Decide whether to run the full 20-round default schedule or edit it down — every round is editable live, individually or by block, from the <em>Round Setup</em> tab.</li></ul>"
+      },
+      { title: "The instructor dashboard — five tabs, one next step", html:
+        "<p>The dashboard is split into five tabs so nothing competes for attention mid-class. Most of the session is spent on the first one.</p>"
+        + '<div class="at-a-glance">'
+        + '<div class="item"><div class="k">Live</div><div class="v">A single “Now” card says what is happening and offers exactly one button for the next step — start the round, close it, start the discussion, end the game, open the quiz. Per-team submission bars fill while a round is open.</div></div>'
+        + '<div class="item"><div class="k">Round Setup</div><div class="v">The round editor and the condition library — edit any round, apply a preset to one round or a whole block, or build your own.</div></div>'
+        + '<div class="item"><div class="k">Teams</div><div class="v">Rosters, plus pay/deduct entries that appear on each team’s student screens.</div></div>'
+        + '<div class="item"><div class="k">Debrief</div><div class="v">Auto-written insights, the four-team payout chart, the contribution distribution for any round, an integrity check, and the round history.</div></div>'
+        + '<div class="item"><div class="k">Quiz</div><div class="v">One switch to open or close the closing quiz for the whole class.</div></div>'
+        + '</div>'
+      },
+      { title: "The closing quiz", html:
+        "<p>After the final round, <em>End Game</em> and then <em>Open Quiz for Students</em> from the Live tab (or the Quiz tab). Each student sees a button on their game-over screen; once they start, a 10-minute timer runs on their own device and progress is saved as they answer, so a refresh or a locked phone does not cost them their place.</p>"
+        + "<p>It is 15 multiple-choice questions on the ideas the game was built around, answerable in any order, and students may leave some blank — the result splits correct, wrong and unanswered. When they submit they get the correct answer and the reasoning for every question, and one print button saves their game results (including the earnings-versus-team-and-class chart) and their quiz results together as a single PDF. Nothing is uploaded to you.</p>"
+        + "<p class=\"muted\">Closing the quiz from the dashboard ends it for everyone who has not yet submitted. A standalone copy of the quiz is also available at the game’s own link with <code>?p=quiz</code> added.</p>"
       },
       { title: "The default 20-round schedule", html:
         '<div class="at-a-glance">'
@@ -3878,11 +3946,11 @@ function renderCommonPotTeachingNote(id){
       },
       { title: "Three decisions worth protecting", open: false, html:
         "<ul><li><strong>Never narrate the mechanic.</strong> Students only ever see the raw numbers — price, pot rate, any target — never a round count, a progress bar, or a name like “matching grant.” Saying the label out loud defeats the point.</li>"
-        + "<li><strong>Nothing is scored right or wrong.</strong> Contributions stay private by default; only the “Public Recognition Wall” or “Anonymous Giving” conditions change that, and only if you choose to fire them.</li>"
-        + "<li><strong>Use the dashboard’s own Debrief insights panel.</strong> It auto-writes real sentences from your specific session’s data — how contributions moved between blocks, how often a threshold was met, how teams rank — read them aloud rather than computing anything by hand.</li></ul>"
+        + "<li><strong>No round is scored right or wrong.</strong> Contributions stay private by default; only the “Public Recognition Wall” condition changes that, and only if you choose to fire it. Students do see their own earnings against their team’s and the class’s averages, but never anyone’s name.</li>"
+        + "<li><strong>Use the Debrief tab’s insights.</strong> They auto-write real sentences from your specific session’s data — how contributions moved between blocks, how often a threshold was met, how teams rank — read them aloud rather than computing anything by hand. The distribution view shows what share of the class gave how much in any round you pick.</li></ul>"
       }
     ])
-    + '<p style="margin-top:20px;max-width:70ch">When round 20 ends, move into the <a href="#/games/'+id+'/debrief-guide">debrief guide</a>.</p>'
+    + '<p style="margin-top:20px;max-width:70ch">When round 20 ends, move into the <a href="#/games/'+id+'/debrief-guide">debrief guide</a>, and open the quiz once the discussion winds down.</p>'
   ) + '</section>';
 }
 
@@ -3892,7 +3960,7 @@ function renderCommonPotDebriefGuide(id){
   return '<section class="hero" style="padding-bottom:0">' + pageChrome(''
     + '<span class="eyebrow">Debrief guide</span>'
     + '<h1>Debriefing '+esc(g.title)+'</h1>'
-    + '<p class="lead">The dashboard’s own Debrief insights panel writes real sentences from your session’s data — read those first, then use whichever block below actually fired.</p>'
+    + '<p class="lead">The dashboard’s Debrief tab writes real sentences from your session’s data — read those first, then use whichever block below actually fired.</p>'
     + subNav(id, "debrief-guide")
   ) + '</section>'
   + '<section style="padding-top:0">' + pageChrome(''
@@ -3938,7 +4006,7 @@ function renderCommonPotStudentNote(id){
   + '<section style="padding-top:0">' + pageChrome(''
     + accordionHtml([
       { title: "What you actually did", open: true, html:
-        "<p>Every round, your team split its tokens between keeping them — worth a fixed amount to you alone — and giving them to a shared pot, which paid every teammate back, including you. The numbers moved across the game without ever being explained: first fixed, then the private return fell, then an outside match on the pot rose, then a run of rounds with a minimum target, a surprise, and an uncertain payout.</p>"
+        "<p>Every round, your team split its tokens between keeping them — worth a fixed amount to you alone — and giving them to a shared pot, which paid every teammate back, including you. The numbers moved across the game without ever being explained: first fixed, then the private return fell, then an outside match on the pot rose, then a run of rounds with a minimum target, a surprise, and an uncertain payout. After each round your results screen also showed how your earnings compared with your team’s average and the whole class’s — with no names attached.</p>"
       },
       { title: "Why the numbers were doing that", html:
         "<p>This is a classic public-goods dilemma: keeping a token pays you in full and for certain; giving it pays a smaller amount, but to everyone on your team, not just you. Kept alone, that math favours keeping — which is exactly why real-world versions of this problem (open-source software, vaccination, climate agreements, tax-funded services) tend to under-supply themselves unless something changes the ratio: a lower private payoff, a richer public one, a minimum bar that has to be cleared together, or a mandatory floor that removes the choice entirely.</p>"
